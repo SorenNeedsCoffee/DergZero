@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.exceptions.RateLimitedException;
 import javax.security.auth.login.LoginException;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,10 +33,10 @@ public class StarBot2 {
             log.error("FileNotFoundException: config file not found. Please ensure that the config file exsists, is in the same directory as the jar, and is called config.json");
             return;
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(ExceptionUtils.getStackTrace(e));
             return;
         } catch (ParseException e) {
-            e.printStackTrace();
+            log.error(ExceptionUtils.getStackTrace(e));
             return;
         }
         JSONObject config = (JSONObject) raw;
