@@ -40,5 +40,7 @@ public class StarBot2 {
             return;
         }
         JSONObject config = (JSONObject) raw;
+        String token = (String) config.get("token");
+        String ownerID = (String) config.get("ownerID");
     }
 }
