@@ -59,6 +59,7 @@ public class StarBot2 {
                     .setStatus(OnlineStatus.DO_NOT_DISTURB)
                     .setActivity(Activity.playing("loading..."))
                     .addEventListeners(waiter, client.build())
+                    .addEventListeners(waiter, new Listener())
                     .build();
         }
         catch (LoginException ex)
