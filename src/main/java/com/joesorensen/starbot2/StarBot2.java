@@ -42,5 +42,29 @@ public class StarBot2 {
         JSONObject config = (JSONObject) raw;
         String token = (String) config.get("token");
         String ownerID = (String) config.get("ownerID");
+        String prefix = (String) config.get("prefix");
+        if(token.equals("") || ownerID.equals("") || prefix.equals("")) {
+            log.error("Incomplete config file. Please ensure that properties token, ownerID, and prefix are present and not empty");
+            return;
+        }
+
+        EventWaiter waiter = new EventWaiter();
+        CommandClientBuilder client = new CommandClientBuilder();
+        client.setOwnerId(ownerID);
+
+        try
+        {
+            new JDABuilder(AccountType.BOT)
+                    .setToken(token)
+                    .setStatus(OnlineStatus.DO_NOT_DISTURB)
+                    .setActivity(Activity.playing("loading..."))
+                    .addEventListeners(waiter, client.build())
+                    .build();
+        }
+        catch (LoginException ex)
+        {
+            log.error("Invalid Token");
+            System.exit(1);
+        }
     }
 }
