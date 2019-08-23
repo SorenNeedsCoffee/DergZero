@@ -27,21 +27,14 @@ public class StarBot2 {
     private final static Permission[] RECOMMENDED_PERMS = new Permission[]{Permission.MESSAGE_READ, Permission.MESSAGE_WRITE, Permission.MESSAGE_HISTORY, Permission.MESSAGE_ADD_REACTION,
             Permission.MESSAGE_EMBED_LINKS, Permission.MESSAGE_ATTACH_FILES, Permission.MESSAGE_MANAGE, Permission.MESSAGE_EXT_EMOJI,
             Permission.MANAGE_CHANNEL, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.NICKNAME_CHANGE};
+    
+    public final static String version = "1.0-SNAPSHOT";
 
     public static void main(String[] args) {
         BasicConfigurator.configure();
         Logger log = LoggerFactory.getLogger("Startup");
 
-        java.io.InputStream is = StarBot2.class.getResourceAsStream("StarBot.properties");
-        java.util.Properties p = new Properties();
-        try {
-            p.load(is);
-        } catch (IOException e) {
-            log.error(ExceptionUtils.getStackTrace(e));
-            System.exit(1);
-        }
-
-        log.info("StarBot2 v"+p.getProperty("version"));
+        log.info("StarBot2 v"+version);
 
         log.info("Loading config...");
 
@@ -67,7 +60,7 @@ public class StarBot2 {
         log.info("Building Command Client...");
 
         AboutCommand ab = new AboutCommand(
-                Color.CYAN, "StarBot, but better! JoeSorensen's official server bot. (v"+p.getProperty("version")+")",
+                Color.CYAN, "StarBot, but better! JoeSorensen's official server bot. (v"+version+")",
                 new String[]{"Stream Tracking", "Join Events"},
                 RECOMMENDED_PERMS
         );
