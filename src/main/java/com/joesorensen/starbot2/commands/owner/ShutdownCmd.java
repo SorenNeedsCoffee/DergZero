@@ -8,6 +8,7 @@ public class ShutdownCmd extends OwnerCommand {
     public ShutdownCmd() {
         this.name = "shutdown";
         this.help = "safely shuts down";
+        this.aliases = new String[]{"off"};
         this.guildOnly = false;
     }
 

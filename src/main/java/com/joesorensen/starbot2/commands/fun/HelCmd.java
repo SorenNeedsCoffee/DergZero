@@ -13,6 +13,7 @@ public class HelCmd extends Command {
                 "elp",
                 "hlp"
         };
+        this.guildOnly = false;
     }
 
     @Override
