@@ -10,7 +10,7 @@
     </properties>
 
     <groupId>com.joesorensen</groupId>
-    <artifactId>StarBot 2</artifactId>
+    <artifactId>StarBot2</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
