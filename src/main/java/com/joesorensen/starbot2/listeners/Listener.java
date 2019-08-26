@@ -14,9 +14,14 @@ import org.slf4j.LoggerFactory;
 
 public class Listener extends ListenerAdapter {
     private Logger log;
+    private JDA jda;
 
     public Listener() {
         this.log = LoggerFactory.getLogger("Main");
+    }
+
+    public void setJDA(JDA jda) {
+        this.jda = jda;
     }
 
     @Override

@@ -86,9 +86,10 @@ public class StarBot2 {
 
         log.info("Attempting login...");
 
+        JDA jda = null;
         try
         {
-            JDA jda = new JDABuilder(AccountType.BOT)
+            jda = new JDABuilder(AccountType.BOT)
                     .setToken(token)
                     .setStatus(OnlineStatus.DO_NOT_DISTURB)
                     .setActivity(Activity.playing("loading..."))
@@ -100,6 +101,8 @@ public class StarBot2 {
             log.error("Invalid Token");
             System.exit(1);
         }
+
+        listener.setJDA(jda);
 
         TwitchListener twitchListener = new TwitchListener(clientID);
         TwitchEventManager.setListener(listener);
