@@ -1,4 +1,4 @@
-package com.joesorensen.starbot2;
+package com.joesorensen.starbot2.listeners;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
@@ -15,12 +15,16 @@ import org.slf4j.LoggerFactory;
 public class Listener extends ListenerAdapter {
     private Logger log;
 
-    Listener() {
+    public Listener() {
         this.log = LoggerFactory.getLogger("Main");
     }
 
     @Override
     public void onReady(ReadyEvent event) {
         log.info("Ready!");
+    }
+
+    void onLive() {
+        log.info("live!");
     }
 }

@@ -4,9 +4,13 @@ import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.jagrosh.jdautilities.examples.command.AboutCommand;
+import com.joesorensen.starbot2.listeners.Listener;
+import com.joesorensen.starbot2.listeners.TwitchListener;
 import net.dv8tion.jda.api.*;
 import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.exceptions.RateLimitedException;
+
+import com.joesorensen.starbot2.listeners.*;
+
 import javax.security.auth.login.LoginException;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -18,7 +22,6 @@ import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Properties;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
@@ -52,8 +55,9 @@ public class StarBot2 {
         String token = (String) config.get("token");
         String ownerID = (String) config.get("ownerID");
         String prefix = (String) config.get("prefix");
-        if(token.equals("") || ownerID.equals("") || prefix.equals("")) {
-            log.error("Incomplete config file. Please ensure that properties token, ownerID, and prefix are present and not empty");
+        String clientID = (String) config.get("clientID");
+        if(token.equals("") || ownerID.equals("") || prefix.equals("") || clientID.equals("")) {
+            log.error("Incomplete config file. Please ensure that properties token, ownerID, clientID, and prefix are present and not empty");
             System.exit(1);
         }
 
@@ -71,12 +75,14 @@ public class StarBot2 {
             setPrefix(prefix).
             setHelpWord("help").
             setLinkedCacheSize(200).
+            setActivity(Activity.playing("On Soren's server | >help for help")).
             addCommands(ab
             );
 
         cb.setStatus(OnlineStatus.ONLINE);
 
         CommandClient client = cb.build();
+        Listener listener = new Listener();
 
         log.info("Attempting login...");
 
@@ -86,7 +92,7 @@ public class StarBot2 {
                     .setToken(token)
                     .setStatus(OnlineStatus.DO_NOT_DISTURB)
                     .setActivity(Activity.playing("loading..."))
-                    .addEventListeners(client, waiter, new Listener())
+                    .addEventListeners(client, waiter, listener)
                     .build();
         }
         catch (LoginException ex)
@@ -94,5 +100,9 @@ public class StarBot2 {
             log.error("Invalid Token");
             System.exit(1);
         }
+
+        TwitchListener twitchListener = new TwitchListener(clientID);
+        TwitchEventManager.setListener(listener);
+        twitchListener.track("JoeSorensen");
     }
 }
