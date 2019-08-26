@@ -15,6 +15,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
@@ -58,8 +59,8 @@ public class Listener extends ListenerAdapter {
             return;
         if(event.getMessage().getContentDisplay().toLowerCase().contains("yo, can i have some memes?")) {
             event.getChannel().sendMessage("Sadly, this hasn't been implemented yet. Check back later!").queue();
+            String imgurl = "";
             try {
-                //System.out.println("test");
                 String url = "https://www.reddit.com/r/memes/top/.json?count=1&t=all";
                 URL obj;
 
@@ -79,11 +80,16 @@ public class Listener extends ListenerAdapter {
                 in.close();
 
                 JSONObject result = (JSONObject) new JSONParser().parse(response.toString());
-                System.out.print(result.get("url"));
-
+                JSONObject data = (JSONObject) result.get("data");
+                JSONArray children = (JSONArray) data.get("children");
+                JSONObject post = (JSONObject) children.get(0);
+                JSONObject postdata = (JSONObject) post.get("data");
+                imgurl = (String) postdata.get("url");
             } catch (Exception e) {
                 log.error(ExceptionUtils.getStackTrace(e));
             }
+
+            System.out.println(imgurl);
         }
     }
 
