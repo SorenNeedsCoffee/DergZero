@@ -1,6 +1,8 @@
 package com.joesorensen.starbot2.listeners;
 
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.VoiceChannel;
@@ -31,5 +33,11 @@ public class Listener extends ListenerAdapter {
 
     void onLive() {
         log.info("live!");
+        jda.getPresence().setActivity(Activity.streaming("JoeSorensen is live!", "https://twitch.tv/joesorensen"));
+    }
+
+    void onOffline() {
+        log.info("offline");
+        jda.getPresence().setActivity(Activity.playing("On Soren's server | >help for help"));
     }
 }

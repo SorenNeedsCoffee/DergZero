@@ -45,6 +45,8 @@ public class TwitchPing extends TimerTask {
             JSONArray data = (JSONArray) result.get("data");
 
             if(data.isEmpty()) {
+                if(live)
+                    TwitchEventManager.offline();
                 live = false;
             } else {
                 if(!live)

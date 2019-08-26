@@ -10,4 +10,8 @@ public class TwitchEventManager {
     static void live() {
         listener.onLive();
     }
+
+    static void offline() {
+        listener.onOffline();
+    }
 }

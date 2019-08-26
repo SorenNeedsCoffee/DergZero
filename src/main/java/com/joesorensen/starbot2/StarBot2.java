@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.jagrosh.jdautilities.examples.command.AboutCommand;
+import com.joesorensen.starbot2.commands.owner.ShutdownCmd;
 import com.joesorensen.starbot2.listeners.Listener;
 import com.joesorensen.starbot2.listeners.TwitchListener;
 import net.dv8tion.jda.api.*;
@@ -31,7 +32,9 @@ public class StarBot2 {
             Permission.MESSAGE_EMBED_LINKS, Permission.MESSAGE_ATTACH_FILES, Permission.MESSAGE_MANAGE, Permission.MESSAGE_EXT_EMOJI,
             Permission.MANAGE_CHANNEL, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.NICKNAME_CHANGE};
     
-    public final static String version = "1.0-SNAPSHOT";
+    private final static String version = "1.0-SNAPSHOT";
+    private static JDA jda = null;
+    private static boolean shuttingDown = false;
 
     public static void main(String[] args) {
         BasicConfigurator.configure();
@@ -64,7 +67,7 @@ public class StarBot2 {
         log.info("Building Command Client...");
 
         AboutCommand ab = new AboutCommand(
-                Color.CYAN, "StarBot, but better! JoeSorensen's official server bot. (v"+version+")",
+                Color.CYAN.brighter(), "StarBot, but better! JoeSorensen's official server bot. (v"+version+")",
                 new String[]{"Stream Tracking", "Join Events"},
                 RECOMMENDED_PERMS
         );
@@ -76,7 +79,8 @@ public class StarBot2 {
             setHelpWord("help").
             setLinkedCacheSize(200).
             setActivity(Activity.playing("On Soren's server | >help for help")).
-            addCommands(ab
+            addCommands(ab,
+                    new ShutdownCmd()
             );
 
         cb.setStatus(OnlineStatus.ONLINE);
@@ -86,7 +90,6 @@ public class StarBot2 {
 
         log.info("Attempting login...");
 
-        JDA jda = null;
         try
         {
             jda = new JDABuilder(AccountType.BOT)
@@ -107,5 +110,13 @@ public class StarBot2 {
         TwitchListener twitchListener = new TwitchListener(clientID);
         TwitchEventManager.setListener(listener);
         twitchListener.track("JoeSorensen");
+    }
+
+    public static void shutdown() {
+        if(shuttingDown)
+            return;
+        shuttingDown = true;
+        jda.shutdown();
+        System.exit(0);
     }
 }
