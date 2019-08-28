@@ -18,10 +18,12 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -60,35 +62,35 @@ public class Listener extends ListenerAdapter {
         if(event.getMessage().getContentDisplay().toLowerCase().contains("yo, can i have some memes?")) {
             event.getChannel().sendMessage("Sadly, this hasn't been implemented yet. Check back later!").queue();
             String imgurl = "";
-            try {
-                String url = "https://www.reddit.com/r/memes/top/.json?count=1&t=all";
-                URL obj;
+            while(true) {
+                try {
+                    String url = "https://www.reddit.com/r/memes/top/.json?count=1&t=all";
+                    URL obj;
 
-                obj = new URL(url);
-                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+                    obj = new URL(url);
+                    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-                con.setRequestMethod("GET");
+                    con.setRequestMethod("GET");
 
-                BufferedReader in = new BufferedReader(
-                        new InputStreamReader(con.getInputStream()));
-                String inputLine;
-                StringBuffer response = new StringBuffer();
+                    BufferedReader in = new BufferedReader(
+                            new InputStreamReader(con.getInputStream()));
+                    String inputLine;
+                    StringBuffer response = new StringBuffer();
 
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }
-                in.close();
+                    while ((inputLine = in.readLine()) != null) {
+                        response.append(inputLine);
+                    }
+                    in.close();
 
-                JSONObject result = (JSONObject) new JSONParser().parse(response.toString());
-                JSONObject data = (JSONObject) result.get("data");
-                JSONArray children = (JSONArray) data.get("children");
-                JSONObject post = (JSONObject) children.get(0);
-                JSONObject postdata = (JSONObject) post.get("data");
-                imgurl = (String) postdata.get("url");
-            } catch (Exception e) {
-                log.error(ExceptionUtils.getStackTrace(e));
+                    JSONObject result = (JSONObject) new JSONParser().parse(response.toString());
+                    JSONObject data = (JSONObject) result.get("data");
+                    JSONArray children = (JSONArray) data.get("children");
+                    JSONObject post = (JSONObject) children.get(0);
+                    JSONObject postdata = (JSONObject) post.get("data");
+                    imgurl = (String) postdata.get("url");
+                    break;
+                } catch (IOException | ParseException ignore) {}
             }
-
             System.out.println(imgurl);
         }
     }
