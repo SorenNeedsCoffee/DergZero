@@ -1,20 +1,11 @@
 package com.joesorensen.starbot2.listeners;
 
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.ReadyEvent;
-import net.dv8tion.jda.api.events.ShutdownEvent;
-import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -22,11 +13,13 @@ import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Listener extends ListenerAdapter {
     private Logger log;
@@ -60,11 +53,11 @@ public class Listener extends ListenerAdapter {
         if(event.getMessage().getAuthor().isBot())
             return;
         if(event.getMessage().getContentDisplay().toLowerCase().contains("yo, can i have some memes?")) {
-            event.getChannel().sendMessage("Sadly, this hasn't been implemented yet. Check back later!").queue();
+            event.getChannel().sendTyping().queue();
             String imgurl = "";
             while(true) {
                 try {
-                    String url = "https://www.reddit.com/r/memes/top/.json?count=1&t=all";
+                    String url = "https://www.reddit.com/r/memes/best/.json?count=1&t=all";
                     URL obj;
 
                     obj = new URL(url);
@@ -91,7 +84,11 @@ public class Listener extends ListenerAdapter {
                     break;
                 } catch (IOException | ParseException ignore) {}
             }
-            System.out.println(imgurl);
+            try {
+                event.getChannel().sendMessage(imgurl).queue();
+            } catch (Exception e) {
+                event.getChannel().sendMessage("Sorry, there was an issue getting the freshest meme!").queue();
+            }
         }
     }
 
