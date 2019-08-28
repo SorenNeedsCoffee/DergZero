@@ -1,6 +1,5 @@
 package com.joesorensen.starbot2.listeners;
 
-import com.joesorensen.starbot2.listeners.TwitchListener;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -44,12 +43,12 @@ public class TwitchPing extends TimerTask {
             JSONObject result = (JSONObject) new JSONParser().parse(response.toString());
             JSONArray data = (JSONArray) result.get("data");
 
-            if(data.isEmpty()) {
-                if(live)
+            if (data.isEmpty()) {
+                if (live)
                     TwitchEventManager.offline();
                 live = false;
             } else {
-                if(!live)
+                if (!live)
                     TwitchEventManager.live();
                 live = true;
             }

@@ -13,13 +13,11 @@ import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class Listener extends ListenerAdapter {
     private Logger log;
@@ -41,21 +39,21 @@ public class Listener extends ListenerAdapter {
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
         // do NOT remove this
-        if(event.getAuthor().isBot() || event.getAuthor().isFake())
+        if (event.getAuthor().isBot() || event.getAuthor().isFake())
             return;
 
-        if(event.getMessage().getContentDisplay().toLowerCase().contains("yo, can i have some memes?"))
+        if (event.getMessage().getContentDisplay().toLowerCase().contains("yo, can i have some memes?"))
             event.getChannel().sendMessage("dude not out in the open!").queue();
     }
 
     @Override
     public void onPrivateMessageReceived(PrivateMessageReceivedEvent event) {
-        if(event.getMessage().getAuthor().isBot())
+        if (event.getMessage().getAuthor().isBot())
             return;
-        if(event.getMessage().getContentDisplay().toLowerCase().contains("yo, can i have some memes?")) {
+        if (event.getMessage().getContentDisplay().toLowerCase().contains("yo, can i have some memes?")) {
             event.getChannel().sendTyping().queue();
             String imgurl = "";
-            while(true) {
+            while (true) {
                 try {
                     String url = "https://www.reddit.com/r/memes/best/.json?count=1&t=all";
                     URL obj;
@@ -82,7 +80,8 @@ public class Listener extends ListenerAdapter {
                     JSONObject postdata = (JSONObject) post.get("data");
                     imgurl = (String) postdata.get("url");
                     break;
-                } catch (IOException | ParseException ignore) {}
+                } catch (IOException | ParseException ignore) {
+                }
             }
             try {
                 event.getChannel().sendMessage(imgurl).queue();
