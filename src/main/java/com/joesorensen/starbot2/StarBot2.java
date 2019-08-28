@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.jagrosh.jdautilities.examples.command.AboutCommand;
+import com.joesorensen.starbot2.commands.admin.TwitchPingCmd;
 import com.joesorensen.starbot2.commands.fun.HelCmd;
 import com.joesorensen.starbot2.commands.owner.ShutdownCmd;
 import com.joesorensen.starbot2.listeners.Listener;
@@ -79,6 +80,8 @@ public class StarBot2 {
                 setActivity(Activity.playing("On Soren's server | >help for help")).
                 addCommands(ab,
                         new HelCmd(),
+
+                        new TwitchPingCmd(clientID),
 
                         new ShutdownCmd()
                 );

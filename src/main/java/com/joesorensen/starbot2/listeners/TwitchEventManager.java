@@ -7,11 +7,11 @@ public class TwitchEventManager {
         TwitchEventManager.listener = listener;
     }
 
-    static void live() {
+    public static void live() {
         listener.onLive();
     }
 
-    static void offline() {
+    public static void offline() {
         listener.onOffline();
     }
 }
