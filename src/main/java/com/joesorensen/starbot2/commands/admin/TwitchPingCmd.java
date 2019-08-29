@@ -1,5 +1,9 @@
-package com.joesorensen.starbot2.listeners;
+package com.joesorensen.starbot2.commands.admin;
 
+import com.jagrosh.jdautilities.command.CommandEvent;
+import com.joesorensen.starbot2.commands.AdminCommand;
+import com.joesorensen.starbot2.listeners.TwitchEventManager;
+import com.joesorensen.starbot2.listeners.TwitchListener;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -11,24 +15,34 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.TimerTask;
 
-public class TwitchPing extends TimerTask {
-
+public class TwitchPingCmd extends AdminCommand {
+    private String id;
     private boolean live = false;
 
-    public void run() {
+    public TwitchPingCmd(String clientID) {
+        this.name = "twitchping";
+        this.help = "manually check if channel is live";
+        this.aliases = new String[]{
+                "tping"
+        };
+        this.guildOnly = true;
+        id = clientID;
+    }
+
+    @Override
+    protected void execute(CommandEvent event) {
         Logger log = LoggerFactory.getLogger("Twitch Ping");
 
         try {
-            String url = "https://api.twitch.tv/helix/streams?user_login=" + TwitchListener.loginName;
+            String url = "https://api.twitch.tv/helix/streams?user_login=" + "JoeSorensen";
             URL obj;
 
             obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
             con.setRequestMethod("GET");
-            con.setRequestProperty("Client-ID", TwitchListener.id);
+            con.setRequestProperty("Client-ID", this.id);
 
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(con.getInputStream()));
@@ -56,4 +70,5 @@ public class TwitchPing extends TimerTask {
             log.error(ExceptionUtils.getStackTrace(e));
         }
     }
+
 }
