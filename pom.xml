@@ -9,9 +9,17 @@
         <maven.compiler.target>12</maven.compiler.target>
     </properties>
 
-    <groupId>com.joesorensen</groupId>
+    <groupId>xyz.joesorensen</groupId>
     <artifactId>StarBot2</artifactId>
     <version>1.0-SNAPSHOT</version>
+
+    <repositories>
+        <repository>
+            <id>central</id>
+            <name>bintray</name>
+            <url>http://jcenter.bintray.com</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <dependency>
@@ -25,6 +33,13 @@
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
             <version>4.0.0_45</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mb3364.twitch</groupId>
+            <artifactId>twitch-api-wrapper</artifactId>
+            <version>0.3.1</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/twitch-api-wrapper-0.3-jar-with-dependencies.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
@@ -47,12 +62,4 @@
             <version>3.5</version>
         </dependency>
     </dependencies>
-
-    <repositories>
-        <repository>
-            <id>central</id>
-            <name>bintray</name>
-            <url>http://jcenter.bintray.com</url>
-        </repository>
-    </repositories>
 </project>
