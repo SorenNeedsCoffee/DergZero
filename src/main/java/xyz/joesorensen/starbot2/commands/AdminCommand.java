@@ -1,11 +1,11 @@
-package com.joesorensen.starbot2.commands;
+package xyz.joesorensen.starbot2.commands;
 
 import com.jagrosh.jdautilities.command.Command;
 import net.dv8tion.jda.api.Permission;
 
 public abstract class AdminCommand extends Command
 {
-    public AdminCommand()
+    protected AdminCommand()
     {
         this.category = new Category("Admin", event ->
         {

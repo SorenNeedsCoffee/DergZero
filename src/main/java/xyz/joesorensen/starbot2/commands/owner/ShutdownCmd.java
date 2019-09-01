@@ -1,8 +1,8 @@
-package com.joesorensen.starbot2.commands.owner;
+package xyz.joesorensen.starbot2.commands.owner;
 
 import com.jagrosh.jdautilities.command.CommandEvent;
-import com.joesorensen.starbot2.StarBot2;
-import com.joesorensen.starbot2.commands.OwnerCommand;
+import xyz.joesorensen.starbot2.StarBot2;
+import xyz.joesorensen.starbot2.commands.OwnerCommand;
 
 public class ShutdownCmd extends OwnerCommand {
     public ShutdownCmd() {

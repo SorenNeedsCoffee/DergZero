@@ -1,4 +1,4 @@
-package com.joesorensen.starbot2.commands.fun;
+package xyz.joesorensen.starbot2.commands.fun;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
@@ -30,7 +30,7 @@ public class HelCmd extends Command {
     protected void execute(CommandEvent event) {
         //event.reply("hELP! ive fAlLeN and I ***CANT*** get uP!");
 
-        String imgurl = "";
+        String imgurl;
         while (true) {
             try {
                 String url = "https://www.reddit.com/r/hmmm/best/.json?count=5&t=all";
@@ -44,7 +44,7 @@ public class HelCmd extends Command {
                 BufferedReader in = new BufferedReader(
                         new InputStreamReader(con.getInputStream()));
                 String inputLine;
-                StringBuffer response = new StringBuffer();
+                StringBuilder response = new StringBuilder();
 
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);

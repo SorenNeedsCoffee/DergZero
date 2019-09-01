@@ -1,9 +1,10 @@
-package com.joesorensen.starbot2.listeners;
+package xyz.joesorensen.starbot2.listeners;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
@@ -21,6 +22,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
+import java.util.Objects;
 
 public class Listener extends ListenerAdapter {
     private Logger log;
@@ -47,7 +49,7 @@ public class Listener extends ListenerAdapter {
             List<Member> members = guild.getMembers();
             for(Member member : members) {
                 if(!(member.getUser().isBot() && member.getRoles().contains(guild.getRoleById(id))))
-                    guild.addRoleToMember(member, guild.getRoleById(id)).queue();
+                    guild.addRoleToMember(member, Objects.requireNonNull(guild.getRoleById(id))).queue();
             }
         }
     }
@@ -68,7 +70,7 @@ public class Listener extends ListenerAdapter {
             return;
         if (event.getMessage().getContentDisplay().toLowerCase().contains("yo, can i have some memes?")) {
             event.getChannel().sendTyping().queue();
-            String imgurl = "";
+            String imgurl;
             while (true) {
                 try {
                     String url = "https://www.reddit.com/r/memes/best/.json?count=1&t=all";
@@ -82,7 +84,7 @@ public class Listener extends ListenerAdapter {
                     BufferedReader in = new BufferedReader(
                             new InputStreamReader(con.getInputStream()));
                     String inputLine;
-                    StringBuffer response = new StringBuffer();
+                    StringBuilder response = new StringBuilder();
 
                     while ((inputLine = in.readLine()) != null) {
                         response.append(inputLine);
@@ -107,9 +109,11 @@ public class Listener extends ListenerAdapter {
         }
     }
 
-    void onLive() {
+    void onLive(Message embed) {
         log.info("live!");
         jda.getPresence().setActivity(Activity.streaming("JoeSorensen is live!", "https://twitch.tv/joesorensen"));
+        Objects.requireNonNull(Objects.requireNonNull(jda.getGuildById("442552203694047232")).getTextChannelById("442556155856814080")).sendMessage("@everyone").queue();
+        Objects.requireNonNull(Objects.requireNonNull(jda.getGuildById("442552203694047232")).getTextChannelById("442556155856814080")).sendMessage(embed).queue();
     }
 
     void onOffline() {

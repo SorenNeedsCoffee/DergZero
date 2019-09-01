@@ -1,4 +1,4 @@
-package com.joesorensen.starbot2.listeners;
+package xyz.joesorensen.starbot2.listeners;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
