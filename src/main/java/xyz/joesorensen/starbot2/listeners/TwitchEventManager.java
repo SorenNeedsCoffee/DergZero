@@ -57,7 +57,7 @@ public class TwitchEventManager {
         rgb = Color.RGBtoHSB(100, 65, 165, null);
         eBuilder.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]));
 
-        eBuilder.setAuthor(displayName + " is now streaming!", url, "https://cdn.discordapp.com/attachments/342697129833398272/616808624853090354/unknown.png");
+        eBuilder.setAuthor(displayName + " is now streaming!", url, "http://cdn.joesorensen.xyz/icon.png");
 
 
         eBuilder.setTitle(url);
