@@ -2,6 +2,8 @@ package com.joesorensen.starbot2.listeners;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
@@ -18,10 +20,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
 public class Listener extends ListenerAdapter {
     private Logger log;
     private JDA jda;
+    private String id;
 
     public Listener() {
         this.log = LoggerFactory.getLogger("Main");
@@ -31,9 +35,21 @@ public class Listener extends ListenerAdapter {
         this.jda = jda;
     }
 
+    public void setRoleID(String id) {
+        this.id = id;
+    }
+
     @Override
     public void onReady(ReadyEvent event) {
         log.info("Ready!");
+        List<Guild> guilds = event.getJDA().getGuilds();
+        for(Guild guild : guilds) {
+            List<Member> members = guild.getMembers();
+            for(Member member : members) {
+                if(!(member.getUser().isBot() && member.getRoles().contains(guild.getRoleById(id))))
+                    guild.addRoleToMember(member, guild.getRoleById(id)).queue();
+            }
+        }
     }
 
     @Override

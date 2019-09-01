@@ -56,9 +56,10 @@ public class StarBot2 {
         JSONObject config = (JSONObject) raw;
         String token = (String) config.get("token");
         String ownerID = (String) config.get("ownerID");
+        String defaultRoleID = (String) config.get("defaultRoleID");
         String prefix = (String) config.get("prefix");
         String clientID = (String) config.get("clientID");
-        if (token.equals("") || ownerID.equals("") || prefix.equals("") || clientID.equals("")) {
+        if (token.equals("") || ownerID.equals("") || prefix.equals("") || clientID.equals("") || defaultRoleID.equals("")) {
             log.error("Incomplete config file. Please ensure that properties token, ownerID, clientID, and prefix are present and not empty");
             System.exit(1);
         }
@@ -66,7 +67,7 @@ public class StarBot2 {
         log.info("Building Command Client...");
 
         AboutCommand ab = new AboutCommand(
-                Color.CYAN.brighter(), "StarBot, but better! JoeSorensen's official server bot. (v" + version + ")",
+                Color.BLUE, "StarBot, but better! JoeSorensen's official server bot. (v" + version + ")",
                 new String[]{"Stream Tracking", "Join Events"},
                 RECOMMENDED_PERMS
         );
@@ -90,6 +91,7 @@ public class StarBot2 {
 
         CommandClient client = cb.build();
         Listener listener = new Listener();
+        listener.setRoleID(defaultRoleID);
 
         log.info("Attempting login...");
 
