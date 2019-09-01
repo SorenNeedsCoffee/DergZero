@@ -49,7 +49,9 @@ public class Listener extends ListenerAdapter {
         for(Guild guild : guilds) {
             List<Member> members = guild.getMembers();
             for(Member member : members) {
-                if(!(member.getUser().isBot() && member.getRoles().contains(guild.getRoleById(id))))
+                if(!(
+                        member.getUser().isBot() || member.getRoles().contains(guild.getRoleById(id))
+                ))
                     guild.addRoleToMember(member, Objects.requireNonNull(guild.getRoleById(id))).queue();
             }
         }
