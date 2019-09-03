@@ -59,7 +59,7 @@ public class Listener extends ListenerAdapter {
 
     @Override
     public void onGuildMemberJoin(GuildMemberJoinEvent event) {
-        event.getGuild().addRoleToMember(event.getMember(), Objects.requireNonNull(event.getGuild().getRoleById(id)));
+        event.getGuild().addRoleToMember(event.getMember(), Objects.requireNonNull(event.getGuild().getRoleById(id))).queue();
     }
 
     @Override
