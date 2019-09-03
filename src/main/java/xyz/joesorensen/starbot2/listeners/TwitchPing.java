@@ -36,7 +36,7 @@ public class TwitchPing extends TimerTask {
             }
         });
 
-        if(data == null) {
+        if (data == null) {
             if (live)
                 TwitchEventManager.offline();
             live = false;

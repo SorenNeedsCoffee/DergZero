@@ -1,12 +1,12 @@
 package xyz.joesorensen.starbot2.commands.admin;
 
 import com.jagrosh.jdautilities.command.CommandEvent;
-import xyz.joesorensen.starbot2.commands.AdminCommand;
-import xyz.joesorensen.starbot2.listeners.TwitchEventManager;
-import xyz.joesorensen.starbot2.listeners.TwitchPing;
 import com.mb3364.twitch.api.Twitch;
 import com.mb3364.twitch.api.handlers.StreamResponseHandler;
 import com.mb3364.twitch.api.models.Stream;
+import xyz.joesorensen.starbot2.commands.AdminCommand;
+import xyz.joesorensen.starbot2.listeners.TwitchEventManager;
+import xyz.joesorensen.starbot2.listeners.TwitchPing;
 
 public class TwitchPingCmd extends AdminCommand {
     private String id;
@@ -46,7 +46,7 @@ public class TwitchPingCmd extends AdminCommand {
             }
         });
 
-        if(data == null) {
+        if (data == null) {
             if (live)
                 TwitchEventManager.offline();
             live = false;

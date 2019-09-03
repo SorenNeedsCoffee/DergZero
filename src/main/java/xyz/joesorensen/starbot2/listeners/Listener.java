@@ -46,10 +46,10 @@ public class Listener extends ListenerAdapter {
     public void onReady(ReadyEvent event) {
         log.info("Ready!");
         List<Guild> guilds = event.getJDA().getGuilds();
-        for(Guild guild : guilds) {
+        for (Guild guild : guilds) {
             List<Member> members = guild.getMembers();
-            for(Member member : members) {
-                if(!(
+            for (Member member : members) {
+                if (!(
                         member.getUser().isBot() || member.getRoles().contains(guild.getRoleById(id))
                 ))
                     guild.addRoleToMember(member, Objects.requireNonNull(guild.getRoleById(id))).queue();
@@ -68,8 +68,8 @@ public class Listener extends ListenerAdapter {
         if (event.getAuthor().isBot() || event.getAuthor().isFake())
             return;
 
-        if(event.getChannel() == jda.getTextChannelById("506503200866697226"))
-            if(!event.getMessage().getContentDisplay().equalsIgnoreCase("hi"))
+        if (event.getChannel() == jda.getTextChannelById("506503200866697226"))
+            if (!event.getMessage().getContentDisplay().equalsIgnoreCase("hi"))
                 event.getMessage().delete().queue();
 
         if (event.getMessage().getContentDisplay().toLowerCase().contains("yo, can i have some memes?"))

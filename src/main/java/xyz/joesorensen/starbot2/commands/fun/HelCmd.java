@@ -6,6 +6,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import xyz.joesorensen.starbot2.commands.FunCommand;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,7 +14,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class HelCmd extends Command {
+public class HelCmd extends FunCommand {
 
     public HelCmd() {
         this.name = "hel";
@@ -54,7 +55,7 @@ public class HelCmd extends Command {
                 JSONObject result = (JSONObject) new JSONParser().parse(response.toString());
                 JSONObject data = (JSONObject) result.get("data");
                 JSONArray children = (JSONArray) data.get("children");
-                JSONObject post = (JSONObject) children.get((int)(Math.random()*((5)+1)));
+                JSONObject post = (JSONObject) children.get((int) (Math.random() * ((5) + 1)));
                 JSONObject postdata = (JSONObject) post.get("data");
                 imgurl = (String) postdata.get("url");
                 break;

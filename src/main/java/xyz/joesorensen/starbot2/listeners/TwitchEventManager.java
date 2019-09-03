@@ -75,7 +75,6 @@ public class TwitchEventManager {
         eBuilder.addField("Total Views", views, true);
 
 
-
         MessageEmbed embed = eBuilder.build();
 
         mBuilder.setEmbed(embed);

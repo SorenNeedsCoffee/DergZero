@@ -4,12 +4,6 @@ import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.jagrosh.jdautilities.examples.command.AboutCommand;
-import xyz.joesorensen.starbot2.commands.admin.TwitchPingCmd;
-import xyz.joesorensen.starbot2.commands.fun.HelCmd;
-import xyz.joesorensen.starbot2.commands.owner.ShutdownCmd;
-import xyz.joesorensen.starbot2.listeners.Listener;
-import xyz.joesorensen.starbot2.listeners.TwitchEventManager;
-import xyz.joesorensen.starbot2.listeners.TwitchListener;
 import net.dv8tion.jda.api.*;
 import net.dv8tion.jda.api.entities.Activity;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -19,6 +13,13 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import xyz.joesorensen.starbot2.commands.admin.TwitchPingCmd;
+import xyz.joesorensen.starbot2.commands.fun.HelCmd;
+import xyz.joesorensen.starbot2.commands.fun.OobifyCommand;
+import xyz.joesorensen.starbot2.commands.owner.ShutdownCmd;
+import xyz.joesorensen.starbot2.listeners.Listener;
+import xyz.joesorensen.starbot2.listeners.TwitchEventManager;
+import xyz.joesorensen.starbot2.listeners.TwitchListener;
 
 import javax.security.auth.login.LoginException;
 import java.awt.*;
@@ -81,6 +82,7 @@ public class StarBot2 {
                 setActivity(Activity.playing("On Soren's server | >help for help")).
                 addCommands(ab,
                         new HelCmd(),
+                        new OobifyCommand(),
 
                         new TwitchPingCmd(clientID),
 
