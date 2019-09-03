@@ -20,10 +20,17 @@ public class OobifyCommand extends FunCommand {
 
         String result = args;
         result = result.replaceAll("o", "oob");
+        result = result.replaceAll("O", "Oob");
+
         result = result.replaceAll("a", "oob");
         result = result.replaceAll("e", "oob");
         result = result.replaceAll("i", "oob");
         result = result.replaceAll("u", "oob");
+
+        result = result.replaceAll("A", "Oob");
+        result = result.replaceAll("E", "Oob");
+        result = result.replaceAll("I", "Oob");
+        result = result.replaceAll("U", "Oob");
 
         event.reply(result);
     }
