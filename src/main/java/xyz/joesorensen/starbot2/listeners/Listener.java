@@ -16,6 +16,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import xyz.joesorensen.starbot2.models.User;
+import xyz.joesorensen.starbot2.models.UserManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -51,8 +53,10 @@ public class Listener extends ListenerAdapter {
             for (Member member : members) {
                 if (!(
                         member.getUser().isBot() || member.getRoles().contains(guild.getRoleById(id))
-                ))
+                )) {
                     guild.addRoleToMember(member, Objects.requireNonNull(guild.getRoleById(id))).queue();
+                    UserManager.addUser(member.getId());
+                }
             }
         }
     }
@@ -60,6 +64,7 @@ public class Listener extends ListenerAdapter {
     @Override
     public void onGuildMemberJoin(GuildMemberJoinEvent event) {
         event.getGuild().addRoleToMember(event.getMember(), Objects.requireNonNull(event.getGuild().getRoleById(id))).queue();
+        UserManager.addUser(event.getMember().getId());
     }
 
     @Override
@@ -67,6 +72,10 @@ public class Listener extends ListenerAdapter {
         // do NOT remove this
         if (event.getAuthor().isBot() || event.getAuthor().isFake())
             return;
+
+        User update = UserManager.getUser(event.getAuthor().getId());
+        update.addXp(event.getMessage().getContentDisplay().replaceAll(" ", "").length()/2);
+        UserManager.updateUser(update);
 
         if (event.getChannel() == jda.getTextChannelById("506503200866697226"))
             if (!event.getMessage().getContentDisplay().equalsIgnoreCase("hi"))

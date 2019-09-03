@@ -13,6 +13,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import xyz.joesorensen.starbot2.commands.admin.SaveCmd;
 import xyz.joesorensen.starbot2.commands.admin.TwitchPingCmd;
 import xyz.joesorensen.starbot2.commands.fun.HelCmd;
 import xyz.joesorensen.starbot2.commands.fun.OobifyCommand;
@@ -80,11 +81,13 @@ public class StarBot2 {
                 setHelpWord("help").
                 setLinkedCacheSize(200).
                 setActivity(Activity.playing("On Soren's server | >help for help")).
+                setEmojis("\u2705", "\u26A0", "\u26D4").
                 addCommands(ab,
                         new HelCmd(),
                         new OobifyCommand(),
 
                         new TwitchPingCmd(clientID),
+                        new SaveCmd(),
 
                         new ShutdownCmd()
                 );

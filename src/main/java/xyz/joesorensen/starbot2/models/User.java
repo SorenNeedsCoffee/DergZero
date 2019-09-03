@@ -1,4 +1,4 @@
-package com.joesorensen.starbot2.models;
+package xyz.joesorensen.starbot2.models;
 
 public class User {
     private String id;
@@ -9,6 +9,14 @@ public class User {
         this.id = id;
         this.xp = 0;
         this.lvl = 1;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return this.id.equals(user.getId());
     }
 
     public String getId() {
