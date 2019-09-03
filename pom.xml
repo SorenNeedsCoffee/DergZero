@@ -71,6 +71,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>1.5</version>
+                <configuration>
+                    <finalName>StarBot2</finalName>
+                </configuration>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -78,6 +81,7 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <finalName>StarBot2-All</finalName>
                             <shadedArtifactAttached>true</shadedArtifactAttached>
                             <shadedClassifierName>All</shadedClassifierName>
                             <artifactSet>
