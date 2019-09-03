@@ -68,6 +68,10 @@ public class Listener extends ListenerAdapter {
         if (event.getAuthor().isBot() || event.getAuthor().isFake())
             return;
 
+        if(event.getChannel() == jda.getTextChannelById("506503200866697226"))
+            if(!event.getMessage().getContentDisplay().equalsIgnoreCase("hi"))
+                event.getMessage().delete().queue();
+
         if (event.getMessage().getContentDisplay().toLowerCase().contains("yo, can i have some memes?"))
             event.getChannel().sendMessage("dude not out in the open!").queue();
     }
