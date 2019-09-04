@@ -47,7 +47,7 @@ public class UserManager {
         file.put("data", data);
 
         try {
-            Files.write(Paths.get("members.json"), data.toString().getBytes());
+            Files.write(Paths.get("members.json"), file.toString().getBytes());
         } catch (IOException e) {
             log.error(ExceptionUtils.getStackTrace(e));
         }
