@@ -17,21 +17,22 @@ public class OobifyCommand extends FunCommand {
 
         if(args.equals(""))
             event.replyError("You must provide a statement!");
+        else {
+            args = args.replaceAll("o", "oob");
+            args = args.replaceAll("O", "Oob");
 
-        String result = args;
-        result = result.replaceAll("o", "oob");
-        result = result.replaceAll("O", "Oob");
+            args = args.replaceAll("a", "oob");
+            args = args.replaceAll("e", "oob");
+            args = args.replaceAll("i", "oob");
+            args = args.replaceAll("u", "oob");
 
-        result = result.replaceAll("a", "oob");
-        result = result.replaceAll("e", "oob");
-        result = result.replaceAll("i", "oob");
-        result = result.replaceAll("u", "oob");
+            args = args.replaceAll("A", "Oob");
+            args = args.replaceAll("E", "Oob");
+            args = args.replaceAll("I", "Oob");
+            args = args.replaceAll("U", "Oob");
 
-        result = result.replaceAll("A", "Oob");
-        result = result.replaceAll("E", "Oob");
-        result = result.replaceAll("I", "Oob");
-        result = result.replaceAll("U", "Oob");
+            event.reply(args);
 
-        event.reply(result);
+        }
     }
 }
