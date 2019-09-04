@@ -61,10 +61,13 @@ public class Listener extends ListenerAdapter {
             List<Member> members = guild.getMembers();
             for (Member member : members) {
                 if (!(
-                        member.getUser().isBot() || member.getRoles().contains(guild.getRoleById(id))
+                        member.getUser().isBot() || member.getUser().isFake() || member.getRoles().contains(guild.getRoleById(id))
                 )) {
                     guild.addRoleToMember(member, Objects.requireNonNull(guild.getRoleById(id))).queue();
                 }
+
+                if(member.getRoles().indexOf(jda.getRoleById("618904321500774414")) == -1 && !(member.getUser().isBot() || member.getUser().isFake()))
+                    event.getJDA().getGuildById("442552203694047232").addRoleToMember(member, Objects.requireNonNull(jda.getRoleById("618904321500774414")));
 
                 if(!(member.getUser().isBot() || member.getUser().isFake() || UserManager.getUser(member.getId()) != null))
                     UserManager.addUser(member.getId());
@@ -83,6 +86,7 @@ public class Listener extends ListenerAdapter {
     public void onGuildMemberJoin(GuildMemberJoinEvent event) {
         if(!(event.getUser().isBot() || event.getUser().isFake())) {
             event.getGuild().addRoleToMember(event.getMember(), Objects.requireNonNull(event.getGuild().getRoleById(id))).queue();
+            event.getGuild().addRoleToMember(event.getMember(), Objects.requireNonNull(event.getGuild().getRoleById("618904321500774414"))).queue();
             UserManager.addUser(event.getMember().getId());
         }
     }
@@ -108,6 +112,21 @@ public class Listener extends ListenerAdapter {
                 embed.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]));
 
                 event.getChannel().sendMessage(embed.build()).queue();
+
+                switch (update.getLvl()) {
+                    case 5:
+                        replaceRole(event.getMember(), "618904321500774414", "618904412383084584");
+                    case 10:
+                        replaceRole(event.getMember(), "618904412383084584", "618904540355231745");
+                    case 15:
+                        replaceRole(event.getMember(), "618904540355231745", "618904667220344863");
+                    case 20:
+                        replaceRole(event.getMember(), "618904667220344863", "618904805485707276");
+                    case 25:
+                        replaceRole(event.getMember(), "618904805485707276", "618904888398839868");
+                    case 30:
+                        replaceRole(event.getMember(), "618904888398839868", "618904956245770302");
+                }
             }
             UserManager.updateUser(update);
             cooldown.add(event.getAuthor().getId());
@@ -182,5 +201,10 @@ public class Listener extends ListenerAdapter {
     void onOffline() {
         log.info("offline");
         jda.getPresence().setActivity(Activity.playing("On Soren's server | >help for help"));
+    }
+
+    private void replaceRole(Member member, String regex, String replace) {
+        Objects.requireNonNull(jda.getGuildById("442552203694047232")).removeRoleFromMember(member, Objects.requireNonNull(jda.getRoleById(regex))).queue();
+        Objects.requireNonNull(jda.getGuildById("442552203694047232")).addRoleToMember(member, Objects.requireNonNull(jda.getRoleById(replace))).queue();
     }
 }
