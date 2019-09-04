@@ -40,7 +40,7 @@ public class TwitchPing extends TimerTask {
             if (live)
                 TwitchEventManager.offline();
             live = false;
-        } else {
+        } else if (data.getViewers() != null) {
             if (!live)
                 TwitchEventManager.live(data);
             live = true;
