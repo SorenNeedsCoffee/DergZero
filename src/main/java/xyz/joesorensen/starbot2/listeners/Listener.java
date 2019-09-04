@@ -1,5 +1,6 @@
 package xyz.joesorensen.starbot2.listeners;
 
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
@@ -19,18 +20,22 @@ import org.slf4j.LoggerFactory;
 import xyz.joesorensen.starbot2.models.User;
 import xyz.joesorensen.starbot2.models.UserManager;
 
+import java.awt.*;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
 
 public class Listener extends ListenerAdapter {
     private Logger log;
     private JDA jda;
     private String id;
+    private List<String> cooldown = new ArrayList<>();
+    private Timer timer = new Timer();
 
     public Listener() {
         this.log = LoggerFactory.getLogger("Main");
@@ -48,6 +53,10 @@ public class Listener extends ListenerAdapter {
     public void onReady(ReadyEvent event) {
         log.info("Ready!");
         List<Guild> guilds = event.getJDA().getGuilds();
+        File membersFile = new File("members.json");
+        if(membersFile.exists()) {
+            UserManager.loadFile();
+        }
         for (Guild guild : guilds) {
             List<Member> members = guild.getMembers();
             for (Member member : members) {
@@ -57,16 +66,25 @@ public class Listener extends ListenerAdapter {
                     guild.addRoleToMember(member, Objects.requireNonNull(guild.getRoleById(id))).queue();
                 }
 
-                if(!(member.getUser().isBot() || member.getUser().isFake()))
+                if(!(member.getUser().isBot() || member.getUser().isFake() || UserManager.getUser(member.getId()) != null))
                     UserManager.addUser(member.getId());
             }
+
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    UserManager.saveFile();
+                }
+            }, 3000, 30000);
         }
     }
 
     @Override
     public void onGuildMemberJoin(GuildMemberJoinEvent event) {
-        event.getGuild().addRoleToMember(event.getMember(), Objects.requireNonNull(event.getGuild().getRoleById(id))).queue();
-        UserManager.addUser(event.getMember().getId());
+        if(!(event.getUser().isBot() || event.getUser().isFake())) {
+            event.getGuild().addRoleToMember(event.getMember(), Objects.requireNonNull(event.getGuild().getRoleById(id))).queue();
+            UserManager.addUser(event.getMember().getId());
+        }
     }
 
     @Override
@@ -75,9 +93,31 @@ public class Listener extends ListenerAdapter {
         if (event.getAuthor().isBot() || event.getAuthor().isFake())
             return;
 
-        User update = UserManager.getUser(event.getAuthor().getId());
-        update.addXp(event.getMessage().getContentDisplay().replaceAll(" ", "").length()/2);
-        UserManager.updateUser(update);
+        if(cooldown.indexOf(event.getAuthor().getId()) == -1 || !event.getChannel().getId().equals("442556155856814080")) {
+            User update = UserManager.getUser(event.getAuthor().getId());
+            update.addXp(Math.sqrt(event.getMessage().getContentDisplay().replaceAll(" ", "").length()));
+            if(update.getXp() >= update.getLvl()*250) {
+                update.setLvl(update.getLvl()+1);
+
+                EmbedBuilder embed = new EmbedBuilder();
+                float[] rgb;
+
+                embed.setTitle("Level Up!");
+                embed.setDescription("Congrats to "+event.getAuthor().getName()+" For reaching level "+update.getLvl()+"!");
+                rgb = Color.RGBtoHSB(204, 255, 94, null);
+                embed.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]));
+
+                event.getChannel().sendMessage(embed.build()).queue();
+            }
+            UserManager.updateUser(update);
+            cooldown.add(event.getAuthor().getId());
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    cooldown.remove(event.getAuthor().getId());
+                }
+            }, 5000);
+        }
 
         if (event.getChannel() == jda.getTextChannelById("506503200866697226"))
             if (!event.getMessage().getContentDisplay().equalsIgnoreCase("hi"))

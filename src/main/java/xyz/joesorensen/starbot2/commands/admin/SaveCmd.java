@@ -18,7 +18,7 @@ public class SaveCmd extends AdminCommand {
                 .getTextChannelById(event.getChannel().getId())
                 .sendTyping()
                 .queue();
-        UserManager.saveToFile();
+        UserManager.saveFile();
         event.reactSuccess();
     }
 }

@@ -18,9 +18,11 @@ import xyz.joesorensen.starbot2.commands.admin.TwitchPingCmd;
 import xyz.joesorensen.starbot2.commands.fun.HelCmd;
 import xyz.joesorensen.starbot2.commands.fun.OobifyCommand;
 import xyz.joesorensen.starbot2.commands.owner.ShutdownCmd;
+import xyz.joesorensen.starbot2.commands.user.LvlCommand;
 import xyz.joesorensen.starbot2.listeners.Listener;
 import xyz.joesorensen.starbot2.listeners.TwitchEventManager;
 import xyz.joesorensen.starbot2.listeners.TwitchListener;
+import xyz.joesorensen.starbot2.models.UserManager;
 
 import javax.security.auth.login.LoginException;
 import java.awt.*;
@@ -77,6 +79,7 @@ public class StarBot2 {
         EventWaiter waiter = new EventWaiter();
         CommandClientBuilder cb = new CommandClientBuilder().
                 setOwnerId(ownerID).
+                setCoOwnerIds("275037176302141450", "231746019098886144").
                 setPrefix(prefix).
                 setHelpWord("help").
                 setLinkedCacheSize(200).
@@ -85,6 +88,8 @@ public class StarBot2 {
                 addCommands(ab,
                         new HelCmd(),
                         new OobifyCommand(),
+
+                        new LvlCommand(),
 
                         new TwitchPingCmd(clientID),
                         new SaveCmd(),
@@ -123,7 +128,9 @@ public class StarBot2 {
         if (shuttingDown)
             return;
         shuttingDown = true;
-        jda.shutdown();
+        UserManager.saveFile();
+        if(jda.getStatus() != JDA.Status.SHUTTING_DOWN)
+            jda.shutdown();
         System.exit(0);
     }
 }

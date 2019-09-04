@@ -14,7 +14,7 @@ public class ShutdownCmd extends OwnerCommand {
 
     @Override
     protected void execute(CommandEvent event) {
-        event.replyWarning("Shutting down...");
+        event.getChannel().sendMessage("\u26A0 Shutting down...").complete();
         StarBot2.shutdown();
     }
 }
