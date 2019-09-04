@@ -1,5 +1,6 @@
 package xyz.joesorensen.starbot2.models;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.logging.Log;
 import org.json.JSONArray;
@@ -67,10 +68,12 @@ public class UserManager {
             System.exit(1);
         }
 
-        JSONArray members = (JSONArray) raw;
+        JSONArray members = new JSONArray(raw.toString());
 
         for(Object user : members) {
-            users.add((User) user);
+            try {
+                users.add(new ObjectMapper().readValue(user.toString(), User.class));
+            } catch (IOException ignored) {}
         }
     }
 }
