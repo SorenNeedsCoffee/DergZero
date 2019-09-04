@@ -67,7 +67,8 @@ public class UserManager {
             System.exit(1);
         }
 
-        JSONArray members = new JSONArray(raw);
+        JSONObject data = (JSONObject) raw;
+        JSONArray members = (JSONArray) data.get("data");
 
         for(Object user : members) {
             users.add((User) user);
