@@ -48,7 +48,7 @@ public class UserManager {
         file.put("data", data);
 
         try {
-            Files.write(Paths.get("members.json"), data.toString().getBytes());
+            Files.write(Paths.get("members.json"), file.toString().getBytes());
         } catch (IOException e) {
             log.error(ExceptionUtils.getStackTrace(e));
         }
@@ -68,7 +68,8 @@ public class UserManager {
             System.exit(1);
         }
 
-        JSONArray members = new JSONArray(raw.toString());
+        JSONObject data = (JSONObject) raw;
+        JSONArray members = new JSONArray(data.get("data"));
 
         for(Object user : members) {
             try {
