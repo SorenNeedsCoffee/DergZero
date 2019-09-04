@@ -51,7 +51,7 @@ public class TwitchPingCmd extends AdminCommand {
                 TwitchEventManager.offline();
             live = false;
             TwitchPing.live = false;
-        } else {
+        } else if (data.getViewers() != null) {
             if (!live)
                 TwitchEventManager.live(data);
             live = true;
