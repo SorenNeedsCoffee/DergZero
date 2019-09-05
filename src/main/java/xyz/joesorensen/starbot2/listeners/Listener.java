@@ -117,16 +117,22 @@ public class Listener extends ListenerAdapter {
                 switch (update.getLvl()) {
                     case 5:
                         replaceRole(event.getMember(), "618904321500774414", "618904412383084584");
+                        break;
                     case 10:
                         replaceRole(event.getMember(), "618904412383084584", "618904540355231745");
+                        break;
                     case 15:
                         replaceRole(event.getMember(), "618904540355231745", "618904667220344863");
+                        break;
                     case 20:
                         replaceRole(event.getMember(), "618904667220344863", "618904805485707276");
+                        break;
                     case 25:
                         replaceRole(event.getMember(), "618904805485707276", "618904888398839868");
+                        break;
                     case 30:
                         replaceRole(event.getMember(), "618904888398839868", "618904956245770302");
+                        break;
                 }
             }
             UserManager.updateUser(update);
