@@ -30,7 +30,7 @@ public class TopCmd extends UserCommand {
                  "```\n"+
                  "-------------------------\n"+
                  list(users, event)+
-                 "-------------------------\n"+
+                 "\n\n-------------------------\n"+
                  "```",
 
                 false
