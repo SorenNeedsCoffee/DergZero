@@ -18,9 +18,9 @@ import xyz.joesorensen.starbot2.commands.admin.ChangeXPCmd;
 import xyz.joesorensen.starbot2.commands.admin.SaveCmd;
 import xyz.joesorensen.starbot2.commands.admin.TwitchPingCmd;
 import xyz.joesorensen.starbot2.commands.fun.HelCmd;
-import xyz.joesorensen.starbot2.commands.fun.OobifyCommand;
+import xyz.joesorensen.starbot2.commands.fun.OobifyCmd;
 import xyz.joesorensen.starbot2.commands.owner.ShutdownCmd;
-import xyz.joesorensen.starbot2.commands.user.LvlCommand;
+import xyz.joesorensen.starbot2.commands.user.LvlCmd;
 import xyz.joesorensen.starbot2.listeners.Listener;
 import xyz.joesorensen.starbot2.listeners.TwitchEventManager;
 import xyz.joesorensen.starbot2.listeners.TwitchListener;
@@ -89,9 +89,9 @@ public class StarBot2 {
                 setEmojis("\u2705", "\u26A0", "\u26D4").
                 addCommands(ab,
                         new HelCmd(),
-                        new OobifyCommand(),
+                        new OobifyCmd(),
 
-                        new LvlCommand(),
+                        new LvlCmd(),
 
                         new TwitchPingCmd(clientID),
                         new SaveCmd(),

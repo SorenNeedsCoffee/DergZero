@@ -9,9 +9,9 @@ import xyz.joesorensen.starbot2.models.UserManager;
 import java.awt.*;
 import java.text.DecimalFormat;
 
-public class LvlCommand extends UserCommand {
+public class LvlCmd extends UserCommand {
 
-    public LvlCommand() {
+    public LvlCmd() {
         this.name = "lvl";
         this.help = "display user xp and level.";
         this.aliases = new String[]{

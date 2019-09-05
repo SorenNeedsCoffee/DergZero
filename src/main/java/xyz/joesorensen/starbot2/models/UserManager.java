@@ -33,6 +33,10 @@ public class UserManager {
         return null;
     }
 
+    public static List<User> getUsers() {
+        return users;
+    }
+
     public static void updateUser(User user) {
         if(user.getId().equals("") || user.getId() == null)
             throw new IllegalArgumentException("Id of user cannot be empty or null.");

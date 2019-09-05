@@ -1,6 +1,8 @@
 package xyz.joesorensen.starbot2.models;
 
-public class User {
+import org.jetbrains.annotations.NotNull;
+
+public class User implements Comparable<User>{
     private String id;
     private double xp;
     private int lvl;
@@ -15,14 +17,6 @@ public class User {
         this.id = id;
         this.xp = xp;
         this.lvl = lvl;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return this.id.equals(user.getId());
     }
 
     public String getId() {
@@ -47,5 +41,18 @@ public class User {
 
     public void setLvl(int val) {
         this.lvl = val;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return this.id.equals(user.getId());
+    }
+
+    @Override
+    public int compareTo(@NotNull User o) {
+        return Double.compare(this.getXp(), o.getXp());
     }
 }

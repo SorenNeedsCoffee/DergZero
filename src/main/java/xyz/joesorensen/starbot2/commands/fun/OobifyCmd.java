@@ -3,9 +3,9 @@ package xyz.joesorensen.starbot2.commands.fun;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import xyz.joesorensen.starbot2.commands.FunCommand;
 
-public class OobifyCommand extends FunCommand {
+public class OobifyCmd extends FunCommand {
 
-    public OobifyCommand() {
+    public OobifyCmd() {
         this.name = "oobify";
         this.help = "replace all vowels in arguments with oob";
         this.guildOnly = false;
