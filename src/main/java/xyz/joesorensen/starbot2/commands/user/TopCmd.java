@@ -27,10 +27,13 @@ public class TopCmd extends UserCommand {
         embed.setDescription("Top Users");
         //embed.setAuthor("User Level", null, event.getAuthor().getAvatarUrl());
         embed.addField("",
-                 "```"+
+                 "```\n"+
+                 "-------------------------\n"+
                  list(users, event)+
+                 "-------------------------\n"+
                  "```",
-                true
+
+                false
             );
 
         rgb = Color.RGBtoHSB(204, 255, 94, null);
@@ -43,7 +46,7 @@ public class TopCmd extends UserCommand {
         StringBuilder result = new StringBuilder();
         for(int i = 0; i < 10; i++) {
             User user = users.get(i);
-            result.append("\n");
+            result.append("\n\n");
             result.append(i + 1).
                     append(". ").
                     append(event.getJDA().getUserById(user.getId()).getName()).
