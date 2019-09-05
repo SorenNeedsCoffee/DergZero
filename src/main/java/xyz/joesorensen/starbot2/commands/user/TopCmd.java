@@ -49,6 +49,7 @@ public class TopCmd extends UserCommand {
                     append(event.getJDA().getUserById(user.getId()).getName()).
                     append("\n");
             result.append("  XP: "+new DecimalFormat("#.##").format(user.getXp()));
+            result.append("\n");
             result.append("  Level: "+user.getLvl());
         }
         return result.toString();
