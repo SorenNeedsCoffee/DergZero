@@ -26,7 +26,7 @@ public class TopCmd extends UserCommand {
         float[] rgb;
         embed.setDescription("Top Users");
         //embed.setAuthor("User Level", null, event.getAuthor().getAvatarUrl());
-        embed.addField(null,
+        embed.addField("",
                  "```"+
                  list(users, event)+
                  "```",
