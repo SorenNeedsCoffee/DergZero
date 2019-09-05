@@ -97,7 +97,7 @@ public class Listener extends ListenerAdapter {
         if (event.getAuthor().isBot() || event.getAuthor().isFake())
             return;
 
-        if(cooldown.indexOf(event.getAuthor().getId()) == -1 || !event.getChannel().getId().equals("442556155856814080")) {
+        if(cooldown.indexOf(event.getAuthor().getId()) == -1 || !event.getChannel().getId().equals("442556155856814080") || !(event.getMessage().getContentDisplay().startsWith("!>"))) {
             User update = UserManager.getUser(event.getAuthor().getId());
             update.addXp(Math.sqrt(event.getMessage().getContentDisplay().replaceAll(" ", "").length()));
             if(update.getXp() >= update.getLvl()*250) {
@@ -112,6 +112,7 @@ public class Listener extends ListenerAdapter {
                 embed.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]));
 
                 event.getChannel().sendMessage(embed.build()).queue();
+                UserManager.saveFile();
 
                 switch (update.getLvl()) {
                     case 5:
