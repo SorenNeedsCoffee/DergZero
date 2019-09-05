@@ -11,6 +11,12 @@ public class User {
         this.lvl = 1;
     }
 
+    public User(String id, double xp, int lvl) {
+        this.id = id;
+        this.xp = xp;
+        this.lvl = lvl;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
