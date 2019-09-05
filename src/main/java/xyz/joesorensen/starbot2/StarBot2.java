@@ -21,6 +21,7 @@ import xyz.joesorensen.starbot2.commands.fun.HelCmd;
 import xyz.joesorensen.starbot2.commands.fun.OobifyCmd;
 import xyz.joesorensen.starbot2.commands.owner.ShutdownCmd;
 import xyz.joesorensen.starbot2.commands.user.LvlCmd;
+import xyz.joesorensen.starbot2.commands.user.TopCmd;
 import xyz.joesorensen.starbot2.listeners.Listener;
 import xyz.joesorensen.starbot2.listeners.TwitchEventManager;
 import xyz.joesorensen.starbot2.listeners.TwitchListener;
@@ -92,6 +93,7 @@ public class StarBot2 {
                         new OobifyCmd(),
 
                         new LvlCmd(),
+                        new TopCmd(),
 
                         new TwitchPingCmd(clientID),
                         new SaveCmd(),
