@@ -14,6 +14,7 @@ import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.joesorensen.starbot2.commands.admin.ChangeLvlCmd;
+import xyz.joesorensen.starbot2.commands.admin.ChangeXPCmd;
 import xyz.joesorensen.starbot2.commands.admin.SaveCmd;
 import xyz.joesorensen.starbot2.commands.admin.TwitchPingCmd;
 import xyz.joesorensen.starbot2.commands.fun.HelCmd;
@@ -95,6 +96,7 @@ public class StarBot2 {
                         new TwitchPingCmd(clientID),
                         new SaveCmd(),
                         new ChangeLvlCmd(),
+                        new ChangeXPCmd(),
 
                         new ShutdownCmd()
                 );
