@@ -83,7 +83,7 @@ public class StarBot2 {
                 setPrefix(prefix).
                 setHelpWord("help").
                 setLinkedCacheSize(200).
-                setActivity(Activity.playing("On Soren's server | >help for help")).
+                setActivity(Activity.playing("On Soren's server | "+prefix+"help for help")).
                 setEmojis("\u2705", "\u26A0", "\u26D4").
                 addCommands(ab,
                         new HelCmd(),
@@ -102,6 +102,7 @@ public class StarBot2 {
         CommandClient client = cb.build();
         Listener listener = new Listener();
         listener.setRoleID(defaultRoleID);
+        listener.setPrefix(prefix);
 
         log.info("Attempting login...");
 

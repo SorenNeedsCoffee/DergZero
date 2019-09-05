@@ -34,6 +34,7 @@ public class Listener extends ListenerAdapter {
     private Logger log;
     private JDA jda;
     private String id;
+    private String prefix;
     private List<String> cooldown = new ArrayList<>();
     private Timer timer = new Timer();
 
@@ -47,6 +48,10 @@ public class Listener extends ListenerAdapter {
 
     public void setRoleID(String id) {
         this.id = id;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
     }
 
     @Override
@@ -207,7 +212,7 @@ public class Listener extends ListenerAdapter {
 
     void onOffline() {
         log.info("offline");
-        jda.getPresence().setActivity(Activity.playing("On Soren's server | >help for help"));
+        jda.getPresence().setActivity(Activity.playing("On Soren's server | "+prefix+"help for help"));
     }
 
     private void replaceRole(Member member, String regex, String replace) {
