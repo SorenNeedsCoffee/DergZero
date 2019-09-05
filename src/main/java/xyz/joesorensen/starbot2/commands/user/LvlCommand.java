@@ -25,12 +25,11 @@ public class LvlCommand extends UserCommand {
         User user = UserManager.getUser(event.getAuthor().getId());
         EmbedBuilder embed = new EmbedBuilder();
         float[] rgb;
-        embed.setTitle("User Level");
         embed.setDescription("Level for "+event.getAuthor().getName());
-        embed.setAuthor("", "", event.getAuthor().getAvatarUrl());
+        embed.setAuthor("User Level", null, event.getAuthor().getAvatarUrl());
         embed.addField("Level", Integer.toString(user.getLvl()), true);
         embed.addField("XP", Double.toString(user.getXp()), false);
-        embed.addField("Progress to next level", progress(user.getXp()/(user.getLvl()*250)), false);
+        embed.addField("Progress to next level", "```"+progress(user.getXp()/(user.getLvl()*250))+"```", false);
         rgb = Color.RGBtoHSB(204, 255, 94, null);
         embed.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]));
 
