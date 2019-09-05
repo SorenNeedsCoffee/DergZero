@@ -67,7 +67,7 @@ public class Listener extends ListenerAdapter {
                 }
 
                 if(!member.getRoles().contains(guild.getRoleById("618904321500774414")) && !(member.getUser().isBot() || member.getUser().isFake()))
-                    event.getJDA().getGuildById("442552203694047232").addRoleToMember(member, Objects.requireNonNull(jda.getRoleById("618904321500774414"))).queue();
+                    Objects.requireNonNull(event.getJDA().getGuildById("442552203694047232")).addRoleToMember(member, Objects.requireNonNull(jda.getRoleById("618904321500774414"))).queue();
 
                 if(!(member.getUser().isBot() || member.getUser().isFake() || UserManager.getUser(member.getId()) != null))
                     UserManager.addUser(member.getId());
