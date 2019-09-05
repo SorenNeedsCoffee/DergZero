@@ -7,6 +7,7 @@ import xyz.joesorensen.starbot2.models.User;
 import xyz.joesorensen.starbot2.models.UserManager;
 
 import java.awt.*;
+import java.text.DecimalFormat;
 
 public class LvlCommand extends UserCommand {
 
@@ -28,8 +29,13 @@ public class LvlCommand extends UserCommand {
         embed.setDescription("Level for "+event.getAuthor().getName());
         embed.setAuthor("User Level", null, event.getAuthor().getAvatarUrl());
         embed.addField("Level", Integer.toString(user.getLvl()), true);
-        embed.addField("XP", Double.toString(user.getXp()), false);
-        embed.addField("Progress to next level", "```"+progress(user.getXp()/(user.getLvl()*250))+"```", false);
+        embed.addField("XP", new DecimalFormat("#.##").format(user.getXp()), false);
+        embed.addField("Progress to next level",
+                "```"+
+                        progress(user.getXp()/(user.getLvl()*250))+
+                        " ("+new DecimalFormat("#.##").format(user.getXp())+"/"+(user.getLvl()*250)+")"+
+                        "```",
+                false);
         rgb = Color.RGBtoHSB(204, 255, 94, null);
         embed.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]));
 
