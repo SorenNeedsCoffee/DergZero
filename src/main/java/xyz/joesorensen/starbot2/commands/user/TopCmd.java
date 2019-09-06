@@ -7,9 +7,9 @@ import xyz.joesorensen.starbot2.models.User;
 import xyz.joesorensen.starbot2.models.UserManager;
 
 import java.awt.*;
+import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
-import java.text.DecimalFormat;
 
 public class TopCmd extends UserCommand {
 
@@ -27,14 +27,14 @@ public class TopCmd extends UserCommand {
         embed.setDescription("Top Users");
         //embed.setAuthor("User Level", null, event.getAuthor().getAvatarUrl());
         embed.addField("",
-                 "```\n"+
-                 "-------------------------\n"+
-                 list(users, event)+
-                 "\n\n-------------------------\n"+
-                 "```",
+                "```\n" +
+                        "-------------------------\n" +
+                        list(users, event) +
+                        "\n\n-------------------------\n" +
+                        "```",
 
                 true
-            );
+        );
 
         rgb = Color.RGBtoHSB(204, 255, 94, null);
         embed.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]));
@@ -44,16 +44,16 @@ public class TopCmd extends UserCommand {
 
     private static String list(List<User> users, CommandEvent event) {
         StringBuilder result = new StringBuilder();
-        for(int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             User user = users.get(i);
             result.append("\n\n");
             result.append(i + 1).
                     append(". ").
                     append(event.getJDA().getUserById(user.getId()).getName()).
                     append("\n");
-            result.append("  XP: "+new DecimalFormat("#.##").format(user.getXp()));
+            result.append("  XP: " + new DecimalFormat("#.##").format(user.getXp()));
             result.append("\n");
-            result.append("  Level: "+user.getLvl());
+            result.append("  Level: " + user.getLvl());
         }
         return result.toString();
     }

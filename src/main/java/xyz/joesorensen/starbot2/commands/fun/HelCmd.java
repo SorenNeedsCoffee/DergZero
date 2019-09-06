@@ -1,6 +1,5 @@
 package xyz.joesorensen.starbot2.commands.fun;
 
-import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

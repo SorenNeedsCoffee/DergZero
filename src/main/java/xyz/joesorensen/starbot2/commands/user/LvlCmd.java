@@ -26,14 +26,14 @@ public class LvlCmd extends UserCommand {
         User user = UserManager.getUser(event.getAuthor().getId());
         EmbedBuilder embed = new EmbedBuilder();
         float[] rgb;
-        embed.setDescription("Level for "+event.getAuthor().getName());
+        embed.setDescription("Level for " + event.getAuthor().getName());
         embed.setAuthor("User Level", null, event.getAuthor().getAvatarUrl());
         embed.addField("Level", Integer.toString(user.getLvl()), true);
         embed.addField("XP", new DecimalFormat("#.##").format(user.getXp()), false);
         embed.addField("Progress to next level",
-                "```java\n"+
-                        progress(user.getXp()/(user.getLvl()*250))+
-                        " ("+new DecimalFormat("#.##").format(user.getXp())+"/"+(user.getLvl()*250)+")"+
+                "```java\n" +
+                        progress(user.getXp() / (user.getLvl() * 250)) +
+                        " (" + new DecimalFormat("#.##").format(user.getXp()) + "/" + (user.getLvl() * 250) + ")" +
                         "\n```",
                 false);
         rgb = Color.RGBtoHSB(204, 255, 94, null);
@@ -48,7 +48,7 @@ public class LvlCmd extends UserCommand {
 
         result.append("[");
         int i = 0;
-        for (; i <= (int)(progressPercentage*width); i++) {
+        for (; i <= (int) (progressPercentage * width); i++) {
             result.append("█");
         }
         for (; i < width; i++) {

@@ -2,7 +2,7 @@ package xyz.joesorensen.starbot2.models;
 
 import org.jetbrains.annotations.NotNull;
 
-public class User implements Comparable<User>{
+public class User implements Comparable<User> {
     private String id;
     private double xp;
     private int lvl;

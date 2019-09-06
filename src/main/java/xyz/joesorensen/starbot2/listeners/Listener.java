@@ -27,8 +27,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 public class Listener extends ListenerAdapter {
     private Logger log;
@@ -59,24 +59,23 @@ public class Listener extends ListenerAdapter {
         log.info("Ready!");
         List<Guild> guilds = event.getJDA().getGuilds();
         File membersFile = new File("members.json");
-        if(membersFile.exists()) {
+        if (membersFile.exists()) {
             UserManager.loadFile();
         }
         for (Guild guild : guilds) {
             List<Member> members = guild.getMembers();
             for (Member member : members) {
-                if (!(
-                        member.getUser().isBot() || member.getUser().isFake() || member.getRoles().contains(guild.getRoleById(id))
-                )) {
+                if (!(member.getUser().isBot() || member.getUser().isFake() ||
+                        member.getRoles().contains(guild.getRoleById(id))))
                     guild.addRoleToMember(member, Objects.requireNonNull(guild.getRoleById(id))).queue();
-                }
 
-                if(!member.getRoles().contains(guild.getRoleById("618904321500774414")) &&
+                if (!member.getRoles().contains(guild.getRoleById("618904321500774414")) &&
                         !(member.getUser().isBot() || member.getUser().isFake()) &&
                         (Objects.requireNonNull(UserManager.getUser(member.getId())).getLvl() < 5))
                     Objects.requireNonNull(event.getJDA().getGuildById("442552203694047232")).addRoleToMember(member, Objects.requireNonNull(jda.getRoleById("618904321500774414"))).queue();
 
-                if(!(member.getUser().isBot() || member.getUser().isFake() || UserManager.getUser(member.getId()) != null))
+                if (!(member.getUser().isBot() || member.getUser().isFake() ||
+                        UserManager.getUser(member.getId()) != null))
                     UserManager.addUser(member.getId());
             }
 
@@ -91,7 +90,7 @@ public class Listener extends ListenerAdapter {
 
     @Override
     public void onGuildMemberJoin(GuildMemberJoinEvent event) {
-        if(!(event.getUser().isBot() || event.getUser().isFake())) {
+        if (!(event.getUser().isBot() || event.getUser().isFake())) {
             event.getGuild().addRoleToMember(event.getMember(), Objects.requireNonNull(event.getGuild().getRoleById(id))).queue();
             event.getGuild().addRoleToMember(event.getMember(), Objects.requireNonNull(event.getGuild().getRoleById("618904321500774414"))).queue();
             UserManager.addUser(event.getMember().getId());
@@ -104,17 +103,17 @@ public class Listener extends ListenerAdapter {
         if (event.getAuthor().isBot() || event.getAuthor().isFake())
             return;
 
-        if(cooldown.indexOf(event.getAuthor().getId()) == -1 || !event.getChannel().getId().equals("442556155856814080") || !(event.getMessage().getContentDisplay().startsWith("!>"))) {
+        if (cooldown.indexOf(event.getAuthor().getId()) == -1 || !event.getChannel().getId().equals("442556155856814080") || !(event.getMessage().getContentDisplay().startsWith("!>"))) {
             User update = UserManager.getUser(event.getAuthor().getId());
             update.addXp(Math.sqrt(event.getMessage().getContentDisplay().replaceAll(" ", "").length()));
-            if(update.getXp() >= update.getLvl()*250) {
-                update.setLvl(update.getLvl()+1);
+            if (update.getXp() >= update.getLvl() * 250) {
+                update.setLvl(update.getLvl() + 1);
 
                 EmbedBuilder embed = new EmbedBuilder();
                 float[] rgb;
 
                 embed.setTitle("Level Up!");
-                embed.setDescription("Congrats to "+event.getAuthor().getName()+" For reaching level "+update.getLvl()+"!");
+                embed.setDescription("Congrats to " + event.getAuthor().getName() + " For reaching level " + update.getLvl() + "!");
                 rgb = Color.RGBtoHSB(204, 255, 94, null);
                 embed.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]));
 
@@ -214,7 +213,7 @@ public class Listener extends ListenerAdapter {
 
     void onOffline() {
         log.info("offline");
-        jda.getPresence().setActivity(Activity.playing("On Soren's server | "+prefix+"help for help"));
+        jda.getPresence().setActivity(Activity.playing("On Soren's server | " + prefix + "help for help"));
     }
 
     private void replaceRole(Member member, String regex, String replace) {

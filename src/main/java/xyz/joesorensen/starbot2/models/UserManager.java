@@ -1,8 +1,6 @@
 package xyz.joesorensen.starbot2.models;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.apache.commons.logging.Log;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -19,15 +17,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserManager {
-    static List<User> users = new ArrayList<>();
+    private static List<User> users = new ArrayList<>();
 
     public static void addUser(String id) {
         users.add(new User(id));
     }
 
     public static User getUser(String id) {
-        for(User user : users) {
-            if(user.getId().equals(id))
+        for (User user : users) {
+            if (user.getId().equals(id))
                 return user;
         }
         return null;
@@ -38,7 +36,7 @@ public class UserManager {
     }
 
     public static void updateUser(User user) {
-        if(user.getId().equals("") || user.getId() == null)
+        if (user.getId().equals("") || user.getId() == null)
             throw new IllegalArgumentException("Id of user cannot be empty or null.");
 
         int index = users.indexOf(user);
@@ -65,7 +63,7 @@ public class UserManager {
         try {
             raw = (JSONObject) new JSONParser().parse(new FileReader("members.json"));
         } catch (FileNotFoundException e) {
-            log.error("FileNotFoundException: members file not found. Please ensure that the members file exsists, is in the same directory as the jar, and is called members.json");
+            log.error("FileNotFoundException: members file not found. Please ensure that the members file exists, is in the same directory as the jar, and is called members.json");
             System.exit(1);
         } catch (IOException | ParseException e) {
             log.error(ExceptionUtils.getStackTrace(e));
@@ -74,7 +72,7 @@ public class UserManager {
 
         JSONArray members = (JSONArray) raw.get("data");
 
-        for(Object user : members) {
+        for (Object user : members) {
             JSONObject obj = (JSONObject) user;
             users.add(new User((String) obj.get("id"), (double) obj.get("xp"), ((Long) obj.get("lvl")).intValue()));
 
@@ -83,7 +81,7 @@ public class UserManager {
 
     private static JSONArray createJsonArrayFromList() {
         JSONArray result = new JSONArray();
-        for(User user : users) {
+        for (User user : users) {
             JSONObject obj = new JSONObject();
             obj.put("id", user.getId());
             obj.put("xp", user.getXp());

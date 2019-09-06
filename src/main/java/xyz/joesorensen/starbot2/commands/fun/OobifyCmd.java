@@ -15,7 +15,7 @@ public class OobifyCmd extends FunCommand {
     protected void execute(CommandEvent event) {
         String args = event.getArgs();
 
-        if(args.equals(""))
+        if (args.equals(""))
             event.replyError("You must provide a statement!");
         else {
             args = args.replaceAll("o", "oob");

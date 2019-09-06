@@ -15,7 +15,7 @@ public class ChangeLvlCmd extends AdminCommand {
 
     @Override
     protected void execute(CommandEvent event) {
-        if(event.getArgs().equals("")) {
+        if (event.getArgs().equals("")) {
             event.replyError("Args cannot be blank!");
             return;
         }

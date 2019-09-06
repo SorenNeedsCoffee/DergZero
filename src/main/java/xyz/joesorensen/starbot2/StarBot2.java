@@ -55,7 +55,7 @@ public class StarBot2 {
         try {
             raw = new JSONParser().parse(new FileReader("config.json"));
         } catch (FileNotFoundException e) {
-            log.error("FileNotFoundException: config file not found. Please ensure that the config file exsists, is in the same directory as the jar, and is called config.json");
+            log.error("FileNotFoundException: config file not found. Please ensure that the config file exists, is in the same directory as the jar, and is called config.json");
             System.exit(1);
         } catch (IOException | ParseException e) {
             log.error(ExceptionUtils.getStackTrace(e));
@@ -68,7 +68,7 @@ public class StarBot2 {
         String prefix = (String) config.get("prefix");
         String clientID = (String) config.get("clientID");
         if (token.equals("") || ownerID.equals("") || prefix.equals("") || clientID.equals("") || defaultRoleID.equals("")) {
-            log.error("Incomplete config file. Please ensure that properties token, ownerID, clientID, and prefix are present and not empty");
+            log.error("Incomplete config file. Please ensure that properties token, ownerID, clientID, defaultRoleID, and prefix are present and not empty");
             System.exit(1);
         }
 
@@ -87,7 +87,7 @@ public class StarBot2 {
                 setPrefix(prefix).
                 setHelpWord("help").
                 setLinkedCacheSize(200).
-                setActivity(Activity.playing("On Soren's server | "+prefix+"help for help")).
+                setActivity(Activity.playing("On Soren's server | " + prefix + "help for help")).
                 setEmojis("\u2705", "\u26A0", "\u26D4").
                 addCommands(ab,
                         new HelCmd(),
@@ -138,7 +138,7 @@ public class StarBot2 {
             return;
         shuttingDown = true;
         UserManager.saveFile();
-        if(jda.getStatus() != JDA.Status.SHUTTING_DOWN)
+        if (jda.getStatus() != JDA.Status.SHUTTING_DOWN)
             jda.shutdown();
         System.exit(0);
     }
