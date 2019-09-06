@@ -31,10 +31,10 @@ public class LvlCmd extends UserCommand {
         embed.addField("Level", Integer.toString(user.getLvl()), true);
         embed.addField("XP", new DecimalFormat("#.##").format(user.getXp()), false);
         embed.addField("Progress to next level",
-                "```"+
+                "```css\n"+
                         progress(user.getXp()/(user.getLvl()*250))+
                         " ("+new DecimalFormat("#.##").format(user.getXp())+"/"+(user.getLvl()*250)+")"+
-                        "```",
+                        "\n```",
                 false);
         rgb = Color.RGBtoHSB(204, 255, 94, null);
         embed.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]));
