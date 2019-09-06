@@ -23,6 +23,11 @@ public class UserManager {
         users.add(new User(id));
     }
 
+    public static void removeUser(String id) {
+        int index = users.indexOf(getUser(id));
+        users.remove(index);
+    }
+
     public static User getUser(String id) {
         for (User user : users) {
             if (user.getId().equals(id))
