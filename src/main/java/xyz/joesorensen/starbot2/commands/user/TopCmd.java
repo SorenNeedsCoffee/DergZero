@@ -33,7 +33,7 @@ public class TopCmd extends UserCommand {
                  "\n\n-------------------------\n"+
                  "```",
 
-                false
+                true
             );
 
         rgb = Color.RGBtoHSB(204, 255, 94, null);
