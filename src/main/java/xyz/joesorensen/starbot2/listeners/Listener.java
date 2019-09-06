@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -107,39 +108,7 @@ public class Listener extends ListenerAdapter {
             User update = UserManager.getUser(event.getAuthor().getId());
             update.addXp(Math.sqrt(event.getMessage().getContentDisplay().replaceAll(" ", "").length()));
             if (update.getXp() >= update.getLvl() * 250) {
-                update.setLvl(update.getLvl() + 1);
-
-                EmbedBuilder embed = new EmbedBuilder();
-                float[] rgb;
-
-                embed.setTitle("Level Up!");
-                embed.setDescription("Congrats to " + event.getAuthor().getName() + " For reaching level " + update.getLvl() + "!");
-                rgb = Color.RGBtoHSB(204, 255, 94, null);
-                embed.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]));
-
-                event.getChannel().sendMessage(embed.build()).queue();
-                UserManager.saveFile();
-
-                switch (update.getLvl()) {
-                    case 5:
-                        replaceRole(event.getMember(), "618904321500774414", "618904412383084584");
-                        break;
-                    case 10:
-                        replaceRole(event.getMember(), "618904412383084584", "618904540355231745");
-                        break;
-                    case 15:
-                        replaceRole(event.getMember(), "618904540355231745", "618904667220344863");
-                        break;
-                    case 20:
-                        replaceRole(event.getMember(), "618904667220344863", "618904805485707276");
-                        break;
-                    case 25:
-                        replaceRole(event.getMember(), "618904805485707276", "618904888398839868");
-                        break;
-                    case 30:
-                        replaceRole(event.getMember(), "618904888398839868", "618904956245770302");
-                        break;
-                }
+                onLvlUp(event, update);
             }
             UserManager.updateUser(update);
             cooldown.add(event.getAuthor().getId());
@@ -214,6 +183,42 @@ public class Listener extends ListenerAdapter {
     void onOffline() {
         log.info("offline");
         jda.getPresence().setActivity(Activity.playing("On Soren's server | " + prefix + "help for help"));
+    }
+
+    void onLvlUp(GuildMessageReceivedEvent event, User update) {
+        update.setLvl(update.getLvl() + 1);
+
+        EmbedBuilder embed = new EmbedBuilder();
+        float[] rgb;
+
+        embed.setAuthor("Level Up!", null, event.getAuthor().getAvatarUrl());
+        embed.setDescription("Congrats to " + event.getAuthor().getName() + " for reaching level " + update.getLvl() + "!");
+        rgb = Color.RGBtoHSB(204, 255, 94, null);
+        embed.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]));
+
+        event.getChannel().sendMessage(embed.build()).queue();
+        UserManager.saveFile();
+
+        switch (update.getLvl()) {
+            case 5:
+                replaceRole(event.getMember(), "618904321500774414", "618904412383084584");
+                break;
+            case 10:
+                replaceRole(event.getMember(), "618904412383084584", "618904540355231745");
+                break;
+            case 15:
+                replaceRole(event.getMember(), "618904540355231745", "618904667220344863");
+                break;
+            case 20:
+                replaceRole(event.getMember(), "618904667220344863", "618904805485707276");
+                break;
+            case 25:
+                replaceRole(event.getMember(), "618904805485707276", "618904888398839868");
+                break;
+            case 30:
+                replaceRole(event.getMember(), "618904888398839868", "618904956245770302");
+                break;
+        }
     }
 
     private void replaceRole(Member member, String regex, String replace) {

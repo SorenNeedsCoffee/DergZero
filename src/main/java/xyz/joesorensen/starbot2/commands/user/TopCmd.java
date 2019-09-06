@@ -47,10 +47,17 @@ public class TopCmd extends UserCommand {
         for (int i = 0; i < 10; i++) {
             User user = users.get(i);
             result.append("\n\n");
-            result.append(i + 1).
-                    append(". ").
-                    append(event.getJDA().getUserById(user.getId()).getName()).
-                    append("\n");
+            try {
+                result.append(i + 1).
+                        append(". ").
+                        append(event.getGuild().getMemberById(user.getId()).getNickname()).
+                        append("\n");
+            } catch (NullPointerException ignored) {
+                result.append(i + 1).
+                        append(". ").
+                        append(event.getJDA().getUserById(user.getId()).getName()).
+                        append("\n");
+            }
             result.append("  XP: " + new DecimalFormat("#.##").format(user.getXp()));
             result.append("\n");
             result.append("  Level: " + user.getLvl());

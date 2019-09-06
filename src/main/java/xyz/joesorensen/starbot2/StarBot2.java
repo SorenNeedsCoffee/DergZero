@@ -17,6 +17,7 @@ import xyz.joesorensen.starbot2.commands.admin.ChangeLvlCmd;
 import xyz.joesorensen.starbot2.commands.admin.ChangeXPCmd;
 import xyz.joesorensen.starbot2.commands.admin.SaveCmd;
 import xyz.joesorensen.starbot2.commands.admin.TwitchPingCmd;
+import xyz.joesorensen.starbot2.commands.fun.AvatarCmd;
 import xyz.joesorensen.starbot2.commands.fun.FakeCmd;
 import xyz.joesorensen.starbot2.commands.fun.HelCmd;
 import xyz.joesorensen.starbot2.commands.fun.OobifyCmd;
@@ -93,6 +94,7 @@ public class StarBot2 {
                         new HelCmd(),
                         new OobifyCmd(),
                         new FakeCmd(),
+                        new AvatarCmd(),
 
                         new LvlCmd(),
                         new TopCmd(),
