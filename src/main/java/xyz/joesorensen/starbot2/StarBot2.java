@@ -7,7 +7,6 @@ import com.jagrosh.jdautilities.examples.command.AboutCommand;
 import net.dv8tion.jda.api.*;
 import net.dv8tion.jda.api.entities.Activity;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.apache.log4j.BasicConfigurator;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -45,7 +44,6 @@ public class StarBot2 {
     private static boolean shuttingDown = false;
 
     public static void main(String[] args) {
-        BasicConfigurator.configure();
         Logger log = LoggerFactory.getLogger("Startup");
 
         log.info("StarBot2 v" + version);
