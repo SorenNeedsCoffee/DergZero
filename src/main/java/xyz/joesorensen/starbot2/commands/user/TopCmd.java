@@ -47,12 +47,12 @@ public class TopCmd extends UserCommand {
         for (int i = 0; i < 10; i++) {
             User user = users.get(i);
             result.append("\n\n");
-            try {
+            if(event.getGuild().getMemberById(user.getId()).getNickname() != null) {
                 result.append(i + 1).
                         append(". ").
                         append(event.getGuild().getMemberById(user.getId()).getNickname()).
                         append("\n");
-            } catch (NullPointerException ignored) {
+            } else {
                 result.append(i + 1).
                         append(". ").
                         append(event.getJDA().getUserById(user.getId()).getName()).
