@@ -1,48 +1,39 @@
 package xyz.joesorensen.starbot2.listeners;
 
-import com.mb3364.twitch.api.Twitch;
-import com.mb3364.twitch.api.handlers.StreamResponseHandler;
-import com.mb3364.twitch.api.models.Stream;
+import com.github.twitch4j.TwitchClient;
+import com.github.twitch4j.TwitchClientBuilder;
+import com.github.twitch4j.helix.domain.Stream;
+import com.github.twitch4j.helix.domain.StreamList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.TimerTask;
 
 public class TwitchPing extends TimerTask {
 
     public static boolean live = false;
-    private Stream data;
+    TwitchClient twitch;
 
     public void run() {
         Logger log = LoggerFactory.getLogger("Twitch Ping");
-        Twitch twitch = new Twitch();
-        twitch.setClientId(TwitchListener.id);
+        twitch = TwitchClientBuilder.builder()
+                .withEnableHelix(true)
+                .build();
+        Stream stream = null;
+        StreamList raw = twitch.getHelix().getStreams(TwitchListener.id, "", null, 1, null, null, null, null, new ArrayList<>(Arrays.asList(TwitchListener.loginName))).execute();
+        for(Stream data : raw.getStreams()) {
+            stream = data;
+        }
 
-        twitch.streams().get(TwitchListener.loginName, new StreamResponseHandler() {
-
-            @Override
-            public void onSuccess(Stream stream) {
-                data = stream;
-            }
-
-            @Override
-            public void onFailure(int i, String s, String s1) {
-
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-
-            }
-        });
-
-        if (data == null) {
+        if (stream == null) {
             if (live)
                 TwitchEventManager.offline();
             live = false;
-        } else if (data.getViewers() != null) {
+        } else if (stream.getViewerCount() != null) {
             if (!live)
-                TwitchEventManager.live(data);
+                TwitchEventManager.live(stream);
             live = true;
         }
     }

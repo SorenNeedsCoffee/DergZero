@@ -21,10 +21,10 @@
             <name>bintray</name>
             <url>http://jcenter.bintray.com</url>
         </repository>
-            <repository>
-                <id>jitpack.io</id>
-                <url>https://jitpack.io</url>
-            </repository>
+        <repository>
+            <id>jcenter-snapshot</id>
+            <url>https://oss.jfrog.org/artifactory/libs-release/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -41,9 +41,9 @@
             <version>4.0.0_45</version>
         </dependency>
         <dependency>
-            <groupId>com.github.avluis</groupId>
-            <artifactId>Java-Twitch-Api-Wrapper</artifactId>
-            <version>5.0.2</version>
+            <groupId>com.github.twitch4j</groupId>
+            <artifactId>twitch4j</artifactId>
+            <version>1.0.0-alpha.13</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
