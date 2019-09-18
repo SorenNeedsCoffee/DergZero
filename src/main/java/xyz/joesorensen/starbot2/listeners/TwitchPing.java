@@ -4,6 +4,8 @@ import com.github.twitch4j.TwitchClient;
 import com.github.twitch4j.TwitchClientBuilder;
 import com.github.twitch4j.helix.domain.Stream;
 import com.github.twitch4j.helix.domain.StreamList;
+import com.github.twitch4j.helix.domain.User;
+import com.github.twitch4j.helix.domain.UserList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,9 +22,10 @@ public class TwitchPing extends TimerTask {
         Logger log = LoggerFactory.getLogger("Twitch Ping");
         twitch = TwitchClientBuilder.builder()
                 .withEnableHelix(true)
+                .withClientId(TwitchListener.id)
                 .build();
         Stream stream = null;
-        StreamList raw = twitch.getHelix().getStreams(TwitchListener.id, "", null, 1, null, null, null, null, new ArrayList<>(Arrays.asList(TwitchListener.loginName))).execute();
+        StreamList raw = twitch.getHelix().getStreams(null, null, null, 1, null, null, null, null, Arrays.asList(TwitchListener.loginName)).execute();
         for(Stream data : raw.getStreams()) {
             stream = data;
         }
@@ -32,8 +35,13 @@ public class TwitchPing extends TimerTask {
                 TwitchEventManager.offline();
             live = false;
         } else if (stream.getViewerCount() != null) {
-            if (!live)
-                TwitchEventManager.live(stream);
+            if (!live) {
+                UserList search = twitch.getHelix().getUsers(null, null, Arrays.asList(TwitchListener.loginName)).execute();
+                User user;
+                for(User data : search.getUsers())
+                    user = data;
+                TwitchEventManager.live(stream, user);
+            }
             live = true;
         }
     }

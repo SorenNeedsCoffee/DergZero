@@ -28,18 +28,18 @@ public class TwitchEventManager {
         TwitchEventManager.listener = listener;
     }
 
-    public static void live(Stream stream) {
+    public static void live(Stream stream, User user) {
         HashMap<String, String> streamData = new HashMap<>();
         streamData.put("streamsGame", getGame(stream.getGameId()));
         streamData.put("streamsViewers", String.valueOf(stream.getViewerCount()));
-        streamData.put("channelDisplayName", stream.get);
+        streamData.put("channelDisplayName", user.getDisplayName());
         streamData.put("channelLanguage", stream.getLanguage());
-        streamData.put("channelName", getChannel(stream.getUserId()).getDisplayName());
-        streamData.put("channelLogo", getChannel(stream.getUserId()).getProfileImageUrl());
+        streamData.put("channelName", user.getDisplayName());
+        streamData.put("channelLogo", user.getProfileImageUrl());
         streamData.put("channelProfileBanner", getChannel(stream.getUserId()).get);
-        streamData.put("channelUrl", stream.getChannel().getUrl());
-        streamData.put("channelViews", String.valueOf(stream.getChannel().getViews()));
-        streamData.put("channelFollowers", String.valueOf(stream.getChannel().getFollowers()));
+        streamData.put("channelUrl", "https://twitch.tv/"+(user.getDisplayName().toLowerCase()));
+        streamData.put("channelViews", String.valueOf(user.getViewCount()));
+        streamData.put("channelFollowers", String.valueOf(user.ge));
 
         listener.onLive(buildEmbed(streamData));
     }
@@ -100,12 +100,5 @@ public class TwitchEventManager {
         if(data == null)
             return "";
         return data.getName();
-    }
-
-    private static User getChannel(Long userID) {
-        UserList raw = twitch.getHelix().getUsers(TwitchListener.id, Arrays.asList(userID), null).execute();
-        for(User user : raw.getUsers()) {
-            return user;
-        }
     }
 }
