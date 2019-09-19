@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.jagrosh.jdautilities.examples.command.AboutCommand;
+import com.jagrosh.jdautilities.examples.command.PingCommand;
 import net.dv8tion.jda.api.*;
 import net.dv8tion.jda.api.entities.Activity;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -97,6 +98,7 @@ public class StarBot2 {
 
                         new LvlCmd(),
                         new TopCmd(),
+                        new PingCommand(),
 
                         new TwitchPingCmd(clientID),
                         new SaveCmd(),

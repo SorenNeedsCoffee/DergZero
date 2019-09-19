@@ -9,6 +9,7 @@ public class TwitchListener {
     static String id;
     Logger log = LoggerFactory.getLogger("Twitch Tracker");
     static String loginName;
+    public static TwitchPing ping = new TwitchPing();
 
     public TwitchListener(String clientID) {
         id = clientID;
@@ -18,6 +19,6 @@ public class TwitchListener {
         TwitchListener.loginName = loginName;
         Timer timer = new Timer();
 
-        timer.scheduleAtFixedRate(new TwitchPing(), 0, 30000);
+        timer.scheduleAtFixedRate(ping, 0, 30000);
     }
 }
