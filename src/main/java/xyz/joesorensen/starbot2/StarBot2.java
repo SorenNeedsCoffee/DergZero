@@ -135,7 +135,7 @@ public class StarBot2 {
 
         TwitchListener twitchListener = new TwitchListener(clientID);
         TwitchEventManager.setListener(listener);
-        twitchListener.track("JoeSorensen");
+        twitchListener.track("Sephiroth");
     }
 
     public static void shutdown() {

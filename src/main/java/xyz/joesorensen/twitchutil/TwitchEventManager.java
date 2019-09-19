@@ -1,6 +1,8 @@
 package xyz.joesorensen.twitchutil;
 
-import com.mb3364.twitch.api.models.Stream;
+import com.github.twitch4j.TwitchClient;
+import com.github.twitch4j.TwitchClientBuilder;
+import com.github.twitch4j.helix.domain.*;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
@@ -8,30 +10,37 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import xyz.joesorensen.starbot2.listeners.Listener;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class TwitchEventManager {
     private static Listener listener;
+    private static TwitchClient twitch;
+
+    public TwitchEventManager() {
+        twitch = TwitchClientBuilder.builder()
+                .withEnableHelix(true)
+                .build();
+    }
 
     public static void setListener(Listener listener) {
         TwitchEventManager.listener = listener;
     }
 
-    public static void live(Stream stream) {
+    public static void live(Stream stream, User user) {
         HashMap<String, String> streamData = new HashMap<>();
-        streamData.put("streamsGame", stream.getGame());
-        streamData.put("streamsViewers", String.valueOf(stream.getViewers()));
-        streamData.put("channelStatus", stream.getChannel().getStatus());
-        streamData.put("channelDisplayName", stream.getChannel().getDisplayName());
-        streamData.put("channelLanguage", stream.getChannel().getBroadcasterLanguage());
-        streamData.put("channelId", String.valueOf(stream.getChannel().getId()));
-        streamData.put("channelName", stream.getChannel().getName());
-        streamData.put("channelLogo", stream.getChannel().getLogo());
-        streamData.put("channelProfileBanner", stream.getChannel().getProfileBanner());
-        streamData.put("channelUrl", stream.getChannel().getUrl());
-        streamData.put("channelViews", String.valueOf(stream.getChannel().getViews()));
-        streamData.put("channelFollowers", String.valueOf(stream.getChannel().getFollowers()));
+        streamData.put("streamsGame", getGame(stream.getGameId()));
+        streamData.put("streamsViewers", String.valueOf(stream.getViewerCount()));
+        streamData.put("channelDisplayName", user.getDisplayName());
+        streamData.put("channelLanguage", stream.getLanguage());
+        streamData.put("channelName", user.getDisplayName());
+        streamData.put("channelLogo", user.getProfileImageUrl());
+        streamData.put("channelProfileBanner", getChannel(stream.getUserId()).get);
+        streamData.put("channelUrl", "https://twitch.tv/"+(user.getDisplayName().toLowerCase()));
+        streamData.put("channelViews", String.valueOf(user.getViewCount()));
+        streamData.put("channelFollowers", String.valueOf(user.ge));
 
         listener.onLive(buildEmbed(streamData));
     }
@@ -81,5 +90,16 @@ public class TwitchEventManager {
         mBuilder.setEmbed(embed);
 
         return mBuilder.build();
+    }
+
+    private static String getGame(Long gameID) {
+        GameList raw = twitch.getHelix().getGames(Arrays.asList(gameID.toString()), null).execute();
+        Game data = null;
+        for(Game game : raw.getGames()) {
+            data = game;
+        }
+        if(data == null)
+            return "";
+        return data.getName();
     }
 }
