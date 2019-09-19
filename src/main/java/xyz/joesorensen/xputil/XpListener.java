@@ -13,8 +13,8 @@ import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.io.File;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 public class XpListener extends ListenerAdapter {
     private Logger log;
@@ -30,45 +30,45 @@ public class XpListener extends ListenerAdapter {
         this.jda = jda;
     }
 
-   @Override
-   public void onReady(ReadyEvent event) {
+    @Override
+    public void onReady(ReadyEvent event) {
         log.info("Getting things ready...");
-       List<Guild> guilds = event.getJDA().getGuilds();
-       File membersFile = new File("members.json");
-       if (membersFile.exists()) {
-           UserManager.loadFile();
-       }
-       for (Guild guild : guilds) {
-           List<Member> members = guild.getMembers();
-           for (Member member : members) {
-               if (!(member.getUser().isBot() || member.getUser().isFake() ||
-                       UserManager.getUser(member.getId()) != null))
-                   UserManager.addUser(member.getId());
+        List<Guild> guilds = event.getJDA().getGuilds();
+        File membersFile = new File("members.json");
+        if (membersFile.exists()) {
+            UserManager.loadFile();
+        }
+        for (Guild guild : guilds) {
+            List<Member> members = guild.getMembers();
+            for (Member member : members) {
+                if (!(member.getUser().isBot() || member.getUser().isFake() ||
+                        UserManager.getUser(member.getId()) != null))
+                    UserManager.addUser(member.getId());
 
-               if (!member.getRoles().contains(guild.getRoleById(LvlRoleIDs.LVL1.getId())) &&
-                       !(member.getUser().isBot() || member.getUser().isFake()) &&
-                       (Objects.requireNonNull(UserManager.getUser(member.getId())).getLvl() < 5))
-                   Objects.requireNonNull(event.getJDA().getGuildById("442552203694047232")).addRoleToMember(member, Objects.requireNonNull(jda.getRoleById(LvlRoleIDs.LVL1.getId()))).queue();
-           }
+                if (!member.getRoles().contains(guild.getRoleById(LvlRoleIDs.LVL1.getId())) &&
+                        !(member.getUser().isBot() || member.getUser().isFake()) &&
+                        (Objects.requireNonNull(UserManager.getUser(member.getId())).getLvl() < 5))
+                    Objects.requireNonNull(event.getJDA().getGuildById("442552203694047232")).addRoleToMember(member, Objects.requireNonNull(jda.getRoleById(LvlRoleIDs.LVL1.getId()))).queue();
+            }
 
-           timer.scheduleAtFixedRate(new TimerTask() {
-               @Override
-               public void run() {
-                   UserManager.saveFile();
-               }
-           }, 3000, 30000);
-       }
-       Runtime.getRuntime().addShutdownHook(new Thread() {
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    UserManager.saveFile();
+                }
+            }, 3000, 30000);
+        }
+        Runtime.getRuntime().addShutdownHook(new Thread() {
 
-           @Override
-           public void run() {
-               log.info("Saving members.json before shutdown...");
-               UserManager.saveFile();
-           }
+            @Override
+            public void run() {
+                log.info("Saving members.json before shutdown...");
+                UserManager.saveFile();
+            }
 
-       });
-       log.info("XPManager Version 0.1 ready");
-   }
+        });
+        log.info("XPManager Version 0.1 ready");
+    }
 
     @Override
     public void onGuildMemberJoin(GuildMemberJoinEvent event) {

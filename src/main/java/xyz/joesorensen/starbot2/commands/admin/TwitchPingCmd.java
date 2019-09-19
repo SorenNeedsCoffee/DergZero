@@ -1,11 +1,8 @@
 package xyz.joesorensen.starbot2.commands.admin;
 
 import com.jagrosh.jdautilities.command.CommandEvent;
-import com.mb3364.twitch.api.Twitch;
-import com.mb3364.twitch.api.handlers.StreamResponseHandler;
 import com.mb3364.twitch.api.models.Stream;
 import xyz.joesorensen.starbot2.commands.AdminCommand;
-import xyz.joesorensen.twitchutil.TwitchEventManager;
 import xyz.joesorensen.twitchutil.TwitchListener;
 import xyz.joesorensen.twitchutil.TwitchPing;
 

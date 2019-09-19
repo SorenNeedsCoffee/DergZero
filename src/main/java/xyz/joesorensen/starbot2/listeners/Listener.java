@@ -1,6 +1,5 @@
 package xyz.joesorensen.starbot2.listeners;
 
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
@@ -17,19 +16,14 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xyz.joesorensen.xputil.LvlRoleIDs;
-import xyz.joesorensen.xputil.User;
-import xyz.joesorensen.xputil.UserManager;
 
-import java.awt.*;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
-import java.util.*;
+import java.util.Objects;
 
 public class Listener extends ListenerAdapter {
     private Logger log;
