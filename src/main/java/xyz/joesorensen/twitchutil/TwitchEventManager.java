@@ -1,10 +1,11 @@
-package xyz.joesorensen.starbot2.listeners;
+package xyz.joesorensen.twitchutil;
 
 import com.mb3364.twitch.api.models.Stream;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import xyz.joesorensen.starbot2.listeners.Listener;
 
 import java.awt.*;
 import java.util.HashMap;

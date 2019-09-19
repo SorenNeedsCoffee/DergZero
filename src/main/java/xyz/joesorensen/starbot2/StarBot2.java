@@ -24,8 +24,8 @@ import xyz.joesorensen.starbot2.commands.owner.ShutdownCmd;
 import xyz.joesorensen.starbot2.commands.user.LvlCmd;
 import xyz.joesorensen.starbot2.commands.user.TopCmd;
 import xyz.joesorensen.starbot2.listeners.Listener;
-import xyz.joesorensen.starbot2.listeners.TwitchEventManager;
-import xyz.joesorensen.starbot2.listeners.TwitchListener;
+import xyz.joesorensen.twitchutil.TwitchEventManager;
+import xyz.joesorensen.twitchutil.TwitchListener;
 import xyz.joesorensen.xputil.UserManager;
 import xyz.joesorensen.xputil.XpListener;
 
@@ -40,9 +40,9 @@ public class StarBot2 {
             Permission.MESSAGE_EMBED_LINKS, Permission.MESSAGE_ATTACH_FILES, Permission.MESSAGE_MANAGE, Permission.MESSAGE_EXT_EMOJI,
             Permission.MANAGE_CHANNEL, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.NICKNAME_CHANGE};
 
-    private final static String version = "1.0-SNAPSHOT";
     private static JDA jda = null;
     private static boolean shuttingDown = false;
+    static String version = StarBot2.class.getPackage().getImplementationVersion();
 
     public static void main(String[] args) {
         Logger log = LoggerFactory.getLogger("Startup");

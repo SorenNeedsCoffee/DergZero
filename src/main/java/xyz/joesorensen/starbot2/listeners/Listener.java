@@ -133,14 +133,14 @@ public class Listener extends ListenerAdapter {
         }
     }
 
-    void onLive(Message embed) {
+    public void onLive(Message embed) {
         log.info("live!");
         jda.getPresence().setActivity(Activity.streaming("JoeSorensen is live!", "https://twitch.tv/joesorensen"));
         Objects.requireNonNull(Objects.requireNonNull(jda.getGuildById("442552203694047232")).getTextChannelById("442556155856814080")).sendMessage("@everyone").queue();
         Objects.requireNonNull(Objects.requireNonNull(jda.getGuildById("442552203694047232")).getTextChannelById("442556155856814080")).sendMessage(embed).queue();
     }
 
-    void onOffline() {
+    public void onOffline() {
         log.info("offline");
         jda.getPresence().setActivity(Activity.playing("On Soren's server | " + prefix + "help for help"));
     }

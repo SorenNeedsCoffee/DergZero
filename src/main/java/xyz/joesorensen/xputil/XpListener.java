@@ -41,14 +41,14 @@ public class XpListener extends ListenerAdapter {
        for (Guild guild : guilds) {
            List<Member> members = guild.getMembers();
            for (Member member : members) {
+               if (!(member.getUser().isBot() || member.getUser().isFake() ||
+                       UserManager.getUser(member.getId()) != null))
+                   UserManager.addUser(member.getId());
+
                if (!member.getRoles().contains(guild.getRoleById(LvlRoleIDs.LVL1.getId())) &&
                        !(member.getUser().isBot() || member.getUser().isFake()) &&
                        (Objects.requireNonNull(UserManager.getUser(member.getId())).getLvl() < 5))
                    Objects.requireNonNull(event.getJDA().getGuildById("442552203694047232")).addRoleToMember(member, Objects.requireNonNull(jda.getRoleById(LvlRoleIDs.LVL1.getId()))).queue();
-
-               if (!(member.getUser().isBot() || member.getUser().isFake() ||
-                       UserManager.getUser(member.getId()) != null))
-                   UserManager.addUser(member.getId());
            }
 
            timer.scheduleAtFixedRate(new TimerTask() {
@@ -58,6 +58,15 @@ public class XpListener extends ListenerAdapter {
                }
            }, 3000, 30000);
        }
+       Runtime.getRuntime().addShutdownHook(new Thread() {
+
+           @Override
+           public void run() {
+               log.info("Saving members.json before shutdown...");
+               UserManager.saveFile();
+           }
+
+       });
        log.info("XPManager Version 0.1 ready");
    }
 

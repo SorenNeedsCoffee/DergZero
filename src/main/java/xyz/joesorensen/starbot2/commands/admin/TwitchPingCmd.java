@@ -5,8 +5,8 @@ import com.mb3364.twitch.api.Twitch;
 import com.mb3364.twitch.api.handlers.StreamResponseHandler;
 import com.mb3364.twitch.api.models.Stream;
 import xyz.joesorensen.starbot2.commands.AdminCommand;
-import xyz.joesorensen.starbot2.listeners.TwitchEventManager;
-import xyz.joesorensen.starbot2.listeners.TwitchPing;
+import xyz.joesorensen.twitchutil.TwitchEventManager;
+import xyz.joesorensen.twitchutil.TwitchPing;
 
 public class TwitchPingCmd extends AdminCommand {
     private String id;

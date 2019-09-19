@@ -1,4 +1,4 @@
-package xyz.joesorensen.starbot2.listeners;
+package xyz.joesorensen.twitchutil;
 
 import com.mb3364.twitch.api.Twitch;
 import com.mb3364.twitch.api.handlers.StreamResponseHandler;
