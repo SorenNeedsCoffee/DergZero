@@ -3,7 +3,7 @@ package xyz.joesorensen.starbot2.commands.owner;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import xyz.joesorensen.starbot2.StarBot2;
 import xyz.joesorensen.starbot2.commands.OwnerCommand;
-import xyz.joesorensen.starbot2.models.UserManager;
+import xyz.joesorensen.xputil.UserManager;
 
 public class ShutdownCmd extends OwnerCommand {
     public ShutdownCmd() {

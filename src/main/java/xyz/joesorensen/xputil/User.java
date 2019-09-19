@@ -1,4 +1,4 @@
-package xyz.joesorensen.starbot2.models;
+package xyz.joesorensen.xputil;
 
 import org.jetbrains.annotations.NotNull;
 

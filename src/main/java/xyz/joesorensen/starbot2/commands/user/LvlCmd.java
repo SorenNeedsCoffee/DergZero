@@ -3,8 +3,8 @@ package xyz.joesorensen.starbot2.commands.user;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
 import xyz.joesorensen.starbot2.commands.UserCommand;
-import xyz.joesorensen.starbot2.models.User;
-import xyz.joesorensen.starbot2.models.UserManager;
+import xyz.joesorensen.xputil.User;
+import xyz.joesorensen.xputil.UserManager;
 
 import java.awt.*;
 import java.text.DecimalFormat;

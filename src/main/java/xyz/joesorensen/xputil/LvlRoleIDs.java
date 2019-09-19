@@ -1,4 +1,4 @@
-package xyz.joesorensen.starbot2.models;
+package xyz.joesorensen.xputil;
 
 public enum LvlRoleIDs {
     LVL1("618904321500774414"),

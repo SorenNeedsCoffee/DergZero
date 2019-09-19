@@ -1,4 +1,4 @@
-package xyz.joesorensen.starbot2.models;
+package xyz.joesorensen.xputil;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.json.simple.JSONArray;
@@ -24,8 +24,7 @@ public class UserManager {
     }
 
     public static void removeUser(String id) {
-        int index = users.indexOf(getUser(id));
-        users.remove(index);
+        users.remove(getUser(id));
     }
 
     public static User getUser(String id) {

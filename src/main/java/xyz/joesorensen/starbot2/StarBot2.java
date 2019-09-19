@@ -26,7 +26,8 @@ import xyz.joesorensen.starbot2.commands.user.TopCmd;
 import xyz.joesorensen.starbot2.listeners.Listener;
 import xyz.joesorensen.starbot2.listeners.TwitchEventManager;
 import xyz.joesorensen.starbot2.listeners.TwitchListener;
-import xyz.joesorensen.starbot2.models.UserManager;
+import xyz.joesorensen.xputil.UserManager;
+import xyz.joesorensen.xputil.XpListener;
 
 import javax.security.auth.login.LoginException;
 import java.awt.*;
@@ -109,6 +110,7 @@ public class StarBot2 {
 
         CommandClient client = cb.build();
         Listener listener = new Listener();
+        XpListener xp = new XpListener();
         listener.setRoleID(defaultRoleID);
         listener.setPrefix(prefix);
 
@@ -119,7 +121,7 @@ public class StarBot2 {
                     .setToken(token)
                     .setStatus(OnlineStatus.DO_NOT_DISTURB)
                     .setActivity(Activity.playing("loading..."))
-                    .addEventListeners(client, waiter, listener)
+                    .addEventListeners(client, waiter, xp, listener)
                     .build();
         } catch (LoginException ex) {
             log.error("Invalid Token");
@@ -127,6 +129,7 @@ public class StarBot2 {
         }
 
         listener.setJDA(jda);
+        xp.setJDA(jda);
 
         TwitchListener twitchListener = new TwitchListener(clientID);
         TwitchEventManager.setListener(listener);
