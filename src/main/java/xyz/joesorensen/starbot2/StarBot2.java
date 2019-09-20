@@ -74,7 +74,7 @@ public class StarBot2 {
 
         AboutCommand ab = new AboutCommand(
                 Color.BLUE, "StarBot, but better! JoeSorensen's official server bot. (v" + version + ")",
-                new String[]{"Stream Tracking", "Join Events"},
+                new String[]{"Stream Tracking via TwitchUtil", "User engagement with XPUtil", "Random and fun stuff"},
                 RECOMMENDED_PERMS
         );
 
