@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
+import net.dv8tion.jda.api.events.guild.member.GuildMemberLeaveEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.slf4j.Logger;
@@ -76,6 +77,12 @@ public class XpListener extends ListenerAdapter {
             event.getGuild().addRoleToMember(event.getMember(), Objects.requireNonNull(event.getGuild().getRoleById(LvlRoleIDs.LVL1.getId()))).queue();
             UserManager.addUser(event.getMember().getId());
         }
+    }
+
+    @Override
+    public void onGuildMemberLeave(GuildMemberLeaveEvent event) {
+        if (!(event.getUser().isBot() || event.getUser().isFake()))
+            UserManager.removeUser(event.getMember().getId());
     }
 
     @Override

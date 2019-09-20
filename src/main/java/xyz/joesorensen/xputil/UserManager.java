@@ -1,5 +1,8 @@
 package xyz.joesorensen.xputil;
 
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Invite;
+import net.dv8tion.jda.api.entities.Member;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -27,6 +30,16 @@ public class UserManager {
         users.remove(getUser(id));
     }
 
+    public static void pruneUsers(Guild guild) {
+        Logger log = LoggerFactory.getLogger("PruneMembers");
+        for(User user : users) {
+            if(guild.getMemberById(user.getId()) == null) {
+                log.info("Removed user with ID "+user.getId());
+                removeUser(user.getId());
+            }
+        }
+    }
+
     public static User getUser(String id) {
         for (User user : users) {
             if (user.getId().equals(id))
@@ -48,7 +61,7 @@ public class UserManager {
     }
 
     public static void saveFile() {
-        Logger log = LoggerFactory.getLogger("saveMembersToJSON");
+        Logger log = LoggerFactory.getLogger("SaveMembersToJSON");
         JSONArray data = createJsonArrayFromList();
         JSONObject file = new JSONObject();
         file.put("data", data);
