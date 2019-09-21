@@ -19,20 +19,20 @@ public class TwitchEventManager {
         TwitchEventManager.listener = listener;
     }
 
-    public static void live(Channel stream, HashMap<String, String> map) {
+    public static void live(Channel channel, HashMap<String, String> map) {
         HashMap<String, String> streamData = new HashMap<>();
         streamData.put("streamsGame", map.get("game"));
         streamData.put("streamsViewers", String.valueOf(map.get("viewers")));
-        streamData.put("channelStatus", stream.getStatus());
-        streamData.put("channelDisplayName", stream.getDisplayName());
-        streamData.put("channelLanguage", stream.getBroadcasterLanguage());
-        streamData.put("channelId", String.valueOf(stream.getId()));
-        streamData.put("channelName", stream.getName());
-        streamData.put("channelLogo", stream.getLogo());
-        streamData.put("channelProfileBanner", stream.getProfileBanner());
-        streamData.put("channelUrl", stream.getUrl());
-        streamData.put("channelViews", String.valueOf(stream.getViews()));
-        streamData.put("channelFollowers", String.valueOf(stream.getFollowers()));
+        streamData.put("channelStatus", channel.getStatus());
+        streamData.put("channelDisplayName", channel.getDisplayName());
+        streamData.put("channelLanguage", channel.getBroadcasterLanguage());
+        streamData.put("channelId", String.valueOf(channel.getId()));
+        streamData.put("channelName", channel.getName());
+        streamData.put("channelLogo", channel.getLogo());
+        streamData.put("channelProfileBanner", channel.getProfileBanner());
+        streamData.put("channelUrl", channel.getUrl());
+        streamData.put("channelViews", String.valueOf(channel.getViews()));
+        streamData.put("channelFollowers", String.valueOf(channel.getFollowers()));
 
         listener.onLive(buildEmbed(streamData));
     }

@@ -28,7 +28,8 @@ public class TwitchPing extends TimerTask {
             @Override
             public void onSuccess(Stream stream) {
                 log.info(stream.getAdditionalProperties().get("stream").toString());
-                map = (HashMap<String, String>) stream.getAdditionalProperties().get("stream");
+                if(stream != null)
+                    map = (HashMap<String, String>) stream.getAdditionalProperties().get("stream");
                 data = stream;
             }
 
