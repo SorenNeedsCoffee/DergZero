@@ -62,11 +62,11 @@ public class TwitchPing extends TimerTask {
 
         while(data == null && user == null) {}
 
-        if (data == null) {
+        if (data == null || map == null) {
             if (live)
                 TwitchEventManager.offline();
             live = false;
-        } else if (map.get("viewers") != null) {
+        } else if (map == null || map.get("viewers") != null) {
             if (!live)
                 TwitchEventManager.live(user, map);
             live = true;
