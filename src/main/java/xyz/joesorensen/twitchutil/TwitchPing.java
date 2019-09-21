@@ -14,17 +14,22 @@ import java.util.TimerTask;
 public class TwitchPing extends TimerTask {
 
     public static boolean live = false;
+    private Twitch twitch = new Twitch();
     private HashMap<String, String> map;
     private Stream data;
     private Channel user;
 
+    TwitchPing() {
+        twitch.setClientId(TwitchListener.id);
+    }
+
     public void run() {
         Logger log = LoggerFactory.getLogger("Twitch Ping");
-        Twitch twitch = new Twitch();
-        twitch.setClientId(TwitchListener.id);
+        map = null;
+        data = null;
+        user = null;
 
         twitch.streams().get(TwitchListener.loginName, new StreamResponseHandler() {
-
             @Override
             public void onSuccess(Stream stream) {
                 if(stream != null)
@@ -46,30 +51,18 @@ public class TwitchPing extends TimerTask {
                     }
 
                     @Override
-                    public void onFailure(int i, String s, String s1) {
-
-                    }
+                    public void onFailure(int i, String s, String s1) {}
 
                     @Override
-                    public void onFailure(Throwable throwable) {
-
-                    }
+                    public void onFailure(Throwable throwable) {}
                 });
             }
 
             @Override
-            public void onFailure(int i, String s, String s1) {
-                log.info("failed");
-            }
+            public void onFailure(int i, String s, String s1) {}
 
             @Override
-            public void onFailure(Throwable throwable) {
-                log.info("failed");
-            }
+            public void onFailure(Throwable throwable) {}
         });
-
-        map = null;
-        data = null;
-        user = null;
     }
 }
