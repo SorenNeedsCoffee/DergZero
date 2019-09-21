@@ -20,7 +20,6 @@ public class TwitchPing extends TimerTask {
 
     public void run() {
         Logger log = LoggerFactory.getLogger("Twitch Ping");
-        log.info("Pinging...");
         Twitch twitch = new Twitch();
         twitch.setClientId(TwitchListener.id);
 
