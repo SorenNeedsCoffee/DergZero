@@ -72,5 +72,7 @@ public class TwitchPing extends TimerTask {
                 TwitchEventManager.live(user, map);
             live = true;
         }
+
+        TwitchListener.timer.schedule(TwitchListener.ping, 5000);
     }
 }
