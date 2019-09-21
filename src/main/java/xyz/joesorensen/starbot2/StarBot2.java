@@ -41,6 +41,7 @@ public class StarBot2 {
     private static JDA jda = null;
     private static boolean shuttingDown = false;
     static String version = StarBot2.class.getPackage().getImplementationVersion();
+    public static TwitchListener twitchListener;
 
     public static void main(String[] args) {
         Logger log = LoggerFactory.getLogger("Startup");
@@ -131,9 +132,8 @@ public class StarBot2 {
         listener.setJDA(jda);
         xp.setJDA(jda);
 
-        TwitchListener twitchListener = new TwitchListener(clientID);
+        twitchListener = new TwitchListener(clientID);
         TwitchEventManager.setListener(listener);
-        twitchListener.track("JoeSorensen");
     }
 
     public static void shutdown() {

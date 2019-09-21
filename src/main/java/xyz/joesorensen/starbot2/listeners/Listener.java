@@ -16,6 +16,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import xyz.joesorensen.starbot2.StarBot2;
+import xyz.joesorensen.twitchutil.TwitchEventManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -59,6 +61,7 @@ public class Listener extends ListenerAdapter {
                     guild.addRoleToMember(member, Objects.requireNonNull(guild.getRoleById(id))).queue();
             }
         }
+        StarBot2.twitchListener.track("JoeSorensen");
     }
 
     @Override
