@@ -19,6 +19,6 @@ public class TwitchListener {
     public void track(String loginName) {
         TwitchListener.loginName = loginName;
 
-        timer.schedule(ping, 0);
+        timer.scheduleAtFixedRate(ping, 0, 30000);
     }
 }

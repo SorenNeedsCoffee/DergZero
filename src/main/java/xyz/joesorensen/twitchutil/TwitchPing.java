@@ -31,6 +31,31 @@ public class TwitchPing extends TimerTask {
                 if(stream != null)
                     map = (HashMap<String, String>) stream.getAdditionalProperties().get("stream");
                 data = stream;
+                twitch.channels().get(TwitchListener.loginName, new ChannelResponseHandler() {
+                    @Override
+                    public void onSuccess(Channel channel) {
+                        user = channel;
+                        if (data == null || map == null) {
+                            if (live)
+                                TwitchEventManager.offline();
+                            live = false;
+                        } else if (map.get("viewers") != null) {
+                            if (!live)
+                                TwitchEventManager.live(user, map);
+                            live = true;
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int i, String s, String s1) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+
+                    }
+                });
             }
 
             @Override
@@ -44,35 +69,8 @@ public class TwitchPing extends TimerTask {
             }
         });
 
-        twitch.channels().get(TwitchListener.loginName, new ChannelResponseHandler() {
-            @Override
-            public void onSuccess(Channel channel) {
-                user = channel;
-            }
-
-            @Override
-            public void onFailure(int i, String s, String s1) {
-
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-
-            }
-        });
-
-        while(data == null) {}
-
-        if (data == null || map == null) {
-            if (live)
-                TwitchEventManager.offline();
-            live = false;
-        } else if (map.get("viewers") != null) {
-            if (!live)
-                TwitchEventManager.live(user, map);
-            live = true;
-        }
-
-        TwitchListener.timer.schedule(TwitchListener.ping, 5000);
+        map = null;
+        data = null;
+        user = null;
     }
 }
