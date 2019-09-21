@@ -88,8 +88,8 @@ public class Listener extends ListenerAdapter {
             return;
         if (event.getMessage().getContentDisplay().toLowerCase().contains("yo, can i have some memes?")) {
             event.getChannel().sendTyping().queue();
-            String imgurl;
-            while (true) {
+            String imgurl = null;
+            while (imgurl == null) {
                 try {
                     String url = "https://www.reddit.com/r/memes/best/.json?count=1&t=all";
                     URL obj;
@@ -120,7 +120,7 @@ public class Listener extends ListenerAdapter {
                 }
             }
             try {
-                event.getChannel().sendMessage(imgurl).queue();
+                //event.getChannel().sendMessage(imgurl).queue();
             } catch (Exception e) {
                 event.getChannel().sendMessage("Sorry, there was an issue getting the freshest meme!").queue();
             }

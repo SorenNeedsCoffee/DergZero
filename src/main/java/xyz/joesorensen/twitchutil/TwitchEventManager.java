@@ -1,5 +1,6 @@
 package xyz.joesorensen.twitchutil;
 
+import com.mb3364.twitch.api.models.Channel;
 import com.mb3364.twitch.api.models.Stream;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
@@ -18,20 +19,20 @@ public class TwitchEventManager {
         TwitchEventManager.listener = listener;
     }
 
-    public static void live(Stream stream) {
+    public static void live(Channel stream, HashMap<String, String> map) {
         HashMap<String, String> streamData = new HashMap<>();
-        streamData.put("streamsGame", stream.getGame());
-        streamData.put("streamsViewers", String.valueOf(stream.getViewers()));
-        streamData.put("channelStatus", stream.getChannel().getStatus());
-        streamData.put("channelDisplayName", stream.getChannel().getDisplayName());
-        streamData.put("channelLanguage", stream.getChannel().getBroadcasterLanguage());
-        streamData.put("channelId", String.valueOf(stream.getChannel().getId()));
-        streamData.put("channelName", stream.getChannel().getName());
-        streamData.put("channelLogo", stream.getChannel().getLogo());
-        streamData.put("channelProfileBanner", stream.getChannel().getProfileBanner());
-        streamData.put("channelUrl", stream.getChannel().getUrl());
-        streamData.put("channelViews", String.valueOf(stream.getChannel().getViews()));
-        streamData.put("channelFollowers", String.valueOf(stream.getChannel().getFollowers()));
+        streamData.put("streamsGame", map.get("game"));
+        streamData.put("streamsViewers", String.valueOf(map.get("viewers")));
+        streamData.put("channelStatus", stream.getStatus());
+        streamData.put("channelDisplayName", stream.getDisplayName());
+        streamData.put("channelLanguage", stream.getBroadcasterLanguage());
+        streamData.put("channelId", String.valueOf(stream.getId()));
+        streamData.put("channelName", stream.getName());
+        streamData.put("channelLogo", stream.getLogo());
+        streamData.put("channelProfileBanner", stream.getProfileBanner());
+        streamData.put("channelUrl", stream.getUrl());
+        streamData.put("channelViews", String.valueOf(stream.getViews()));
+        streamData.put("channelFollowers", String.valueOf(stream.getFollowers()));
 
         listener.onLive(buildEmbed(streamData));
     }
