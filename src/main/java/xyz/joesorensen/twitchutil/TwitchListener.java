@@ -21,4 +21,9 @@ public class TwitchListener {
 
         timer.scheduleAtFixedRate(ping, 0, 30000);
     }
+
+    public void trackVideos(String loginName) {
+        if(loginName == null)
+            TwitchListener.loginName = loginName;
+    }
 }
