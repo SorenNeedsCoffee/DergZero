@@ -26,6 +26,11 @@ import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ *   -=StarBot2=-
+ *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ *
+ */
 public class Listener extends ListenerAdapter {
     private Logger log;
     private JDA jda;

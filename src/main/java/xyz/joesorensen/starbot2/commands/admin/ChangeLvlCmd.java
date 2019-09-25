@@ -7,6 +7,11 @@ import xyz.joesorensen.xputil.User;
 import xyz.joesorensen.xputil.UserManager;
 import xyz.joesorensen.xputil.XpListener;
 
+/**
+ *   -=StarBot2=-
+ *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ *
+ */
 public class ChangeLvlCmd extends AdminCommand {
 
     public ChangeLvlCmd() {

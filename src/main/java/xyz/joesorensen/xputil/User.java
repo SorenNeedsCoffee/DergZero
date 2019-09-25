@@ -2,6 +2,11 @@ package xyz.joesorensen.xputil;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ *   -=XPUtil=-
+ *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ *
+ */
 public class User implements Comparable<User> {
     private String id;
     private double xp;

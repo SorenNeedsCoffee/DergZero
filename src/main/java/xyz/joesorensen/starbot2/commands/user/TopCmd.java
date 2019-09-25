@@ -11,6 +11,11 @@ import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ *   -=StarBot2=-
+ *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ *
+ */
 public class TopCmd extends UserCommand {
 
     public TopCmd() {

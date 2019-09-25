@@ -17,6 +17,11 @@ import java.io.File;
 import java.util.List;
 import java.util.*;
 
+/**
+ *   -=XPUtil=-
+ *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ *
+ */
 public class XpListener extends ListenerAdapter {
     private Logger log;
     private static JDA jda;

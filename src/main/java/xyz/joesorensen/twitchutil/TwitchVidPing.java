@@ -8,6 +8,11 @@ import com.mb3364.twitch.api.models.Video;
 import java.util.List;
 import java.util.TimerTask;
 
+/**
+ *   -=TwitchUtil=-
+ *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ *
+ */
 public class TwitchVidPing extends TimerTask {
     private int videoSize = 0;
     private Twitch twitch;

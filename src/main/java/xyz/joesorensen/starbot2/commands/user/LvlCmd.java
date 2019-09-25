@@ -9,6 +9,11 @@ import xyz.joesorensen.xputil.UserManager;
 import java.awt.*;
 import java.text.DecimalFormat;
 
+/**
+ *   -=StarBot2=-
+ *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ *
+ */
 public class LvlCmd extends UserCommand {
 
     public LvlCmd() {

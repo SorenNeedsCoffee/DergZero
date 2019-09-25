@@ -11,6 +11,11 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.TimerTask;
 
+/**
+ *   -=TwitchUtil=-
+ *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ *
+ */
 public class TwitchPing extends TimerTask {
 
     public static boolean live = false;
