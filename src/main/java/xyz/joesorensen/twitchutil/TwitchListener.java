@@ -23,7 +23,7 @@ public class TwitchListener {
     }
 
     public void trackVideos(String loginName) {
-        if(loginName == null)
+        if (loginName == null)
             TwitchListener.loginName = loginName;
     }
 }
