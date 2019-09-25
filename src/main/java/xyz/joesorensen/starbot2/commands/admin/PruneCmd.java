@@ -10,7 +10,7 @@ public class PruneCmd extends AdminCommand {
 
     public PruneCmd() {
         this.name = "prune";
-        this.help ="prunes bot's user db";
+        this.help = "prunes bot's user db";
         this.guildOnly = true;
     }
 

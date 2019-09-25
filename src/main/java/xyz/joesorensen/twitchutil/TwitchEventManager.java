@@ -1,7 +1,6 @@
 package xyz.joesorensen.twitchutil;
 
 import com.mb3364.twitch.api.models.Channel;
-import com.mb3364.twitch.api.models.Stream;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;

@@ -1,8 +1,6 @@
 package xyz.joesorensen.xputil;
 
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Invite;
-import net.dv8tion.jda.api.entities.Member;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -33,15 +31,15 @@ public class UserManager {
     public static void pruneUsers(Guild guild) {
         Logger log = LoggerFactory.getLogger("PruneMembers");
         List<String> toRemove = new ArrayList<>();
-        for(User user : users) {
-            if(guild.getMemberById(user.getId()) == null) {
-                log.info("Removing user with ID "+user.getId());
+        for (User user : users) {
+            if (guild.getMemberById(user.getId()) == null) {
+                log.info("Removing user with ID " + user.getId());
                 toRemove.add(user.getId());
             }
         }
-        for(String id : toRemove) {
+        for (String id : toRemove) {
             removeUser(id);
-            log.info("Removed user with ID "+id);
+            log.info("Removed user with ID " + id);
         }
     }
 
