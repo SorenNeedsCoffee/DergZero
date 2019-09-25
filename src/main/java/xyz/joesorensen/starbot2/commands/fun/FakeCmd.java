@@ -17,6 +17,13 @@ public class FakeCmd extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        event.replyError("no u.");
+        switch(event.getMember().getUser().getId()) {
+            case "312736834415493123":
+                event.replyError("no u.");
+                break;
+            default:
+                event.replyError("You're not even StarBot, you fake.");
+                break;
+        }
     }
 }
