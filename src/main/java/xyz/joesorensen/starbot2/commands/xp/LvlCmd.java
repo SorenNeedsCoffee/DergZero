@@ -1,8 +1,8 @@
-package xyz.joesorensen.starbot2.commands.user;
+package xyz.joesorensen.starbot2.commands.xp;
 
 import com.jagrosh.jdautilities.command.CommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
-import xyz.joesorensen.starbot2.commands.UserCommand;
+import xyz.joesorensen.starbot2.commands.XpCommand;
 import xyz.joesorensen.xputil.User;
 import xyz.joesorensen.xputil.UserManager;
 
@@ -14,7 +14,7 @@ import java.text.DecimalFormat;
  *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  *
  */
-public class LvlCmd extends UserCommand {
+public class LvlCmd extends XpCommand {
 
     public LvlCmd() {
         this.name = "lvl";

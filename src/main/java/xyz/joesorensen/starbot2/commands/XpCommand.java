@@ -7,9 +7,9 @@ import com.jagrosh.jdautilities.command.Command;
  *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  *
  */
-public abstract class UserCommand extends Command {
+public abstract class XpCommand extends Command {
 
-    protected UserCommand() {
+    protected XpCommand() {
 
         this.category = new Category("User");
         this.guildOnly = true;
