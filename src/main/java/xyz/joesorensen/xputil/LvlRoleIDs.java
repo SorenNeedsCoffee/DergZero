@@ -27,4 +27,57 @@ public enum LvlRoleIDs {
     public String getId() {
         return this.id;
     }
+
+    public static String getLvlRole(int lvl) {
+        if(isBetween(lvl, 1, 4)) {
+            return LVL1.getId();
+        }
+        if(isBetween(lvl, 5, 9)) {
+            return LVL5.getId();
+        }
+        if(isBetween(lvl, 10, 14)) {
+            return LVL10.getId();
+        }
+        if(isBetween(lvl, 15, 19)) {
+            return LVL15.getId();
+        }
+        if(isBetween(lvl, 20, 24)) {
+            return LVL20.getId();
+        }
+        if(isBetween(lvl, 25, 29)) {
+            return LVL25.getId();
+        }
+        if(isBetween(lvl, 30, 34)) {
+            return LVL30.getId();
+        }
+        if(isBetween(lvl, 35, 39)) {
+            return LVL35.getId();
+        }
+        if(isBetween(lvl, 40, 44)) {
+            return LVL40.getId();
+        }
+        if(isBetween(lvl, 45, 49)) {
+            return LVL45.getId();
+        }
+        if(isBetween(lvl, 50, 54)) {
+            return LVL50.getId();
+        }
+        if(isBetween(lvl, 55, 59)) {
+            return LVL55.getId();
+        }
+        if(isBetween(lvl, 60, 64)) {
+            return LVL60.getId();
+        }
+        if(isBetween(lvl, 65, 69)) {
+            return LVL65.getId();
+        }
+        if(isBetween(lvl, 70, 74)) {
+            return LVL70.getId();
+        }
+        return LVL75.getId();
+    }
+
+    private static boolean isBetween(int x, int lower, int upper) {
+        return lower <= x && x <= upper;
+    }
 }

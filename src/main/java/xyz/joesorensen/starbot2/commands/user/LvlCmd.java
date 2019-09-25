@@ -26,7 +26,7 @@ public class LvlCmd extends UserCommand {
         User user = UserManager.getUser(event.getAuthor().getId());
         EmbedBuilder embed = new EmbedBuilder();
         float[] rgb;
-        embed.setDescription("Level for " + event.getAuthor().getName());
+        embed.setDescription("Level for " + event.getMember().getNickname());
         embed.setAuthor("User Level", null, event.getAuthor().getAvatarUrl());
         embed.addField("Level", Integer.toString(user.getLvl()), true);
         embed.addField("XP", new DecimalFormat("#.##").format(user.getXp()), false);
@@ -49,7 +49,7 @@ public class LvlCmd extends UserCommand {
         result.append("[");
         int i = 0;
         for (; i <= (int) (progressPercentage * width); i++) {
-            result.append("█");
+            result.append("#");
         }
         for (; i < width; i++) {
             result.append(" ");

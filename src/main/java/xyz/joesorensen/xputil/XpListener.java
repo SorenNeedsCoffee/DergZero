@@ -19,7 +19,7 @@ import java.util.*;
 
 public class XpListener extends ListenerAdapter {
     private Logger log;
-    private JDA jda;
+    private static JDA jda;
     private List<String> cooldown = new ArrayList<>();
     private Timer timer = new Timer();
 
@@ -28,7 +28,7 @@ public class XpListener extends ListenerAdapter {
     }
 
     public void setJDA(JDA jda) {
-        this.jda = jda;
+        XpListener.jda = jda;
     }
 
     @Override
@@ -151,10 +151,27 @@ public class XpListener extends ListenerAdapter {
                 break;
             case 50:
                 replaceRole(event.getMember(), LvlRoleIDs.LVL45.getId(), LvlRoleIDs.LVL50.getId());
+                break;
+            case 55:
+                replaceRole(event.getMember(), LvlRoleIDs.LVL50.getId(), LvlRoleIDs.LVL55.getId());
+                break;
+            case 60:
+                replaceRole(event.getMember(), LvlRoleIDs.LVL55.getId(), LvlRoleIDs.LVL60.getId());
+                break;
+            case 65:
+                replaceRole(event.getMember(), LvlRoleIDs.LVL60.getId(), LvlRoleIDs.LVL65.getId());
+                break;
+            case 70:
+                replaceRole(event.getMember(), LvlRoleIDs.LVL65.getId(), LvlRoleIDs.LVL70.getId());
+                break;
+            case 75:
+                replaceRole(event.getMember(), LvlRoleIDs.LVL70.getId(), LvlRoleIDs.LVL75.getId());
+                break;
+
         }
     }
 
-    private void replaceRole(Member member, String regex, String replace) {
+    public static void replaceRole(Member member, String regex, String replace) {
         Objects.requireNonNull(jda.getGuildById("442552203694047232")).removeRoleFromMember(member, Objects.requireNonNull(jda.getRoleById(regex))).queue();
         Objects.requireNonNull(jda.getGuildById("442552203694047232")).addRoleToMember(member, Objects.requireNonNull(jda.getRoleById(replace))).queue();
     }
