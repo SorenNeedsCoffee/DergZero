@@ -92,6 +92,7 @@ public class Listener extends ListenerAdapter {
             switch((int)(Math.random() * 10 + 1)) {
                 case 3:
                     event.getChannel().sendMessage("https://i.redd.it/1j32vwxci7p21.jpg");
+                    break;
                 case 7:
                     event.getChannel().sendMessage("jesus fuck.");
                     break;
