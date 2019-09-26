@@ -1,15 +1,21 @@
-package xyz.joesorensen.starbot2.listeners;
+package xyz.joesorensen.twitchutil;
 
-import com.mb3364.twitch.api.models.Stream;
+import com.mb3364.twitch.api.models.Channel;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import xyz.joesorensen.starbot2.listeners.Listener;
 
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ *   -=TwitchUtil=-
+ *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ *
+ */
 public class TwitchEventManager {
     private static Listener listener;
 
@@ -17,20 +23,20 @@ public class TwitchEventManager {
         TwitchEventManager.listener = listener;
     }
 
-    public static void live(Stream stream) {
+    public static void live(Channel channel, HashMap<String, String> map) {
         HashMap<String, String> streamData = new HashMap<>();
-        streamData.put("streamsGame", stream.getGame());
-        streamData.put("streamsViewers", String.valueOf(stream.getViewers()));
-        streamData.put("channelStatus", stream.getChannel().getStatus());
-        streamData.put("channelDisplayName", stream.getChannel().getDisplayName());
-        streamData.put("channelLanguage", stream.getChannel().getBroadcasterLanguage());
-        streamData.put("channelId", String.valueOf(stream.getChannel().getId()));
-        streamData.put("channelName", stream.getChannel().getName());
-        streamData.put("channelLogo", stream.getChannel().getLogo());
-        streamData.put("channelProfileBanner", stream.getChannel().getProfileBanner());
-        streamData.put("channelUrl", stream.getChannel().getUrl());
-        streamData.put("channelViews", String.valueOf(stream.getChannel().getViews()));
-        streamData.put("channelFollowers", String.valueOf(stream.getChannel().getFollowers()));
+        streamData.put("streamsGame", map.get("game"));
+        streamData.put("streamsViewers", String.valueOf(map.get("viewers")));
+        streamData.put("channelStatus", channel.getStatus());
+        streamData.put("channelDisplayName", channel.getDisplayName());
+        streamData.put("channelLanguage", channel.getBroadcasterLanguage());
+        streamData.put("channelId", String.valueOf(channel.getId()));
+        streamData.put("channelName", channel.getName());
+        streamData.put("channelLogo", channel.getLogo());
+        streamData.put("channelProfileBanner", channel.getProfileBanner());
+        streamData.put("channelUrl", channel.getUrl());
+        streamData.put("channelViews", String.valueOf(channel.getViews()));
+        streamData.put("channelFollowers", String.valueOf(channel.getFollowers()));
 
         listener.onLive(buildEmbed(streamData));
     }
@@ -57,8 +63,7 @@ public class TwitchEventManager {
         rgb = Color.RGBtoHSB(100, 65, 165, null);
         eBuilder.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]));
 
-        eBuilder.setAuthor(displayName + " is now streaming!", url, "https://cdn.discordapp.com/attachments/342697129833398272/616808624853090354/unknown.png");
-
+        eBuilder.setAuthor(displayName + " is now streaming!", url, "https://joesorensen.xyz/cdn/icon.png");
 
         eBuilder.setTitle(url);
 
@@ -73,7 +78,6 @@ public class TwitchEventManager {
         eBuilder.setImage(profileBanner);
         eBuilder.addField("Followers", followers, true);
         eBuilder.addField("Total Views", views, true);
-
 
 
         MessageEmbed embed = eBuilder.build();

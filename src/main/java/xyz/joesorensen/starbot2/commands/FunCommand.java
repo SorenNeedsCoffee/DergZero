@@ -7,9 +7,12 @@ import com.jagrosh.jdautilities.command.Command;
  *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  *
  */
-public abstract class OwnerCommand extends Command {
-    protected OwnerCommand() {
-        this.category = new Category("Owner");
-        this.ownerCommand = true;
+public abstract class FunCommand extends Command {
+
+    protected FunCommand() {
+
+        this.category = new Category("Fun");
+
     }
+
 }

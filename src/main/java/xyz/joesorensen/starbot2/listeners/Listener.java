@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.ReadyEvent;
+import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -15,6 +16,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import xyz.joesorensen.starbot2.StarBot2;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,10 +26,16 @@ import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ *   -=StarBot2=-
+ *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ *
+ */
 public class Listener extends ListenerAdapter {
     private Logger log;
     private JDA jda;
     private String id;
+    private String prefix;
 
     public Listener() {
         this.log = LoggerFactory.getLogger("Main");
@@ -41,16 +49,29 @@ public class Listener extends ListenerAdapter {
         this.id = id;
     }
 
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
     @Override
     public void onReady(ReadyEvent event) {
         log.info("Ready!");
         List<Guild> guilds = event.getJDA().getGuilds();
-        for(Guild guild : guilds) {
+        for (Guild guild : guilds) {
             List<Member> members = guild.getMembers();
-            for(Member member : members) {
-                if(!(member.getUser().isBot() && member.getRoles().contains(guild.getRoleById(id))))
+            for (Member member : members) {
+                if (!(member.getUser().isBot() || member.getUser().isFake() ||
+                        member.getRoles().contains(guild.getRoleById(id))))
                     guild.addRoleToMember(member, Objects.requireNonNull(guild.getRoleById(id))).queue();
             }
+        }
+        StarBot2.twitchListener.track("JoeSorensen");
+    }
+
+    @Override
+    public void onGuildMemberJoin(GuildMemberJoinEvent event) {
+        if (!(event.getUser().isBot() || event.getUser().isFake())) {
+            event.getGuild().addRoleToMember(event.getMember(), Objects.requireNonNull(event.getGuild().getRoleById(id))).queue();
         }
     }
 
@@ -60,8 +81,29 @@ public class Listener extends ListenerAdapter {
         if (event.getAuthor().isBot() || event.getAuthor().isFake())
             return;
 
+        if (event.getChannel() == jda.getTextChannelById("506503200866697226"))
+            if (!event.getMessage().getContentDisplay().equalsIgnoreCase("hi"))
+                event.getMessage().delete().queue();
+
         if (event.getMessage().getContentDisplay().toLowerCase().contains("yo, can i have some memes?"))
             event.getChannel().sendMessage("dude not out in the open!").queue();
+
+        if(event.getMessage().getContentDisplay().equalsIgnoreCase("cooked joesorensen") || event.getMessage().getContentDisplay().equalsIgnoreCase("cooked soren")) {
+            switch((int)(Math.random() * 10 + 1)) {
+                case 3:
+                    event.getChannel().sendMessage("https://i.redd.it/1j32vwxci7p21.jpg");
+                    break;
+                case 7:
+                    event.getChannel().sendMessage("jesus fuck.");
+                    break;
+                case 9:
+                    event.getChannel().sendMessage("yucky.");
+                    break;
+                default:
+                    event.getChannel().sendMessage("holy shit.");
+                    break;
+            }
+        }
     }
 
     @Override
@@ -70,8 +112,8 @@ public class Listener extends ListenerAdapter {
             return;
         if (event.getMessage().getContentDisplay().toLowerCase().contains("yo, can i have some memes?")) {
             event.getChannel().sendTyping().queue();
-            String imgurl;
-            while (true) {
+            String imgurl = null;
+            while (imgurl == null) {
                 try {
                     String url = "https://www.reddit.com/r/memes/best/.json?count=1&t=all";
                     URL obj;
@@ -102,22 +144,22 @@ public class Listener extends ListenerAdapter {
                 }
             }
             try {
-                event.getChannel().sendMessage(imgurl).queue();
+                //event.getChannel().sendMessage(imgurl).queue();
             } catch (Exception e) {
                 event.getChannel().sendMessage("Sorry, there was an issue getting the freshest meme!").queue();
             }
         }
     }
 
-    void onLive(Message embed) {
+    public void onLive(Message embed) {
         log.info("live!");
         jda.getPresence().setActivity(Activity.streaming("JoeSorensen is live!", "https://twitch.tv/joesorensen"));
         Objects.requireNonNull(Objects.requireNonNull(jda.getGuildById("442552203694047232")).getTextChannelById("442556155856814080")).sendMessage("@everyone").queue();
         Objects.requireNonNull(Objects.requireNonNull(jda.getGuildById("442552203694047232")).getTextChannelById("442556155856814080")).sendMessage(embed).queue();
     }
 
-    void onOffline() {
+    public void onOffline() {
         log.info("offline");
-        jda.getPresence().setActivity(Activity.playing("On Soren's server | >help for help"));
+        jda.getPresence().setActivity(Activity.playing("On Soren's server | " + prefix + "help for help"));
     }
 }

@@ -3,7 +3,13 @@ package xyz.joesorensen.starbot2.commands.owner;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import xyz.joesorensen.starbot2.StarBot2;
 import xyz.joesorensen.starbot2.commands.OwnerCommand;
+import xyz.joesorensen.xputil.UserManager;
 
+/**
+ *   -=StarBot2=-
+ *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ *
+ */
 public class ShutdownCmd extends OwnerCommand {
     public ShutdownCmd() {
         this.name = "shutdown";
@@ -14,7 +20,8 @@ public class ShutdownCmd extends OwnerCommand {
 
     @Override
     protected void execute(CommandEvent event) {
-        event.replyWarning("Shutting down...");
+        UserManager.saveFile();
+        event.getChannel().sendMessage("\u26A0 Shutting down...").complete();
         StarBot2.shutdown();
     }
 }

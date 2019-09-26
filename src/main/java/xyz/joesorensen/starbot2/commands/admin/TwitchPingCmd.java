@@ -1,13 +1,16 @@
 package xyz.joesorensen.starbot2.commands.admin;
 
 import com.jagrosh.jdautilities.command.CommandEvent;
-import xyz.joesorensen.starbot2.commands.AdminCommand;
-import xyz.joesorensen.starbot2.listeners.TwitchEventManager;
-import xyz.joesorensen.starbot2.listeners.TwitchPing;
-import com.mb3364.twitch.api.Twitch;
-import com.mb3364.twitch.api.handlers.StreamResponseHandler;
 import com.mb3364.twitch.api.models.Stream;
+import xyz.joesorensen.starbot2.commands.AdminCommand;
+import xyz.joesorensen.twitchutil.TwitchListener;
+import xyz.joesorensen.twitchutil.TwitchPing;
 
+/**
+ *   -=StarBot2=-
+ *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ *
+ */
 public class TwitchPingCmd extends AdminCommand {
     private String id;
     private boolean live = TwitchPing.live;
@@ -25,38 +28,7 @@ public class TwitchPingCmd extends AdminCommand {
 
     @Override
     protected void execute(CommandEvent event) {
-        Twitch twitch = new Twitch();
-        twitch.setClientId(this.id);
-
-        twitch.streams().get("JoeSorensen", new StreamResponseHandler() {
-
-            @Override
-            public void onSuccess(Stream stream) {
-                data = stream;
-            }
-
-            @Override
-            public void onFailure(int i, String s, String s1) {
-
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-
-            }
-        });
-
-        if(data == null) {
-            if (live)
-                TwitchEventManager.offline();
-            live = false;
-            TwitchPing.live = false;
-        } else {
-            if (!live)
-                TwitchEventManager.live(data);
-            live = true;
-            TwitchPing.live = true;
-        }
+        TwitchListener.ping.run();
     }
 
 }
