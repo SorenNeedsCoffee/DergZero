@@ -91,16 +91,16 @@ public class Listener extends ListenerAdapter {
         if(event.getMessage().getContentDisplay().equalsIgnoreCase("cooked joesorensen") || event.getMessage().getContentDisplay().equalsIgnoreCase("cooked soren")) {
             switch((int)(Math.random() * 10 + 1)) {
                 case 3:
-                    event.getChannel().sendMessage("https://i.redd.it/1j32vwxci7p21.jpg");
+                    event.getChannel().sendMessage("https://i.redd.it/1j32vwxci7p21.jpg").queue();
                     break;
                 case 7:
-                    event.getChannel().sendMessage("jesus fuck.");
+                    event.getChannel().sendMessage("jesus fuck.").queue();
                     break;
                 case 9:
-                    event.getChannel().sendMessage("yucky.");
+                    event.getChannel().sendMessage("yucky.").queue();
                     break;
                 default:
-                    event.getChannel().sendMessage("holy shit.");
+                    event.getChannel().sendMessage("holy shit.").queue();
                     break;
             }
         }
