@@ -65,15 +65,10 @@ public class XpListener extends ListenerAdapter {
                 }
             }, 3000, 30000);
         }
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-
-            @Override
-            public void run() {
-                log.info("Saving members.json before shutdown...");
-                UserManager.saveFile();
-            }
-
-        });
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            log.info("Saving members.json before shutdown...");
+            UserManager.saveFile();
+        }));
         log.info("XPManager Version 0.1 ready");
     }
 

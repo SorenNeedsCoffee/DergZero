@@ -18,6 +18,7 @@ import xyz.joesorensen.starbot2.commands.fun.AvatarCmd;
 import xyz.joesorensen.starbot2.commands.fun.FakeCmd;
 import xyz.joesorensen.starbot2.commands.fun.HelCmd;
 import xyz.joesorensen.starbot2.commands.fun.OobifyCmd;
+import xyz.joesorensen.starbot2.commands.general.HelpCmd;
 import xyz.joesorensen.starbot2.commands.general.InviteCmd;
 import xyz.joesorensen.starbot2.commands.owner.ShutdownCmd;
 import xyz.joesorensen.starbot2.commands.xp.LvlCmd;
@@ -91,6 +92,7 @@ public class StarBot2 {
                 setCoOwnerIds("275037176302141450", "231746019098886144").
                 setPrefix(prefix).
                 setHelpWord("help").
+                setHelpConsumer(new HelpCmd()).
                 setLinkedCacheSize(200).
                 setActivity(Activity.playing("On Soren's server | " + prefix + "help for help")).
                 setEmojis("\u2705", "\u26A0", "\u26D4").
