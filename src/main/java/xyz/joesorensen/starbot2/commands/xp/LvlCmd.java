@@ -8,6 +8,8 @@ import xyz.joesorensen.xputil.UserManager;
 
 import java.awt.*;
 import java.text.DecimalFormat;
+import java.util.Collections;
+import java.util.List;
 
 /**
  *   -=StarBot2=-
@@ -29,12 +31,15 @@ public class LvlCmd extends XpCommand {
     @Override
     protected void execute(CommandEvent event) {
         User user = UserManager.getUser(event.getAuthor().getId());
+        List<User> users = UserManager.getUsers();
+        Collections.sort(users, Collections.reverseOrder());
+        int placement = users.indexOf(user) + 1;
         EmbedBuilder embed = new EmbedBuilder();
         float[] rgb;
         embed.setDescription("Level for " + event.getMember().getNickname());
         embed.setAuthor("User Level", null, event.getAuthor().getAvatarUrl());
         embed.addField("Level", Integer.toString(user.getLvl()), true);
-        embed.addField("XP", new DecimalFormat("#.##").format(user.getXp()), false);
+        embed.addField("XP", new DecimalFormat("#.##").format(user.getXp()) + " | Placement: " + placement, false);
         embed.addField("Progress to next level",
                 "```java\n" +
                         progress((user.getXp() - ((user.getLvl() * 250) - 250)) / ((user.getLvl() * 250) - 250)) +

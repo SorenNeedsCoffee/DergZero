@@ -33,9 +33,9 @@ public class TopCmd extends XpCommand {
         //embed.setAuthor("User Level", null, event.getAuthor().getAvatarUrl());
         embed.addField("",
                 "```\n" +
-                        "-------------------------\n" +
+                        "----------------------\n" +
                         list(users, event) +
-                        "\n\n-------------------------\n" +
+                        "\n\n----------------------\n" +
                         "```",
 
                 true
@@ -55,17 +55,15 @@ public class TopCmd extends XpCommand {
             if (event.getGuild().getMemberById(user.getId()).getNickname() != null) {
                 result.append(i + 1).
                         append(". ").
-                        append(event.getGuild().getMemberById(user.getId()).getNickname()).
-                        append("\n");
+                        append(event.getGuild().getMemberById(user.getId()).getNickname());
             } else {
                 result.append(i + 1).
                         append(". ").
-                        append(event.getJDA().getUserById(user.getId()).getName()).
-                        append("\n");
+                        append(event.getJDA().getUserById(user.getId()).getName());
             }
-            result.append("  XP: " + new DecimalFormat("#.##").format(user.getXp()));
+            result.append(" (XP: " + new DecimalFormat("#.##").format(user.getXp()) + ")");
             result.append("\n");
-            result.append("  Level: " + user.getLvl());
+            result.append("    Level: " + user.getLvl());
         }
         return result.toString();
     }

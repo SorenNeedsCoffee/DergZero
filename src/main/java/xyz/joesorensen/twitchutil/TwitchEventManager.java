@@ -82,6 +82,7 @@ public class TwitchEventManager {
 
         MessageEmbed embed = eBuilder.build();
 
+        mBuilder.setContent("@everyone");
         mBuilder.setEmbed(embed);
 
         return mBuilder.build();

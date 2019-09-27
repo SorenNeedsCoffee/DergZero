@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberLeaveEvent;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.slf4j.Logger;
@@ -27,6 +28,7 @@ public class XpListener extends ListenerAdapter {
     private static JDA jda;
     private List<String> cooldown = new ArrayList<>();
     private Timer timer = new Timer();
+    private Random random = new Random();
 
     public XpListener() {
         this.log = LoggerFactory.getLogger("XpManager");
@@ -97,7 +99,8 @@ public class XpListener extends ListenerAdapter {
 
         if (cooldown.indexOf(event.getAuthor().getId()) == -1 || !event.getChannel().getId().equals("442556155856814080")) {
             User update = UserManager.getUser(event.getAuthor().getId());
-            update.addXp(Math.sqrt(event.getMessage().getContentDisplay().replaceAll(" ", "").length()));
+            double length = Math.sqrt(event.getMessage().getContentDisplay().replaceAll(" ", "").length());
+            update.addXp(length * (Math.abs(random.nextGaussian()) * 5 + 1));
             if (update.getXp() >= update.getLvl() * 250) {
                 onLvlUp(event, update);
             }

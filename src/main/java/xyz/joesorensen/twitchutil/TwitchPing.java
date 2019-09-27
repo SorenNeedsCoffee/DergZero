@@ -56,18 +56,22 @@ public class TwitchPing extends TimerTask {
                     }
 
                     @Override
-                    public void onFailure(int i, String s, String s1) {}
+                    public void onFailure(int i, String s, String s1) {
+                    }
 
                     @Override
-                    public void onFailure(Throwable throwable) {}
+                    public void onFailure(Throwable throwable) {
+                    }
                 });
             }
 
             @Override
-            public void onFailure(int i, String s, String s1) {}
+            public void onFailure(int i, String s, String s1) {
+            }
 
             @Override
-            public void onFailure(Throwable throwable) {}
+            public void onFailure(Throwable throwable) {
+            }
         });
     }
 }
