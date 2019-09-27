@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.TimerTask;
 
 /**
- *   -=TwitchUtil=-
- *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * -=TwitchUtil=-
  *
+ * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public class TwitchVidPing extends TimerTask {
     private int videoSize = 0;

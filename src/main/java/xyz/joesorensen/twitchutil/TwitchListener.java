@@ -6,9 +6,9 @@ import org.slf4j.LoggerFactory;
 import java.util.Timer;
 
 /**
- *   -=TwitchUtil=-
- *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * -=TwitchUtil=-
  *
+ * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public class TwitchListener {
     static String id;

@@ -12,9 +12,9 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- *   -=StarBot2=-
- *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * -=StarBot2=-
  *
+ * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public class LvlCmd extends XpCommand {
 

@@ -18,6 +18,7 @@ import xyz.joesorensen.starbot2.commands.fun.AvatarCmd;
 import xyz.joesorensen.starbot2.commands.fun.FakeCmd;
 import xyz.joesorensen.starbot2.commands.fun.HelCmd;
 import xyz.joesorensen.starbot2.commands.fun.OobifyCmd;
+import xyz.joesorensen.starbot2.commands.general.InviteCmd;
 import xyz.joesorensen.starbot2.commands.owner.ShutdownCmd;
 import xyz.joesorensen.starbot2.commands.xp.LvlCmd;
 import xyz.joesorensen.starbot2.commands.xp.TopCmd;
@@ -34,9 +35,9 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- *   -=StarBot2=-
- *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * -=StarBot2=-
  *
+ * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public class StarBot2 {
     private final static Permission[] RECOMMENDED_PERMS = new Permission[]{Permission.MESSAGE_READ, Permission.MESSAGE_WRITE, Permission.MESSAGE_HISTORY, Permission.MESSAGE_ADD_REACTION,
@@ -93,7 +94,10 @@ public class StarBot2 {
                 setLinkedCacheSize(200).
                 setActivity(Activity.playing("On Soren's server | " + prefix + "help for help")).
                 setEmojis("\u2705", "\u26A0", "\u26D4").
-                addCommands(ab,
+                addCommands(
+                        ab,
+                        new InviteCmd(),
+
                         new HelCmd(),
                         new OobifyCmd(),
                         new FakeCmd(),

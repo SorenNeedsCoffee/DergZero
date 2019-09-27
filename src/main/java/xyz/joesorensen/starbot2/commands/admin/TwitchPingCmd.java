@@ -7,9 +7,9 @@ import xyz.joesorensen.twitchutil.TwitchListener;
 import xyz.joesorensen.twitchutil.TwitchPing;
 
 /**
- *   -=StarBot2=-
- *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * -=StarBot2=-
  *
+ * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public class TwitchPingCmd extends AdminCommand {
     private String id;

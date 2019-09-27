@@ -1,9 +1,9 @@
 package xyz.joesorensen.xputil;
 
 /**
- *   -=XPUtil=-
- *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * -=XPUtil=-
  *
+ * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public enum LvlRoleIDs {
     LVL1("618904321500774414"),

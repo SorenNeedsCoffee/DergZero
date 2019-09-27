@@ -27,9 +27,9 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- *   -=StarBot2=-
- *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * -=StarBot2=-
  *
+ * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public class Listener extends ListenerAdapter {
     private Logger log;
@@ -88,8 +88,8 @@ public class Listener extends ListenerAdapter {
         if (event.getMessage().getContentDisplay().toLowerCase().contains("yo, can i have some memes?"))
             event.getChannel().sendMessage("dude not out in the open!").queue();
 
-        if(event.getMessage().getContentDisplay().equalsIgnoreCase("cooked joesorensen") || event.getMessage().getContentDisplay().equalsIgnoreCase("cooked soren")) {
-            switch((int)(Math.random() * 10 + 1)) {
+        if (event.getMessage().getContentDisplay().equalsIgnoreCase("cooked joesorensen") || event.getMessage().getContentDisplay().equalsIgnoreCase("cooked soren")) {
+            switch ((int) (Math.random() * 10 + 1)) {
                 case 3:
                     event.getChannel().sendMessage("https://i.redd.it/1j32vwxci7p21.jpg").queue();
                     break;

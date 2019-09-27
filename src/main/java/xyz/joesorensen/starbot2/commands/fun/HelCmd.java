@@ -14,9 +14,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- *   -=StarBot2=-
- *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * -=StarBot2=-
  *
+ * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public class HelCmd extends FunCommand {
 

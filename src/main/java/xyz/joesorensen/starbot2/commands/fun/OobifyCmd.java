@@ -4,9 +4,9 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import xyz.joesorensen.starbot2.commands.FunCommand;
 
 /**
- *   -=StarBot2=-
- *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * -=StarBot2=-
  *
+ * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public class OobifyCmd extends FunCommand {
 

@@ -18,9 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *   -=XPUtil=-
- *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * -=XPUtil=-
  *
+ * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public class UserManager {
     private static List<User> users = new ArrayList<>();
