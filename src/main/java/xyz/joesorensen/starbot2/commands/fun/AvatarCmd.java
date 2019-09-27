@@ -14,7 +14,7 @@ public class AvatarCmd extends FunCommand {
     public AvatarCmd() {
         this.name = "avatar";
         this.help = "gets the avatar of a user";
-        this.arguments = "<User Ping (leave blank for self)>";
+        this.arguments = "User Ping (leave blank for self)";
     }
 
     @Override

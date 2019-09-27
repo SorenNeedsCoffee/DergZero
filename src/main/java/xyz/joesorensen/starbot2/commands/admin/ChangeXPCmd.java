@@ -15,7 +15,7 @@ public class ChangeXPCmd extends AdminCommand {
     public ChangeXPCmd() {
         this.name = "chxp";
         this.help = "change xp of any given user id";
-        this.arguments = "<UserID | new xp>";
+        this.arguments = "UserID | new xp";
     }
 
     @Override

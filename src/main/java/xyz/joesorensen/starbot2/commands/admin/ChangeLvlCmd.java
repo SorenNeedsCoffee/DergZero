@@ -17,7 +17,7 @@ public class ChangeLvlCmd extends AdminCommand {
     public ChangeLvlCmd() {
         this.name = "chlvl";
         this.help = "change level of any given user id";
-        this.arguments = "<UserID | new level>";
+        this.arguments = "UserID | new level";
     }
 
     @Override

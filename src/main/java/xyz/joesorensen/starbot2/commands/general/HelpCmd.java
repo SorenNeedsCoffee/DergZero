@@ -10,5 +10,10 @@ public class HelpCmd implements Consumer<CommandEvent> {
     @Override
     public void accept(CommandEvent event) {
         List<Command> commands = event.getClient().getCommands();
+        StringBuilder builder = new StringBuilder();
+        builder.append("```\n");
+        for(Command command : commands) {
+            builder.append(event.getClient().getPrefix() + command.getName() + " ");
+        }
     }
 }
