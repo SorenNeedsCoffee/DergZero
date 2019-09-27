@@ -1,15 +1,20 @@
-package xyz.joesorensen.starbot2.commands.user;
+package xyz.joesorensen.starbot2.commands.xp;
 
 import com.jagrosh.jdautilities.command.CommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
-import xyz.joesorensen.starbot2.commands.UserCommand;
+import xyz.joesorensen.starbot2.commands.XpCommand;
 import xyz.joesorensen.xputil.User;
 import xyz.joesorensen.xputil.UserManager;
 
 import java.awt.*;
 import java.text.DecimalFormat;
 
-public class LvlCmd extends UserCommand {
+/**
+ *   -=StarBot2=-
+ *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ *
+ */
+public class LvlCmd extends XpCommand {
 
     public LvlCmd() {
         this.name = "lvl";
@@ -26,13 +31,13 @@ public class LvlCmd extends UserCommand {
         User user = UserManager.getUser(event.getAuthor().getId());
         EmbedBuilder embed = new EmbedBuilder();
         float[] rgb;
-        embed.setDescription("Level for " + event.getAuthor().getName());
+        embed.setDescription("Level for " + event.getMember().getNickname());
         embed.setAuthor("User Level", null, event.getAuthor().getAvatarUrl());
         embed.addField("Level", Integer.toString(user.getLvl()), true);
         embed.addField("XP", new DecimalFormat("#.##").format(user.getXp()), false);
         embed.addField("Progress to next level",
                 "```java\n" +
-                        progress(user.getXp() / (user.getLvl() * 250)) +
+                        progress((user.getXp() - ((user.getLvl() * 250) - 250)) / ((user.getLvl() * 250) - 250)) +
                         " (" + new DecimalFormat("#.##").format(user.getXp()) + "/" + (user.getLvl() * 250) + ")" +
                         "\n```",
                 false);
@@ -49,7 +54,7 @@ public class LvlCmd extends UserCommand {
         result.append("[");
         int i = 0;
         for (; i <= (int) (progressPercentage * width); i++) {
-            result.append("█");
+            result.append("#");
         }
         for (; i < width; i++) {
             result.append(" ");

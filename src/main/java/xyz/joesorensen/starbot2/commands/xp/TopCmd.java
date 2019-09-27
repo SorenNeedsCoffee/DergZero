@@ -1,8 +1,8 @@
-package xyz.joesorensen.starbot2.commands.user;
+package xyz.joesorensen.starbot2.commands.xp;
 
 import com.jagrosh.jdautilities.command.CommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
-import xyz.joesorensen.starbot2.commands.UserCommand;
+import xyz.joesorensen.starbot2.commands.XpCommand;
 import xyz.joesorensen.xputil.User;
 import xyz.joesorensen.xputil.UserManager;
 
@@ -11,7 +11,12 @@ import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
 
-public class TopCmd extends UserCommand {
+/**
+ *   -=StarBot2=-
+ *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ *
+ */
+public class TopCmd extends XpCommand {
 
     public TopCmd() {
         this.name = "top";

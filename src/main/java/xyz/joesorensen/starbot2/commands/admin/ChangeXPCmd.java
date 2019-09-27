@@ -5,6 +5,11 @@ import xyz.joesorensen.starbot2.commands.AdminCommand;
 import xyz.joesorensen.xputil.User;
 import xyz.joesorensen.xputil.UserManager;
 
+/**
+ *   -=StarBot2=-
+ *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ *
+ */
 public class ChangeXPCmd extends AdminCommand {
 
     public ChangeXPCmd() {

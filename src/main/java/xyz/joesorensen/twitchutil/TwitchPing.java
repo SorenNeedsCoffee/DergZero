@@ -11,6 +11,11 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.TimerTask;
 
+/**
+ *   -=TwitchUtil=-
+ *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ *
+ */
 public class TwitchPing extends TimerTask {
 
     public static boolean live = false;
@@ -32,7 +37,7 @@ public class TwitchPing extends TimerTask {
         twitch.streams().get(TwitchListener.loginName, new StreamResponseHandler() {
             @Override
             public void onSuccess(Stream stream) {
-                if(stream != null)
+                if (stream != null)
                     map = (HashMap<String, String>) stream.getAdditionalProperties().get("stream");
                 data = stream;
                 twitch.channels().get(TwitchListener.loginName, new ChannelResponseHandler() {

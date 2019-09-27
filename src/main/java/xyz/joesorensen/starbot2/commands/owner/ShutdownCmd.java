@@ -5,6 +5,11 @@ import xyz.joesorensen.starbot2.StarBot2;
 import xyz.joesorensen.starbot2.commands.OwnerCommand;
 import xyz.joesorensen.xputil.UserManager;
 
+/**
+ *   -=StarBot2=-
+ *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ *
+ */
 public class ShutdownCmd extends OwnerCommand {
     public ShutdownCmd() {
         this.name = "shutdown";

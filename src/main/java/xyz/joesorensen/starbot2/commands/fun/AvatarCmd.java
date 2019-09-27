@@ -4,6 +4,11 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import net.dv8tion.jda.api.entities.Member;
 import xyz.joesorensen.starbot2.commands.FunCommand;
 
+/**
+ *   -=StarBot2=-
+ *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ *
+ */
 public class AvatarCmd extends FunCommand {
 
     public AvatarCmd() {

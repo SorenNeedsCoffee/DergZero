@@ -17,7 +17,6 @@ import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.joesorensen.starbot2.StarBot2;
-import xyz.joesorensen.twitchutil.TwitchEventManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,6 +26,11 @@ import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ *   -=StarBot2=-
+ *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ *
+ */
 public class Listener extends ListenerAdapter {
     private Logger log;
     private JDA jda;
@@ -83,6 +87,23 @@ public class Listener extends ListenerAdapter {
 
         if (event.getMessage().getContentDisplay().toLowerCase().contains("yo, can i have some memes?"))
             event.getChannel().sendMessage("dude not out in the open!").queue();
+
+        if(event.getMessage().getContentDisplay().equalsIgnoreCase("cooked joesorensen") || event.getMessage().getContentDisplay().equalsIgnoreCase("cooked soren")) {
+            switch((int)(Math.random() * 10 + 1)) {
+                case 3:
+                    event.getChannel().sendMessage("https://i.redd.it/1j32vwxci7p21.jpg").queue();
+                    break;
+                case 7:
+                    event.getChannel().sendMessage("jesus fuck.").queue();
+                    break;
+                case 9:
+                    event.getChannel().sendMessage("yucky.").queue();
+                    break;
+                default:
+                    event.getChannel().sendMessage("holy shit.").queue();
+                    break;
+            }
+        }
     }
 
     @Override

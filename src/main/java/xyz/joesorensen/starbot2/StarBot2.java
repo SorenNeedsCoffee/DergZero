@@ -19,8 +19,8 @@ import xyz.joesorensen.starbot2.commands.fun.FakeCmd;
 import xyz.joesorensen.starbot2.commands.fun.HelCmd;
 import xyz.joesorensen.starbot2.commands.fun.OobifyCmd;
 import xyz.joesorensen.starbot2.commands.owner.ShutdownCmd;
-import xyz.joesorensen.starbot2.commands.user.LvlCmd;
-import xyz.joesorensen.starbot2.commands.user.TopCmd;
+import xyz.joesorensen.starbot2.commands.xp.LvlCmd;
+import xyz.joesorensen.starbot2.commands.xp.TopCmd;
 import xyz.joesorensen.starbot2.listeners.Listener;
 import xyz.joesorensen.twitchutil.TwitchEventManager;
 import xyz.joesorensen.twitchutil.TwitchListener;
@@ -33,6 +33,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ *   -=StarBot2=-
+ *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ *
+ */
 public class StarBot2 {
     private final static Permission[] RECOMMENDED_PERMS = new Permission[]{Permission.MESSAGE_READ, Permission.MESSAGE_WRITE, Permission.MESSAGE_HISTORY, Permission.MESSAGE_ADD_REACTION,
             Permission.MESSAGE_EMBED_LINKS, Permission.MESSAGE_ATTACH_FILES, Permission.MESSAGE_MANAGE, Permission.MESSAGE_EXT_EMOJI,

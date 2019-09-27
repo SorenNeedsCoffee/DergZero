@@ -1,7 +1,6 @@
 package xyz.joesorensen.twitchutil;
 
 import com.mb3364.twitch.api.models.Channel;
-import com.mb3364.twitch.api.models.Stream;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
@@ -12,6 +11,11 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ *   -=TwitchUtil=-
+ *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ *
+ */
 public class TwitchEventManager {
     private static Listener listener;
 
@@ -59,8 +63,7 @@ public class TwitchEventManager {
         rgb = Color.RGBtoHSB(100, 65, 165, null);
         eBuilder.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]));
 
-        eBuilder.setAuthor(displayName + " is now streaming!", url, "https://joesorensen.github.io/StarBot2/icon.png");
-
+        eBuilder.setAuthor(displayName + " is now streaming!", url, "https://joesorensen.xyz/cdn/icon.png");
 
         eBuilder.setTitle(url);
 
