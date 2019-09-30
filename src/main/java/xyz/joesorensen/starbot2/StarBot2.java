@@ -55,23 +55,13 @@ public class StarBot2 {
         log.info("StarBot2 v" + version);
 
         log.info("Loading config...");
+        Config config = Config.load();
 
-        Object raw = null;
-        try {
-            raw = new JSONParser().parse(new FileReader("config.json"));
-        } catch (FileNotFoundException e) {
-            log.error("FileNotFoundException: config file not found. Please ensure that the config file exists, is in the same directory as the jar, and is called config.json");
-            System.exit(1);
-        } catch (IOException | ParseException e) {
-            log.error(ExceptionUtils.getStackTrace(e));
-            System.exit(1);
-        }
-        JSONObject config = (JSONObject) raw;
-        String token = (String) config.get("token");
-        String ownerID = (String) config.get("ownerID");
-        String defaultRoleID = (String) config.get("defaultRoleID");
-        String prefix = (String) config.get("prefix");
-        String clientID = (String) config.get("clientID");
+        String token = config.getToken();
+        String ownerID = config.getOwnerID();
+        String defaultRoleID = config.getDefaultRoleID();
+        String prefix = config.getPrefix();
+        String clientID = config.getClientID();
         if (token.equals("") || ownerID.equals("") || prefix.equals("") || clientID.equals("") || defaultRoleID.equals("")) {
             log.error("Incomplete config file. Please ensure that properties token, ownerID, clientID, defaultRoleID, and prefix are present and not empty");
             System.exit(1);
