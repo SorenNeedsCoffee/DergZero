@@ -7,10 +7,6 @@ import com.jagrosh.jdautilities.examples.command.AboutCommand;
 import com.jagrosh.jdautilities.examples.command.PingCommand;
 import net.dv8tion.jda.api.*;
 import net.dv8tion.jda.api.entities.Activity;
-import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.joesorensen.starbot2.commands.admin.*;
@@ -30,9 +26,6 @@ import xyz.joesorensen.xputil.XpListener;
 
 import javax.security.auth.login.LoginException;
 import java.awt.*;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 
 /**
  * -=StarBot2=-
@@ -43,11 +36,10 @@ public class StarBot2 {
     private final static Permission[] RECOMMENDED_PERMS = new Permission[]{Permission.MESSAGE_READ, Permission.MESSAGE_WRITE, Permission.MESSAGE_HISTORY, Permission.MESSAGE_ADD_REACTION,
             Permission.MESSAGE_EMBED_LINKS, Permission.MESSAGE_ATTACH_FILES, Permission.MESSAGE_MANAGE, Permission.MESSAGE_EXT_EMOJI,
             Permission.MANAGE_CHANNEL, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.NICKNAME_CHANGE};
-
+    public static TwitchListener twitchListener;
     private static JDA jda = null;
     private static boolean shuttingDown = false;
-    static String version = StarBot2.class.getPackage().getImplementationVersion();
-    public static TwitchListener twitchListener;
+    private static String version = StarBot2.class.getPackage().getImplementationVersion();
 
     public static void main(String[] args) {
         Logger log = LoggerFactory.getLogger("Startup");

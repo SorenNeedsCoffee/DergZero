@@ -29,10 +29,6 @@ public enum LvlRoleIDs {
         this.id = id;
     }
 
-    public String getId() {
-        return this.id;
-    }
-
     public static String getLvlRole(int lvl) {
         if (isBetween(lvl, 1, 4)) {
             return LVL1.getId();
@@ -84,5 +80,9 @@ public enum LvlRoleIDs {
 
     private static boolean isBetween(int x, int lower, int upper) {
         return lower <= x && x <= upper;
+    }
+
+    public String getId() {
+        return this.id;
     }
 }
