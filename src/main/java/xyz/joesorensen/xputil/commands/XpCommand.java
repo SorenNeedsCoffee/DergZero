@@ -1,9 +1,9 @@
-package xyz.joesorensen.starbot2.commands;
+package xyz.joesorensen.xputil.commands;
 
 import com.jagrosh.jdautilities.command.Command;
 
 /**
- * -=StarBot2=-
+ * -=XPUtil=-
  *
  * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */

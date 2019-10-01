@@ -25,11 +25,11 @@ import java.util.List;
 public class UserManager {
     private static List<User> users = new ArrayList<>();
 
-    public static void addUser(String id) {
+    static void addUser(String id) {
         users.add(new User(id));
     }
 
-    public static void removeUser(String id) {
+    static void removeUser(String id) {
         users.remove(getUser(id));
     }
 
@@ -60,7 +60,7 @@ public class UserManager {
         return users;
     }
 
-    public static void updateUser(User user) {
+    static void updateUser(User user) {
         if (user.getId().equals("") || user.getId() == null)
             throw new IllegalArgumentException("Id of user cannot be empty or null.");
 
@@ -81,7 +81,7 @@ public class UserManager {
         }
     }
 
-    public static void loadFile() {
+    static void loadFile() {
         Logger log = LoggerFactory.getLogger("loadMembersFromFile");
 
         JSONObject raw = null;

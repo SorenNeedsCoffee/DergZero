@@ -1,10 +1,10 @@
-package xyz.joesorensen.starbot2.commands.xp;
+package xyz.joesorensen.xputil.commands.xp;
 
 import com.jagrosh.jdautilities.command.CommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
-import xyz.joesorensen.starbot2.commands.XpCommand;
 import xyz.joesorensen.xputil.User;
 import xyz.joesorensen.xputil.UserManager;
+import xyz.joesorensen.xputil.commands.XpCommand;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * -=StarBot2=-
+ * -=XPUtil=-
  *
  * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */

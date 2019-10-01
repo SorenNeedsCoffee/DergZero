@@ -17,13 +17,11 @@ import xyz.joesorensen.starbot2.commands.fun.OobifyCmd;
 import xyz.joesorensen.starbot2.commands.general.HelpCmd;
 import xyz.joesorensen.starbot2.commands.general.InviteCmd;
 import xyz.joesorensen.starbot2.commands.owner.ShutdownCmd;
-import xyz.joesorensen.starbot2.commands.xp.LvlCmd;
-import xyz.joesorensen.starbot2.commands.xp.TopCmd;
 import xyz.joesorensen.starbot2.listeners.Listener;
 import xyz.joesorensen.twitchutil.TwitchEventManager;
 import xyz.joesorensen.twitchutil.TwitchListener;
 import xyz.joesorensen.xputil.UserManager;
-import xyz.joesorensen.xputil.XpListener;
+import xyz.joesorensen.xputil.XPUtil;
 
 import javax.security.auth.login.LoginException;
 import java.awt.*;
@@ -39,7 +37,7 @@ public class StarBot2 {
             Permission.MANAGE_CHANNEL, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.NICKNAME_CHANGE};
     public static TwitchListener twitchListener;
     private static JDA jda = null;
-    private static boolean shuttingDown = false;
+    public static boolean shuttingDown = false;
     private static String version = StarBot2.class.getPackage().getImplementationVersion();
 
     public static void main(String[] args) {
@@ -87,8 +85,6 @@ public class StarBot2 {
                         new FakeCmd(),
                         new AvatarCmd(),
 
-                        new LvlCmd(),
-                        new TopCmd(),
                         new PingCommand(),
 
                         new TwitchPingCmd(clientID),
@@ -102,9 +98,11 @@ public class StarBot2 {
 
         cb.setStatus(OnlineStatus.ONLINE);
 
+        XPUtil xpUtil = new XPUtil(cb);
+        cb = xpUtil.builder();
+
         CommandClient client = cb.build();
         Listener listener = new Listener();
-        XpListener xp = new XpListener();
         listener.setRoleID(defaultRoleID);
         listener.setPrefix(prefix);
 
@@ -115,7 +113,7 @@ public class StarBot2 {
                     .setToken(token)
                     .setStatus(OnlineStatus.DO_NOT_DISTURB)
                     .setActivity(Activity.playing("loading..."))
-                    .addEventListeners(client, waiter, xp, listener)
+                    .addEventListeners(client, waiter, xpUtil.listener(), listener)
                     .build();
         } catch (LoginException ex) {
             log.error("Invalid Token");
@@ -123,7 +121,7 @@ public class StarBot2 {
         }
 
         listener.setJDA(jda);
-        xp.setJDA(jda);
+        xpUtil.setJDA(jda);
 
         twitchListener = new TwitchListener(clientID);
         TwitchEventManager.setListener(listener);

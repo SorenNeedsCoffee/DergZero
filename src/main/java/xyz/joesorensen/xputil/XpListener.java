@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import xyz.joesorensen.starbot2.StarBot2;
 
 import java.awt.*;
 import java.io.File;
@@ -33,9 +34,9 @@ public class XpListener extends ListenerAdapter {
         this.log = LoggerFactory.getLogger("XpManager");
     }
 
-    public static void replaceRole(Member member, String regex, String replace) {
-        Objects.requireNonNull(jda.getGuildById("442552203694047232")).removeRoleFromMember(member, Objects.requireNonNull(jda.getRoleById(regex))).queue();
-        Objects.requireNonNull(jda.getGuildById("442552203694047232")).addRoleToMember(member, Objects.requireNonNull(jda.getRoleById(replace))).queue();
+    public static void replaceRole(Guild guild, Member member, String regex, String replace) {
+        Objects.requireNonNull(guild).removeRoleFromMember(member, Objects.requireNonNull(jda.getRoleById(regex))).queue();
+        Objects.requireNonNull(guild).addRoleToMember(member, Objects.requireNonNull(jda.getRoleById(replace))).queue();
     }
 
     public void setJDA(JDA jda) {
@@ -60,7 +61,7 @@ public class XpListener extends ListenerAdapter {
                 if (!member.getRoles().contains(guild.getRoleById(LvlRoleIDs.LVL1.getId())) &&
                         !(member.getUser().isBot() || member.getUser().isFake()) &&
                         (Objects.requireNonNull(UserManager.getUser(member.getId())).getLvl() < 5))
-                    Objects.requireNonNull(event.getJDA().getGuildById("442552203694047232")).addRoleToMember(member, Objects.requireNonNull(jda.getRoleById(LvlRoleIDs.LVL1.getId()))).queue();
+                    guild.addRoleToMember(member, jda.getRoleById(LvlRoleIDs.LVL1.getId())).queue();
             }
 
             timer.scheduleAtFixedRate(new TimerTask() {
@@ -70,10 +71,17 @@ public class XpListener extends ListenerAdapter {
                 }
             }, 3000, 30000);
         }
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            log.info("Saving members.json before shutdown...");
-            UserManager.saveFile();
-        }));
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+
+            @Override
+            public void run() {
+                if(!StarBot2.shuttingDown) {
+                    log.info("Saving members.json before shutdown...");
+                    UserManager.saveFile();
+                }
+            }
+
+        });
         log.info("XPManager Version 0.1 ready");
     }
 
@@ -130,49 +138,49 @@ public class XpListener extends ListenerAdapter {
 
         switch (update.getLvl()) {
             case 5:
-                replaceRole(event.getMember(), LvlRoleIDs.LVL1.getId(), LvlRoleIDs.LVL5.getId());
+                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL1.getId(), LvlRoleIDs.LVL5.getId());
                 break;
             case 10:
-                replaceRole(event.getMember(), LvlRoleIDs.LVL5.getId(), LvlRoleIDs.LVL10.getId());
+                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL5.getId(), LvlRoleIDs.LVL10.getId());
                 break;
             case 15:
-                replaceRole(event.getMember(), LvlRoleIDs.LVL10.getId(), LvlRoleIDs.LVL15.getId());
+                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL10.getId(), LvlRoleIDs.LVL15.getId());
                 break;
             case 20:
-                replaceRole(event.getMember(), LvlRoleIDs.LVL15.getId(), LvlRoleIDs.LVL20.getId());
+                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL15.getId(), LvlRoleIDs.LVL20.getId());
                 break;
             case 25:
-                replaceRole(event.getMember(), LvlRoleIDs.LVL20.getId(), LvlRoleIDs.LVL25.getId());
+                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL20.getId(), LvlRoleIDs.LVL25.getId());
                 break;
             case 30:
-                replaceRole(event.getMember(), LvlRoleIDs.LVL25.getId(), LvlRoleIDs.LVL30.getId());
+                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL25.getId(), LvlRoleIDs.LVL30.getId());
                 break;
             case 35:
-                replaceRole(event.getMember(), LvlRoleIDs.LVL30.getId(), LvlRoleIDs.LVL35.getId());
+                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL30.getId(), LvlRoleIDs.LVL35.getId());
                 break;
             case 40:
-                replaceRole(event.getMember(), LvlRoleIDs.LVL35.getId(), LvlRoleIDs.LVL40.getId());
+                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL35.getId(), LvlRoleIDs.LVL40.getId());
                 break;
             case 45:
-                replaceRole(event.getMember(), LvlRoleIDs.LVL40.getId(), LvlRoleIDs.LVL45.getId());
+                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL40.getId(), LvlRoleIDs.LVL45.getId());
                 break;
             case 50:
-                replaceRole(event.getMember(), LvlRoleIDs.LVL45.getId(), LvlRoleIDs.LVL50.getId());
+                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL45.getId(), LvlRoleIDs.LVL50.getId());
                 break;
             case 55:
-                replaceRole(event.getMember(), LvlRoleIDs.LVL50.getId(), LvlRoleIDs.LVL55.getId());
+                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL50.getId(), LvlRoleIDs.LVL55.getId());
                 break;
             case 60:
-                replaceRole(event.getMember(), LvlRoleIDs.LVL55.getId(), LvlRoleIDs.LVL60.getId());
+                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL55.getId(), LvlRoleIDs.LVL60.getId());
                 break;
             case 65:
-                replaceRole(event.getMember(), LvlRoleIDs.LVL60.getId(), LvlRoleIDs.LVL65.getId());
+                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL60.getId(), LvlRoleIDs.LVL65.getId());
                 break;
             case 70:
-                replaceRole(event.getMember(), LvlRoleIDs.LVL65.getId(), LvlRoleIDs.LVL70.getId());
+                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL65.getId(), LvlRoleIDs.LVL70.getId());
                 break;
             case 75:
-                replaceRole(event.getMember(), LvlRoleIDs.LVL70.getId(), LvlRoleIDs.LVL75.getId());
+                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL70.getId(), LvlRoleIDs.LVL75.getId());
                 break;
 
         }
