@@ -28,6 +28,23 @@ public class LvlCmd extends XpCommand {
         };
     }
 
+    private static String progress(double progressPercentage) {
+        final int width = 15;
+        StringBuilder result = new StringBuilder();
+
+        result.append("[");
+        int i = 0;
+        for (; i <= (int) (progressPercentage * width); i++) {
+            result.append("#");
+        }
+        for (; i < width; i++) {
+            result.append(" ");
+        }
+        result.append("]");
+
+        return result.toString();
+    }
+
     @Override
     protected void execute(CommandEvent event) {
         User user = UserManager.getUser(event.getAuthor().getId());
@@ -50,22 +67,5 @@ public class LvlCmd extends XpCommand {
         embed.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]));
 
         event.reply(embed.build());
-    }
-
-    private static String progress(double progressPercentage) {
-        final int width = 15;
-        StringBuilder result = new StringBuilder();
-
-        result.append("[");
-        int i = 0;
-        for (; i <= (int) (progressPercentage * width); i++) {
-            result.append("#");
-        }
-        for (; i < width; i++) {
-            result.append(" ");
-        }
-        result.append("]");
-
-        return result.toString();
     }
 }

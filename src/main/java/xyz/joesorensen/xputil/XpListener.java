@@ -23,14 +23,19 @@ import java.util.*;
  * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public class XpListener extends ListenerAdapter {
-    private Logger log;
     private static JDA jda;
+    private Logger log;
     private List<String> cooldown = new ArrayList<>();
     private Timer timer = new Timer();
     private Random random = new Random();
 
     public XpListener() {
         this.log = LoggerFactory.getLogger("XpManager");
+    }
+
+    public static void replaceRole(Member member, String regex, String replace) {
+        Objects.requireNonNull(jda.getGuildById("442552203694047232")).removeRoleFromMember(member, Objects.requireNonNull(jda.getRoleById(regex))).queue();
+        Objects.requireNonNull(jda.getGuildById("442552203694047232")).addRoleToMember(member, Objects.requireNonNull(jda.getRoleById(replace))).queue();
     }
 
     public void setJDA(JDA jda) {
@@ -171,10 +176,5 @@ public class XpListener extends ListenerAdapter {
                 break;
 
         }
-    }
-
-    public static void replaceRole(Member member, String regex, String replace) {
-        Objects.requireNonNull(jda.getGuildById("442552203694047232")).removeRoleFromMember(member, Objects.requireNonNull(jda.getRoleById(regex))).queue();
-        Objects.requireNonNull(jda.getGuildById("442552203694047232")).addRoleToMember(member, Objects.requireNonNull(jda.getRoleById(replace))).queue();
     }
 }

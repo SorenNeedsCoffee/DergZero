@@ -7,10 +7,6 @@ import com.jagrosh.jdautilities.examples.command.AboutCommand;
 import com.jagrosh.jdautilities.examples.command.PingCommand;
 import net.dv8tion.jda.api.*;
 import net.dv8tion.jda.api.entities.Activity;
-import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.joesorensen.starbot2.commands.admin.*;
@@ -31,9 +27,6 @@ import xyz.joesorensen.xputil.XpListener;
 
 import javax.security.auth.login.LoginException;
 import java.awt.*;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 
 /**
  * -=StarBot2=-
@@ -44,11 +37,10 @@ public class StarBot2 {
     private final static Permission[] RECOMMENDED_PERMS = new Permission[]{Permission.MESSAGE_READ, Permission.MESSAGE_WRITE, Permission.MESSAGE_HISTORY, Permission.MESSAGE_ADD_REACTION,
             Permission.MESSAGE_EMBED_LINKS, Permission.MESSAGE_ATTACH_FILES, Permission.MESSAGE_MANAGE, Permission.MESSAGE_EXT_EMOJI,
             Permission.MANAGE_CHANNEL, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.NICKNAME_CHANGE};
-
+    public static TwitchListener twitchListener;
     private static JDA jda = null;
     private static boolean shuttingDown = false;
-    static String version = StarBot2.class.getPackage().getImplementationVersion();
-    public static TwitchListener twitchListener;
+    private static String version = StarBot2.class.getPackage().getImplementationVersion();
 
     public static void main(String[] args) {
         Logger log = LoggerFactory.getLogger("Startup");
@@ -56,23 +48,13 @@ public class StarBot2 {
         log.info("StarBot2 v" + version);
 
         log.info("Loading config...");
+        Config config = Config.load();
 
-        Object raw = null;
-        try {
-            raw = new JSONParser().parse(new FileReader("config.json"));
-        } catch (FileNotFoundException e) {
-            log.error("FileNotFoundException: config file not found. Please ensure that the config file exists, is in the same directory as the jar, and is called config.json");
-            System.exit(1);
-        } catch (IOException | ParseException e) {
-            log.error(ExceptionUtils.getStackTrace(e));
-            System.exit(1);
-        }
-        JSONObject config = (JSONObject) raw;
-        String token = (String) config.get("token");
-        String ownerID = (String) config.get("ownerID");
-        String defaultRoleID = (String) config.get("defaultRoleID");
-        String prefix = (String) config.get("prefix");
-        String clientID = (String) config.get("clientID");
+        String token = config.getToken();
+        String ownerID = config.getOwnerID();
+        String defaultRoleID = config.getDefaultRoleID();
+        String prefix = config.getPrefix();
+        String clientID = config.getClientID();
         if (token.equals("") || ownerID.equals("") || prefix.equals("") || clientID.equals("") || defaultRoleID.equals("")) {
             log.error("Incomplete config file. Please ensure that properties token, ownerID, clientID, defaultRoleID, and prefix are present and not empty");
             System.exit(1);

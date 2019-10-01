@@ -32,20 +32,20 @@ public class User implements Comparable<User> {
         return xp;
     }
 
-    public int getLvl() {
-        return lvl;
-    }
-
-    public void addXp(double amt) {
-        this.xp += amt;
-    }
-
     public void setXp(double val) {
         this.xp = val;
     }
 
+    public int getLvl() {
+        return lvl;
+    }
+
     public void setLvl(int val) {
         this.lvl = val;
+    }
+
+    public void addXp(double amt) {
+        this.xp += amt;
     }
 
     @Override

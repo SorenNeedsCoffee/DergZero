@@ -23,6 +23,27 @@ public class TopCmd extends XpCommand {
         this.help = "display users with top xp values";
     }
 
+    private static String list(List<User> users, CommandEvent event) {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < 10; i++) {
+            User user = users.get(i);
+            result.append("\n\n");
+            if (event.getGuild().getMemberById(user.getId()).getNickname() != null) {
+                result.append(i + 1).
+                        append(". ").
+                        append(event.getGuild().getMemberById(user.getId()).getNickname());
+            } else {
+                result.append(i + 1).
+                        append(". ").
+                        append(event.getJDA().getUserById(user.getId()).getName());
+            }
+            result.append(" (XP: " + new DecimalFormat("#.##").format(user.getXp()) + ")");
+            result.append("\n");
+            result.append("    Level: " + user.getLvl());
+        }
+        return result.toString();
+    }
+
     @Override
     protected void execute(CommandEvent event) {
         List<User> users = UserManager.getUsers();
@@ -45,26 +66,5 @@ public class TopCmd extends XpCommand {
         embed.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]));
 
         event.reply(embed.build());
-    }
-
-    private static String list(List<User> users, CommandEvent event) {
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < 10; i++) {
-            User user = users.get(i);
-            result.append("\n\n");
-            if (event.getGuild().getMemberById(user.getId()).getNickname() != null) {
-                result.append(i + 1).
-                        append(". ").
-                        append(event.getGuild().getMemberById(user.getId()).getNickname());
-            } else {
-                result.append(i + 1).
-                        append(". ").
-                        append(event.getJDA().getUserById(user.getId()).getName());
-            }
-            result.append(" (XP: " + new DecimalFormat("#.##").format(user.getXp()) + ")");
-            result.append("\n");
-            result.append("    Level: " + user.getLvl());
-        }
-        return result.toString();
     }
 }
