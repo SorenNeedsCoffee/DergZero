@@ -60,7 +60,7 @@ public class UserManager {
         return users;
     }
 
-    static void updateUser(User user) {
+    public static void updateUser(User user) {
         if (user.getId().equals("") || user.getId() == null)
             throw new IllegalArgumentException("Id of user cannot be empty or null.");
 
