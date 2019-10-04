@@ -18,7 +18,7 @@ public class HelpCmd implements Consumer<CommandEvent> {
         builder.setColor(Color.decode("#fc3003"));
         StringBuilder list = new StringBuilder();
         for(Command command : commands) {
-            list.append("```");
+            list.append("```ini\n");
             list.append(command.getName());
             if(command.getAliases().length > 0 && !command.getName().equals("hel"))
                 list.append(" " + Arrays.toString(command.getAliases()));
