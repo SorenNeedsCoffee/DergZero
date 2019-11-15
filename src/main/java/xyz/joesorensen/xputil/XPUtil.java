@@ -6,11 +6,11 @@ import xyz.joesorensen.xputil.commands.xp.LvlCmd;
 import xyz.joesorensen.xputil.commands.xp.TopCmd;
 
 /**
-*   -=XPUtil=-
- *   A flexible User XP library in active development.
+ * -=XPUtil=-
+ * A flexible User XP library in active development.
  *
- *   @author Soren Dangaard (joseph.md.sorensen@gmail.com)
-*/
+ * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ */
 
 public class XPUtil {
     private CommandClientBuilder builder;
@@ -18,6 +18,7 @@ public class XPUtil {
 
     /**
      * On startup, you can initialize the XPUtil class to handle command client and listener setup. Be sure to add the XPListener to JDA!
+     *
      * @param builder Pass your CommandClientBuilder here. This will only add the current level and top commands and will NOT build the client for you.
      */
     public XPUtil(CommandClientBuilder builder) {

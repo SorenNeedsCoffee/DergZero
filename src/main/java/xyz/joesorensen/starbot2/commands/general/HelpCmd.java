@@ -17,15 +17,15 @@ public class HelpCmd implements Consumer<CommandEvent> {
         builder.setTitle("Commands for StarBot2");
         builder.setColor(Color.decode("#fc3003"));
         StringBuilder list = new StringBuilder();
-        for(Command command : commands) {
+        for (Command command : commands) {
             list.append("```ini\n");
             list.append(command.getName());
-            if(command.getAliases().length > 0 && !command.getName().equals("hel"))
+            if (command.getAliases().length > 0 && !command.getName().equals("hel"))
                 list.append(" " + Arrays.toString(command.getAliases()));
             list.append(" | ")
-                .append(command.getHelp());
+                    .append(command.getHelp());
 
-            if(!(command.getArguments() == null || command.getArguments().isBlank() || command.getArguments().isEmpty()))
+            if (!(command.getArguments() == null || command.getArguments().isBlank() || command.getArguments().isEmpty()))
                 list.append(" | <" + command.getArguments() + ">");
 
             list.append("```");
@@ -33,7 +33,7 @@ public class HelpCmd implements Consumer<CommandEvent> {
         builder.addField("", list.toString(), true);
 
 
-        if(event.getChannelType().isGuild()) {
+        if (event.getChannelType().isGuild()) {
             event.replyInDm(builder.build());
         } else {
             event.reply(builder.build());

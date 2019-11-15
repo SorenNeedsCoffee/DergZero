@@ -75,7 +75,7 @@ public class XpListener extends ListenerAdapter {
 
             @Override
             public void run() {
-                if(!StarBot2.shuttingDown) {
+                if (!StarBot2.shuttingDown) {
                     log.info("Saving members.json before shutdown...");
                     UserManager.saveFile();
                 }

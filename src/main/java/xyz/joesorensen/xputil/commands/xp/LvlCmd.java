@@ -49,7 +49,7 @@ public class LvlCmd extends XpCommand {
     protected void execute(CommandEvent event) {
         List<User> users = UserManager.getUsers();
         users.sort(Collections.reverseOrder());
-        if(event.getArgs().equals("")) {
+        if (event.getArgs().equals("")) {
             User user = UserManager.getUser(event.getAuthor().getId());
             int placement = users.indexOf(user) + 1;
             EmbedBuilder embed = new EmbedBuilder();
