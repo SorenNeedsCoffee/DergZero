@@ -28,7 +28,7 @@ public class TwitchPingCmd extends AdminCommand {
 
     @Override
     protected void execute(CommandEvent event) {
-        TwitchListener.ping.run();
+        TwitchListener.ping();
     }
 
 }

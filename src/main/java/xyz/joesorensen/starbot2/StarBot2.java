@@ -42,6 +42,7 @@ public class StarBot2 {
 
     public static void main(String[] args) {
         Logger log = LoggerFactory.getLogger("Startup");
+        final boolean enableDiscord = true;
 
         log.info("StarBot2 v" + version);
 
@@ -108,20 +109,24 @@ public class StarBot2 {
 
         log.info("Attempting login...");
 
-        try {
-            jda = new JDABuilder(AccountType.BOT)
-                    .setToken(token)
-                    .setStatus(OnlineStatus.DO_NOT_DISTURB)
-                    .setActivity(Activity.playing("loading..."))
-                    .addEventListeners(client, waiter, xpUtil.listener(), listener)
-                    .build();
-        } catch (LoginException ex) {
-            log.error("Invalid Token");
-            System.exit(1);
-        }
+        if(enableDiscord) {
+            try {
+                jda = new JDABuilder(AccountType.BOT)
+                        .setToken(token)
+                        .setStatus(OnlineStatus.DO_NOT_DISTURB)
+                        .setActivity(Activity.playing("loading..."))
+                        .addEventListeners(client, waiter, xpUtil.listener(), listener)
+                        .build();
+            } catch (LoginException ex) {
+                log.error("Invalid Token");
+                System.exit(1);
+            }
 
-        listener.setJDA(jda);
-        xpUtil.setJDA(jda);
+            listener.setJDA(jda);
+            xpUtil.setJDA(jda);
+        } else {
+            log.info("DEV: Discord functionality disabled for testing purposes.");
+        }
 
         twitchListener = new TwitchListener(clientID);
         TwitchEventManager.setListener(listener);
