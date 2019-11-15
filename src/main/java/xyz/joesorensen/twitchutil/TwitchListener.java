@@ -11,7 +11,7 @@ import java.util.Timer;
  * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public class TwitchListener {
-    static TwitchPing ping;
+    private static TwitchPing ping;
     private Timer timer = new Timer();
     static String id;
     static String loginName;
@@ -19,11 +19,11 @@ public class TwitchListener {
 
     public TwitchListener(String clientID) {
         id = clientID;
-        ping = new TwitchPing();
     }
 
     public void track(String loginName) {
         TwitchListener.loginName = loginName;
+        ping = new TwitchPing();
 
         timer.scheduleAtFixedRate(ping, 0, 30000);
     }
