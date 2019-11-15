@@ -109,7 +109,7 @@ public class StarBot2 {
 
         log.info("Attempting login...");
 
-        if(enableDiscord) {
+        if (enableDiscord) {
             try {
                 jda = new JDABuilder(AccountType.BOT)
                         .setToken(token)
