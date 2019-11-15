@@ -20,7 +20,7 @@ public class HelpCmd implements Consumer<CommandEvent> {
         for (Command command : commands) {
             list.append("```ini\n");
             list.append(command.getName());
-            if (command.getAliases().length > 0 && !command.getName().equals("hel"))
+            if (command.getAliases().length > 0 && !command.isHidden())
                 list.append(" " + Arrays.toString(command.getAliases()));
             list.append(" | ")
                     .append(command.getHelp());
