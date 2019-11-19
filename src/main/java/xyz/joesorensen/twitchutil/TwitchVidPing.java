@@ -15,13 +15,14 @@ import java.util.TimerTask;
  */
 public class TwitchVidPing extends TimerTask {
     private int videoSize = 0;
-    private Twitch twitch;
+    private Twitch twitch = new Twitch();
+    private String loginName;
 
-    TwitchVidPing() {
-        twitch = new Twitch();
+    TwitchVidPing(String loginName) {
         twitch.setClientId(TwitchListener.id);
+        this.loginName = loginName;
 
-        twitch.channels().getVideos(TwitchListener.loginName, new VideosResponseHandler() {
+        twitch.channels().getVideos(loginName, new VideosResponseHandler() {
             @Override
             public void onSuccess(int i, List<Video> list) {
                 videoSize = list.size();
@@ -40,7 +41,7 @@ public class TwitchVidPing extends TimerTask {
     @Override
     public void run() {
 
-        twitch.channels().getVideos(TwitchListener.loginName, new VideosResponseHandler() {
+        twitch.channels().getVideos(loginName, new VideosResponseHandler() {
             @Override
             public void onSuccess(int i, List<Video> list) {
                 if (list.size() > videoSize) {

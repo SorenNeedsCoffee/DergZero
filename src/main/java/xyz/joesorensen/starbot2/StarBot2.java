@@ -5,7 +5,11 @@ import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.jagrosh.jdautilities.examples.command.AboutCommand;
 import com.jagrosh.jdautilities.examples.command.PingCommand;
-import net.dv8tion.jda.api.*;
+import net.dv8tion.jda.api.AccountType;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Activity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,7 +92,7 @@ public class StarBot2 {
 
                         new PingCommand(),
 
-                        new TwitchPingCmd(clientID),
+                        new TwitchPingCmd(),
                         new SaveCmd(),
                         new PruneCmd(),
                         new ChangeLvlCmd(),

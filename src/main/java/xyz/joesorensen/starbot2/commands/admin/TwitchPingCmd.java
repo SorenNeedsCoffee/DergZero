@@ -12,18 +12,14 @@ import xyz.joesorensen.twitchutil.TwitchPing;
  * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public class TwitchPingCmd extends AdminCommand {
-    private String id;
-    private boolean live = TwitchPing.live;
-    private Stream data;
 
-    public TwitchPingCmd(String clientID) {
+    public TwitchPingCmd() {
         this.name = "twitchping";
         this.help = "manually check if channel is live";
         this.aliases = new String[]{
                 "tping"
         };
         this.guildOnly = true;
-        id = clientID;
     }
 
     @Override
