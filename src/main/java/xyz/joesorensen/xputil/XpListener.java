@@ -31,7 +31,7 @@ public class XpListener extends ListenerAdapter {
     private Random random = new Random();
 
     public XpListener() {
-        this.log = LoggerFactory.getLogger("XpManager");
+        this.log = LoggerFactory.getLogger("XpUtil");
     }
 
     public static void replaceRole(Guild guild, Member member, String regex, String replace) {
@@ -82,7 +82,7 @@ public class XpListener extends ListenerAdapter {
             }
 
         });
-        log.info("XPManager Version 0.1 ready");
+        log.info("XPUtil version 0.2 ready");
     }
 
     @Override

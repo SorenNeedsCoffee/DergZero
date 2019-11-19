@@ -55,11 +55,11 @@ public class LvlCmd extends XpCommand {
             EmbedBuilder embed = new EmbedBuilder();
             float[] rgb;
             if (event.getMember().getNickname() != null) {
-                embed.setDescription("Level for " + event.getMember().getNickname());
+                embed.setAuthor(event.getMember().getNickname(), null, event.getAuthor().getAvatarUrl());
             } else {
-                embed.setDescription("Level for " + event.getMember().getUser().getName());
+                embed.setAuthor(event.getMember().getUser().getName(), null, event.getAuthor().getAvatarUrl());
             }
-            embed.setAuthor("User Level", null, event.getAuthor().getAvatarUrl());
+            embed.setTitle("Level");
             embed.addField("Level", Integer.toString(user.getLvl()), true);
             embed.addField("XP", new DecimalFormat("#.##").format(user.getXp()) + " | Placement: " + placement, false);
             embed.addField("Progress to next level",
