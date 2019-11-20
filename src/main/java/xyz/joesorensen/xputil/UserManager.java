@@ -14,6 +14,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,13 +25,26 @@ import java.util.List;
  */
 public class UserManager {
     private static List<User> users = new ArrayList<>();
+    private static DbManager db;
 
     static void addUser(String id) {
-        users.add(new User(id));
+        try {
+            db.addUser(id, 0, 0.0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     static void removeUser(String id) {
-        users.remove(getUser(id));
+        try {
+            db.delUser(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void initDb(String url, String user, String pass) throws Exception {
+        db = new DbManager(url, "starbot2", "users", user, pass);
     }
 
     public static void pruneUsers(Guild guild) {
@@ -49,23 +63,30 @@ public class UserManager {
     }
 
     public static User getUser(String id) {
-        for (User user : users) {
-            if (user.getId().equals(id))
-                return user;
+        try {
+            return db.getUser(id);
+        } catch (SQLException e) {
+            return null;
         }
-        return null;
     }
 
     public static List<User> getUsers() {
-        return users;
+        try {
+            return db.getUsers();
+        } catch (SQLException e) {
+            return null;
+        }
     }
 
     public static void updateUser(User user) {
         if (user.getId().equals("") || user.getId() == null)
             throw new IllegalArgumentException("Id of user cannot be empty or null.");
 
-        int index = users.indexOf(user);
-        users.set(index, user);
+        try {
+            db.updateUser(user);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void saveFile() {
@@ -101,6 +122,14 @@ public class UserManager {
             JSONObject obj = (JSONObject) user;
             users.add(new User((String) obj.get("id"), (double) obj.get("xp"), ((Long) obj.get("lvl")).intValue()));
 
+        }
+
+        for(User user : users) {
+            try {
+                db.addUser(user.getId(), user.getLvl(), user.getXp());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 

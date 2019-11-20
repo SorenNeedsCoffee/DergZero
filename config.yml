@@ -5,3 +5,7 @@ ownerID: 335416268452528129
 defaultRoleID: 617847168300089354
 prefix: "!>"
 clientID: dtzq1av7xypkslgox5c30w4k3c527y
+#DB
+dbUrl: 127.0.0.1
+dbUser: starbot2
+dbPass: starbot2

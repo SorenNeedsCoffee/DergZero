@@ -17,6 +17,9 @@ public class Config {
     private String defaultRoleID;
     private String prefix;
     private String clientID;
+    private String dbUrl;
+    private String dbUser;
+    private String dbPass;
 
     static Config load() {
         Config config = null;
@@ -69,5 +72,29 @@ public class Config {
 
     public void setPrefix(String prefix) {
         this.prefix = prefix;
+    }
+
+    public String getDbPass() {
+        return dbPass;
+    }
+
+    public String getDbUser() {
+        return dbUser;
+    }
+
+    public String getDbUrl() {
+        return dbUrl;
+    }
+
+    public void setDbUrl(String dbUrl) {
+        this.dbUrl = dbUrl;
+    }
+
+    public void setDbUser(String dbUser) {
+        this.dbUser = dbUser;
+    }
+
+    public void setDbPass(String dbPass) {
+        this.dbPass = dbPass;
     }
 }

@@ -11,7 +11,6 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xyz.joesorensen.starbot2.StarBot2;
 
 import java.awt.*;
 import java.io.File;
@@ -50,6 +49,7 @@ public class XpListener extends ListenerAdapter {
         File membersFile = new File("members.json");
         if (membersFile.exists()) {
             UserManager.loadFile();
+            membersFile.delete();
         }
         for (Guild guild : guilds) {
             List<Member> members = guild.getMembers();
@@ -63,25 +63,7 @@ public class XpListener extends ListenerAdapter {
                         (Objects.requireNonNull(UserManager.getUser(member.getId())).getLvl() < 5))
                     guild.addRoleToMember(member, jda.getRoleById(LvlRoleIDs.LVL1.getId())).queue();
             }
-
-            timer.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    UserManager.saveFile();
-                }
-            }, 3000, 30000);
         }
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-
-            @Override
-            public void run() {
-                if (!StarBot2.shuttingDown) {
-                    log.info("Saving members.json before shutdown...");
-                    UserManager.saveFile();
-                }
-            }
-
-        });
         log.info("XPUtil version 0.2 ready");
     }
 

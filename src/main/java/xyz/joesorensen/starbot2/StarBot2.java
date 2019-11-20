@@ -5,11 +5,7 @@ import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.jagrosh.jdautilities.examples.command.AboutCommand;
 import com.jagrosh.jdautilities.examples.command.PingCommand;
-import net.dv8tion.jda.api.AccountType;
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.OnlineStatus;
-import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.*;
 import net.dv8tion.jda.api.entities.Activity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,9 +40,9 @@ public class StarBot2 {
     public static boolean shuttingDown = false;
     private static String version = StarBot2.class.getPackage().getImplementationVersion();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Logger log = LoggerFactory.getLogger("Startup");
-        final boolean enableDiscord = true;
+        final boolean enableDiscord = false;
 
         log.info("StarBot2 v" + version);
 
@@ -104,6 +100,7 @@ public class StarBot2 {
         cb.setStatus(OnlineStatus.ONLINE);
 
         XPUtil xpUtil = new XPUtil(cb);
+        xpUtil.db(config.getDbUrl(), config.getDbUser(), config.getDbPass());
         cb = xpUtil.builder();
 
         CommandClient client = cb.build();
