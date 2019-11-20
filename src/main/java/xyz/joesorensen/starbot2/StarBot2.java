@@ -42,7 +42,7 @@ public class StarBot2 {
 
     public static void main(String[] args) throws Exception {
         Logger log = LoggerFactory.getLogger("Startup");
-        final boolean enableDiscord = false;
+        final boolean enableDiscord = true;
 
         log.info("StarBot2 v" + version);
 
@@ -89,7 +89,7 @@ public class StarBot2 {
                         new PingCommand(),
 
                         new TwitchPingCmd(),
-                        new SaveCmd(),
+                        new BackupCmd(),
                         new PruneCmd(),
                         new ChangeLvlCmd(),
                         new ChangeXPCmd(),

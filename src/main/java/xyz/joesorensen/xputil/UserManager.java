@@ -91,12 +91,17 @@ public class UserManager {
 
     public static void saveFile() {
         Logger log = LoggerFactory.getLogger("SaveMembersToJSON");
+        try {
+            users = db.getUsers();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         JSONArray data = createJsonArrayFromList();
         JSONObject file = new JSONObject();
         file.put("data", data);
 
         try {
-            Files.write(Paths.get("members.json"), file.toString().getBytes());
+            Files.write(Paths.get("backup.json"), file.toString().getBytes());
         } catch (IOException e) {
             log.error(ExceptionUtils.getStackTrace(e));
         }
