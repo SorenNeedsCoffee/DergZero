@@ -36,8 +36,8 @@ public class StarBot2 {
             Permission.MESSAGE_EMBED_LINKS, Permission.MESSAGE_ATTACH_FILES, Permission.MESSAGE_MANAGE, Permission.MESSAGE_EXT_EMOJI,
             Permission.MANAGE_CHANNEL, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.NICKNAME_CHANGE};
     public static TwitchListener twitchListener;
-    private static JDA jda = null;
     public static boolean shuttingDown = false;
+    private static JDA jda = null;
     private static String version = StarBot2.class.getPackage().getImplementationVersion();
 
     public static void main(String[] args) throws Exception {

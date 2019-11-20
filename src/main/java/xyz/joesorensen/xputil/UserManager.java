@@ -129,7 +129,7 @@ public class UserManager {
 
         }
 
-        for(User user : users) {
+        for (User user : users) {
             try {
                 db.addUser(user.getId(), user.getLvl(), user.getXp());
             } catch (SQLException e) {

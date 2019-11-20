@@ -15,8 +15,8 @@ class DbManager {
 
     DbManager(String ip, String db, String table, String user, String pass) throws Exception {
 
-        connect = DriverManager.getConnection("jdbc:mysql://"+ip+"/"+db+"?"
-                + "user="+user+"&password="+pass);
+        connect = DriverManager.getConnection("jdbc:mysql://" + ip + "/" + db + "?"
+                + "user=" + user + "&password=" + pass);
 
         this.table = table;
     }
@@ -24,7 +24,7 @@ class DbManager {
     void addUser(String id, int lvl, double xp) throws SQLException {
         Statement statement = connect.createStatement();
 
-        statement.executeUpdate("INSERT INTO " + table + " VALUES ('"+id+"', "+xp+", "+lvl+")");
+        statement.executeUpdate("INSERT INTO " + table + " VALUES ('" + id + "', " + xp + ", " + lvl + ")");
     }
 
     void delUser(String id) throws SQLException {
@@ -58,7 +58,7 @@ class DbManager {
         ResultSet rs = statement.executeQuery("SELECT * FROM " + table);
         List<User> users = new ArrayList<>();
         rs.next();
-        while(!rs.isAfterLast()){
+        while (!rs.isAfterLast()) {
             users.add(new User(rs.getString("id"), rs.getDouble("xp"), rs.getInt("lvl")));
             rs.next();
         }

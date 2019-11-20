@@ -21,7 +21,7 @@ public class Config {
     private String dbUser;
     private String dbPass;
 
-    static Config load() {
+    public static Config load() {
         Config config = null;
         try {
             InputStream in = Files.newInputStream(Paths.get("config.yml"));
@@ -78,8 +78,16 @@ public class Config {
         return dbPass;
     }
 
+    public void setDbPass(String dbPass) {
+        this.dbPass = dbPass;
+    }
+
     public String getDbUser() {
         return dbUser;
+    }
+
+    public void setDbUser(String dbUser) {
+        this.dbUser = dbUser;
     }
 
     public String getDbUrl() {
@@ -88,13 +96,5 @@ public class Config {
 
     public void setDbUrl(String dbUrl) {
         this.dbUrl = dbUrl;
-    }
-
-    public void setDbUser(String dbUser) {
-        this.dbUser = dbUser;
-    }
-
-    public void setDbPass(String dbPass) {
-        this.dbPass = dbPass;
     }
 }
