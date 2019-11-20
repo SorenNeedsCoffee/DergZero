@@ -18,6 +18,7 @@ public class Config {
     private String prefix;
     private String clientID;
     private String dbUrl;
+    private String dbName;
     private String dbUser;
     private String dbPass;
 
@@ -96,5 +97,13 @@ public class Config {
 
     public void setDbUrl(String dbUrl) {
         this.dbUrl = dbUrl;
+    }
+
+    public String getDbName() {
+        return dbName;
+    }
+
+    public void setDbName(String dbName) {
+        this.dbName = dbName;
     }
 }

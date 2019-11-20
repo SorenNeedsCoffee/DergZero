@@ -7,5 +7,6 @@ prefix: "!>"
 clientID: dtzq1av7xypkslgox5c30w4k3c527y
 #DB
 dbUrl: 127.0.0.1
+dbName: starbot2
 dbUser: starbot2
 dbPass: starbot2

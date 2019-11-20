@@ -43,8 +43,8 @@ public class UserManager {
         }
     }
 
-    static void initDb(String url, String user, String pass) throws Exception {
-        db = new DbManager(url, "starbot2", "users", user, pass);
+    static void initDb(String url, String dbName, String user, String pass) throws Exception {
+        db = new DbManager(url, dbName, "users", user, pass);
     }
 
     public static void pruneUsers(Guild guild) {
