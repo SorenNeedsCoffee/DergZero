@@ -9,6 +9,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ * -=StarBot2=-
+ *
+ * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ */
 public class HelpCmd implements Consumer<CommandEvent> {
     @Override
     public void accept(CommandEvent event) {
