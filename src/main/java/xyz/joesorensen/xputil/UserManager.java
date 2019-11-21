@@ -14,23 +14,37 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- *   -=XPUtil=-
- *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * -=XPUtil=-
  *
+ * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public class UserManager {
     private static List<User> users = new ArrayList<>();
+    private static DbManager db;
 
-    public static void addUser(String id) {
-        users.add(new User(id));
+    static void addUser(String id) {
+        try {
+            db.addUser(id, 0, 0.0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    public static void removeUser(String id) {
-        users.remove(getUser(id));
+    static void removeUser(String id) {
+        try {
+            db.delUser(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void initDb(String url, String dbName, String user, String pass) throws Exception {
+        db = new DbManager(url, dbName, "users", user, pass);
     }
 
     public static void pruneUsers(Guild guild) {
@@ -49,39 +63,51 @@ public class UserManager {
     }
 
     public static User getUser(String id) {
-        for (User user : users) {
-            if (user.getId().equals(id))
-                return user;
+        try {
+            return db.getUser(id);
+        } catch (SQLException e) {
+            return null;
         }
-        return null;
     }
 
     public static List<User> getUsers() {
-        return users;
+        try {
+            return db.getUsers();
+        } catch (SQLException e) {
+            return null;
+        }
     }
 
     public static void updateUser(User user) {
         if (user.getId().equals("") || user.getId() == null)
             throw new IllegalArgumentException("Id of user cannot be empty or null.");
 
-        int index = users.indexOf(user);
-        users.set(index, user);
+        try {
+            db.updateUser(user);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void saveFile() {
         Logger log = LoggerFactory.getLogger("SaveMembersToJSON");
+        try {
+            users = db.getUsers();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         JSONArray data = createJsonArrayFromList();
         JSONObject file = new JSONObject();
         file.put("data", data);
 
         try {
-            Files.write(Paths.get("members.json"), file.toString().getBytes());
+            Files.write(Paths.get("backup.json"), file.toString().getBytes());
         } catch (IOException e) {
             log.error(ExceptionUtils.getStackTrace(e));
         }
     }
 
-    public static void loadFile() {
+    static void loadFile() {
         Logger log = LoggerFactory.getLogger("loadMembersFromFile");
 
         JSONObject raw = null;
@@ -101,6 +127,14 @@ public class UserManager {
             JSONObject obj = (JSONObject) user;
             users.add(new User((String) obj.get("id"), (double) obj.get("xp"), ((Long) obj.get("lvl")).intValue()));
 
+        }
+
+        for (User user : users) {
+            try {
+                db.addUser(user.getId(), user.getLvl(), user.getXp());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 

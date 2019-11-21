@@ -6,16 +6,16 @@ import xyz.joesorensen.xputil.User;
 import xyz.joesorensen.xputil.UserManager;
 
 /**
- *   -=StarBot2=-
- *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * -=StarBot2=-
  *
+ * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public class ChangeXPCmd extends AdminCommand {
 
     public ChangeXPCmd() {
         this.name = "chxp";
         this.help = "change xp of any given user id";
-        this.arguments = "<UserID | new xp>";
+        this.arguments = "UserID | new xp";
     }
 
     @Override

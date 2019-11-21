@@ -4,13 +4,8 @@ import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.jagrosh.jdautilities.examples.command.AboutCommand;
-import com.jagrosh.jdautilities.examples.command.PingCommand;
 import net.dv8tion.jda.api.*;
 import net.dv8tion.jda.api.entities.Activity;
-import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.joesorensen.starbot2.commands.admin.*;
@@ -18,59 +13,47 @@ import xyz.joesorensen.starbot2.commands.fun.AvatarCmd;
 import xyz.joesorensen.starbot2.commands.fun.FakeCmd;
 import xyz.joesorensen.starbot2.commands.fun.HelCmd;
 import xyz.joesorensen.starbot2.commands.fun.OobifyCmd;
+import xyz.joesorensen.starbot2.commands.general.HelpCmd;
+import xyz.joesorensen.starbot2.commands.general.InviteCmd;
+import xyz.joesorensen.starbot2.commands.general.PingCmd;
 import xyz.joesorensen.starbot2.commands.owner.ShutdownCmd;
-import xyz.joesorensen.starbot2.commands.xp.LvlCmd;
-import xyz.joesorensen.starbot2.commands.xp.TopCmd;
 import xyz.joesorensen.starbot2.listeners.Listener;
 import xyz.joesorensen.twitchutil.TwitchEventManager;
 import xyz.joesorensen.twitchutil.TwitchListener;
 import xyz.joesorensen.xputil.UserManager;
-import xyz.joesorensen.xputil.XpListener;
+import xyz.joesorensen.xputil.XPUtil;
 
 import javax.security.auth.login.LoginException;
 import java.awt.*;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 
 /**
- *   -=StarBot2=-
- *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * -=StarBot2=-
  *
+ * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public class StarBot2 {
     private final static Permission[] RECOMMENDED_PERMS = new Permission[]{Permission.MESSAGE_READ, Permission.MESSAGE_WRITE, Permission.MESSAGE_HISTORY, Permission.MESSAGE_ADD_REACTION,
             Permission.MESSAGE_EMBED_LINKS, Permission.MESSAGE_ATTACH_FILES, Permission.MESSAGE_MANAGE, Permission.MESSAGE_EXT_EMOJI,
             Permission.MANAGE_CHANNEL, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.NICKNAME_CHANGE};
-
-    private static JDA jda = null;
-    private static boolean shuttingDown = false;
-    static String version = StarBot2.class.getPackage().getImplementationVersion();
     public static TwitchListener twitchListener;
+    public static boolean shuttingDown = false;
+    private static JDA jda = null;
+    private static String version = StarBot2.class.getPackage().getImplementationVersion();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Logger log = LoggerFactory.getLogger("Startup");
+        final boolean enableDiscord = true;
 
         log.info("StarBot2 v" + version);
 
         log.info("Loading config...");
+        Config config = Config.load();
 
-        Object raw = null;
-        try {
-            raw = new JSONParser().parse(new FileReader("config.json"));
-        } catch (FileNotFoundException e) {
-            log.error("FileNotFoundException: config file not found. Please ensure that the config file exists, is in the same directory as the jar, and is called config.json");
-            System.exit(1);
-        } catch (IOException | ParseException e) {
-            log.error(ExceptionUtils.getStackTrace(e));
-            System.exit(1);
-        }
-        JSONObject config = (JSONObject) raw;
-        String token = (String) config.get("token");
-        String ownerID = (String) config.get("ownerID");
-        String defaultRoleID = (String) config.get("defaultRoleID");
-        String prefix = (String) config.get("prefix");
-        String clientID = (String) config.get("clientID");
+        String token = config.getToken();
+        String ownerID = config.getOwnerID();
+        String defaultRoleID = config.getDefaultRoleID();
+        String prefix = config.getPrefix();
+        String clientID = config.getClientID();
         if (token.equals("") || ownerID.equals("") || prefix.equals("") || clientID.equals("") || defaultRoleID.equals("")) {
             log.error("Incomplete config file. Please ensure that properties token, ownerID, clientID, defaultRoleID, and prefix are present and not empty");
             System.exit(1);
@@ -90,21 +73,23 @@ public class StarBot2 {
                 setCoOwnerIds("275037176302141450", "231746019098886144").
                 setPrefix(prefix).
                 setHelpWord("help").
+                setHelpConsumer(new HelpCmd()).
                 setLinkedCacheSize(200).
                 setActivity(Activity.playing("On Soren's server | " + prefix + "help for help")).
                 setEmojis("\u2705", "\u26A0", "\u26D4").
-                addCommands(ab,
+                addCommands(
+                        ab,
+                        new InviteCmd(),
+
                         new HelCmd(),
                         new OobifyCmd(),
                         new FakeCmd(),
                         new AvatarCmd(),
 
-                        new LvlCmd(),
-                        new TopCmd(),
-                        new PingCommand(),
+                        new PingCmd(),
 
-                        new TwitchPingCmd(clientID),
-                        new SaveCmd(),
+                        new TwitchPingCmd(),
+                        new BackupCmd(),
                         new PruneCmd(),
                         new ChangeLvlCmd(),
                         new ChangeXPCmd(),
@@ -114,28 +99,35 @@ public class StarBot2 {
 
         cb.setStatus(OnlineStatus.ONLINE);
 
+        XPUtil xpUtil = new XPUtil(cb);
+        xpUtil.db(config.getDbUrl(), config.getDbName(), config.getDbUser(), config.getDbPass());
+        cb = xpUtil.builder();
+
         CommandClient client = cb.build();
         Listener listener = new Listener();
-        XpListener xp = new XpListener();
         listener.setRoleID(defaultRoleID);
         listener.setPrefix(prefix);
 
         log.info("Attempting login...");
 
-        try {
-            jda = new JDABuilder(AccountType.BOT)
-                    .setToken(token)
-                    .setStatus(OnlineStatus.DO_NOT_DISTURB)
-                    .setActivity(Activity.playing("loading..."))
-                    .addEventListeners(client, waiter, xp, listener)
-                    .build();
-        } catch (LoginException ex) {
-            log.error("Invalid Token");
-            System.exit(1);
-        }
+        if (enableDiscord) {
+            try {
+                jda = new JDABuilder(AccountType.BOT)
+                        .setToken(token)
+                        .setStatus(OnlineStatus.DO_NOT_DISTURB)
+                        .setActivity(Activity.playing("loading..."))
+                        .addEventListeners(client, waiter, xpUtil.listener(), listener)
+                        .build();
+            } catch (LoginException ex) {
+                log.error("Invalid Token");
+                System.exit(1);
+            }
 
-        listener.setJDA(jda);
-        xp.setJDA(jda);
+            listener.setJDA(jda);
+            xpUtil.setJDA(jda);
+        } else {
+            log.info("DEV: Discord functionality disabled for testing purposes.");
+        }
 
         twitchListener = new TwitchListener(clientID);
         TwitchEventManager.setListener(listener);

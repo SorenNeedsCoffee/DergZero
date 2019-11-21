@@ -7,9 +7,9 @@ import xyz.joesorensen.starbot2.commands.AdminCommand;
 import xyz.joesorensen.xputil.UserManager;
 
 /**
- *   -=StarBot2=-
- *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * -=StarBot2=-
  *
+ * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public class PruneCmd extends AdminCommand {
 

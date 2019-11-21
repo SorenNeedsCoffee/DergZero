@@ -4,9 +4,9 @@ import com.jagrosh.jdautilities.command.Command;
 import net.dv8tion.jda.api.Permission;
 
 /**
- *   -=StarBot2=-
- *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * -=StarBot2=-
  *
+ * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public abstract class AdminCommand extends Command {
     protected AdminCommand() {

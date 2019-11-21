@@ -3,3 +3,5 @@
 /.idea/
 /logs/
 /members.json
+#no config for you
+config.yml

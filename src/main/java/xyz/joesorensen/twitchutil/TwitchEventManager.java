@@ -12,9 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *   -=TwitchUtil=-
- *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * -=TwitchUtil=-
  *
+ * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public class TwitchEventManager {
     private static Listener listener;
@@ -82,6 +82,7 @@ public class TwitchEventManager {
 
         MessageEmbed embed = eBuilder.build();
 
+        mBuilder.setContent("@everyone");
         mBuilder.setEmbed(embed);
 
         return mBuilder.build();

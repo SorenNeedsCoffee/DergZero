@@ -1,9 +1,9 @@
 package xyz.joesorensen.xputil;
 
 /**
- *   -=XPUtil=-
- *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * -=XPUtil=-
  *
+ * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public enum LvlRoleIDs {
     LVL1("618904321500774414"),
@@ -27,10 +27,6 @@ public enum LvlRoleIDs {
 
     LvlRoleIDs(String id) {
         this.id = id;
-    }
-
-    public String getId() {
-        return this.id;
     }
 
     public static String getLvlRole(int lvl) {
@@ -84,5 +80,9 @@ public enum LvlRoleIDs {
 
     private static boolean isBetween(int x, int lower, int upper) {
         return lower <= x && x <= upper;
+    }
+
+    public String getId() {
+        return this.id;
     }
 }

@@ -3,9 +3,9 @@ package xyz.joesorensen.xputil;
 import org.jetbrains.annotations.NotNull;
 
 /**
- *   -=XPUtil=-
- *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * -=XPUtil=-
  *
+ * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public class User implements Comparable<User> {
     private String id;
@@ -32,20 +32,20 @@ public class User implements Comparable<User> {
         return xp;
     }
 
-    public int getLvl() {
-        return lvl;
-    }
-
-    public void addXp(double amt) {
-        this.xp += amt;
-    }
-
     public void setXp(double val) {
         this.xp = val;
     }
 
+    public int getLvl() {
+        return lvl;
+    }
+
     public void setLvl(int val) {
         this.lvl = val;
+    }
+
+    public void addXp(double amt) {
+        this.xp += amt;
     }
 
     @Override

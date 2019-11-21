@@ -1,11 +1,11 @@
-package xyz.joesorensen.starbot2.commands;
+package xyz.joesorensen.xputil.commands;
 
 import com.jagrosh.jdautilities.command.Command;
 
 /**
- *   -=StarBot2=-
- *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * -=XPUtil=-
  *
+ * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public abstract class XpCommand extends Command {
 

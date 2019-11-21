@@ -4,9 +4,9 @@ import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 
 /**
- *   -=StarBot2=-
- *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * -=StarBot2=-
  *
+ * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public class FakeCmd extends Command {
 
@@ -17,7 +17,7 @@ public class FakeCmd extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        switch(event.getMember().getUser().getId()) {
+        switch (event.getMember().getUser().getId()) {
             case "312736834415493123":
                 event.replyError("no u.");
                 break;

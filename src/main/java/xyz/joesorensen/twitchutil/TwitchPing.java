@@ -12,30 +12,37 @@ import java.util.HashMap;
 import java.util.TimerTask;
 
 /**
- *   -=TwitchUtil=-
- *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * -=TwitchUtil=-
  *
+ * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public class TwitchPing extends TimerTask {
 
-    public static boolean live = false;
+    private static boolean live = false;
+    private Twitch twitch = new Twitch();
     private HashMap<String, String> map;
+    private String loginName;
     private Stream data;
     private Channel user;
 
+    TwitchPing(String loginName) {
+        twitch.setClientId(TwitchListener.id);
+        this.loginName = loginName;
+    }
+
     public void run() {
         Logger log = LoggerFactory.getLogger("Twitch Ping");
-        Twitch twitch = new Twitch();
-        twitch.setClientId(TwitchListener.id);
+        map = null;
+        data = null;
+        user = null;
 
-        twitch.streams().get(TwitchListener.loginName, new StreamResponseHandler() {
-
+        twitch.streams().get(loginName, new StreamResponseHandler() {
             @Override
             public void onSuccess(Stream stream) {
                 if (stream != null)
                     map = (HashMap<String, String>) stream.getAdditionalProperties().get("stream");
                 data = stream;
-                twitch.channels().get(TwitchListener.loginName, new ChannelResponseHandler() {
+                twitch.channels().get(loginName, new ChannelResponseHandler() {
                     @Override
                     public void onSuccess(Channel channel) {
                         user = channel;
@@ -52,29 +59,21 @@ public class TwitchPing extends TimerTask {
 
                     @Override
                     public void onFailure(int i, String s, String s1) {
-
                     }
 
                     @Override
                     public void onFailure(Throwable throwable) {
-
                     }
                 });
             }
 
             @Override
             public void onFailure(int i, String s, String s1) {
-                log.info("failed");
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                log.info("failed");
             }
         });
-
-        map = null;
-        data = null;
-        user = null;
     }
 }

@@ -5,15 +5,15 @@ import xyz.joesorensen.starbot2.commands.AdminCommand;
 import xyz.joesorensen.xputil.UserManager;
 
 /**
- *   -=StarBot2=-
- *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * -=StarBot2=-
  *
+ * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
-public class SaveCmd extends AdminCommand {
+public class BackupCmd extends AdminCommand {
 
-    public SaveCmd() {
-        this.name = "save";
-        this.help = "save member data";
+    public BackupCmd() {
+        this.name = "backup";
+        this.help = "backup member data";
     }
 
     @Override

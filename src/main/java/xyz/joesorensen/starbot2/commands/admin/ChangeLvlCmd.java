@@ -8,16 +8,16 @@ import xyz.joesorensen.xputil.UserManager;
 import xyz.joesorensen.xputil.XpListener;
 
 /**
- *   -=StarBot2=-
- *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * -=StarBot2=-
  *
+ * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public class ChangeLvlCmd extends AdminCommand {
 
     public ChangeLvlCmd() {
         this.name = "chlvl";
         this.help = "change level of any given user id";
-        this.arguments = "<UserID | new level>";
+        this.arguments = "UserID | new level";
     }
 
     @Override
@@ -31,7 +31,7 @@ public class ChangeLvlCmd extends AdminCommand {
         User update = UserManager.getUser(args[0]);
         update.setLvl(Integer.parseInt(args[1]));
         update.setXp(update.getLvl() * 250);
-        XpListener.replaceRole(event.getGuild().getMemberById(args[0]), LvlRoleIDs.getLvlRole(UserManager.getUser(args[0]).getLvl()), LvlRoleIDs.getLvlRole(update.getLvl()));
+        XpListener.replaceRole(event.getGuild(), event.getGuild().getMemberById(args[0]), LvlRoleIDs.getLvlRole(UserManager.getUser(args[0]).getLvl()), LvlRoleIDs.getLvlRole(update.getLvl()));
         UserManager.updateUser(update);
     }
 }

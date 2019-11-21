@@ -27,9 +27,9 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- *   -=StarBot2=-
- *  @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * -=StarBot2=-
  *
+ * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public class Listener extends ListenerAdapter {
     private Logger log;
@@ -81,15 +81,14 @@ public class Listener extends ListenerAdapter {
         if (event.getAuthor().isBot() || event.getAuthor().isFake())
             return;
 
-        if (event.getChannel() == jda.getTextChannelById("506503200866697226"))
-            if (!event.getMessage().getContentDisplay().equalsIgnoreCase("hi"))
-                event.getMessage().delete().queue();
+        if (event.getChannel() == jda.getTextChannelById("506503200866697226") && !event.getMessage().getContentDisplay().equalsIgnoreCase("hi"))
+            event.getMessage().delete().queue();
 
         if (event.getMessage().getContentDisplay().toLowerCase().contains("yo, can i have some memes?"))
             event.getChannel().sendMessage("dude not out in the open!").queue();
 
-        if(event.getMessage().getContentDisplay().equalsIgnoreCase("cooked joesorensen") || event.getMessage().getContentDisplay().equalsIgnoreCase("cooked soren")) {
-            switch((int)(Math.random() * 10 + 1)) {
+        if (event.getMessage().getContentDisplay().equalsIgnoreCase("cooked joesorensen") || event.getMessage().getContentDisplay().equalsIgnoreCase("cooked soren")) {
+            switch ((int) (Math.random() * 10 + 1)) {
                 case 3:
                     event.getChannel().sendMessage("https://i.redd.it/1j32vwxci7p21.jpg").queue();
                     break;
@@ -154,7 +153,6 @@ public class Listener extends ListenerAdapter {
     public void onLive(Message embed) {
         log.info("live!");
         jda.getPresence().setActivity(Activity.streaming("JoeSorensen is live!", "https://twitch.tv/joesorensen"));
-        Objects.requireNonNull(Objects.requireNonNull(jda.getGuildById("442552203694047232")).getTextChannelById("442556155856814080")).sendMessage("@everyone").queue();
         Objects.requireNonNull(Objects.requireNonNull(jda.getGuildById("442552203694047232")).getTextChannelById("442556155856814080")).sendMessage(embed).queue();
     }
 
