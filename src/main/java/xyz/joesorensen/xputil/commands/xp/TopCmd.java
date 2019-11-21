@@ -50,7 +50,7 @@ public class TopCmd extends XpCommand {
         Collections.sort(users, Collections.reverseOrder());
         EmbedBuilder embed = new EmbedBuilder();
         float[] rgb;
-        embed.setDescription("Top Users");
+        embed.setTitle("Top Users");
         //embed.setAuthor("User Level", null, event.getAuthor().getAvatarUrl());
         embed.addField("",
                 "```\n" +

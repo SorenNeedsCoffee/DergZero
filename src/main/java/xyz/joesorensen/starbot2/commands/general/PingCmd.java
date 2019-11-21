@@ -2,6 +2,7 @@ package xyz.joesorensen.starbot2.commands.general;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import net.dv8tion.jda.api.EmbedBuilder;
 
 import java.time.temporal.ChronoUnit;
 
@@ -24,7 +25,11 @@ public class PingCmd extends Command {
     protected void execute(CommandEvent event) {
         event.reply("...", m -> {
             long ping = event.getMessage().getTimeCreated().until(m.getTimeCreated(), ChronoUnit.MILLIS);
-            m.editMessage("Ping: " + ping  + "ms | Websocket: " + event.getJDA().getGatewayPing() + "ms").queue();
+            EmbedBuilder embed = new EmbedBuilder();
+            embed.setTitle("Pong!");
+            embed.addField("Ping", ping + "ms", true);
+            embed.addField("Websocket", event.getJDA().getGatewayPing() + "ms", true);
+            m.editMessage(embed.build()).queue();
         });
     }
 

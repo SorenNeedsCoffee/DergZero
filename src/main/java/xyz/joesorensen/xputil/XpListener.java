@@ -89,6 +89,7 @@ public class XpListener extends ListenerAdapter {
         if (cooldown.indexOf(event.getAuthor().getId()) == -1 || !event.getChannel().getId().equals("442556155856814080")) {
             User update = UserManager.getUser(event.getAuthor().getId());
             double length = Math.sqrt(event.getMessage().getContentDisplay().replaceAll(" ", "").length());
+            length = Math.min(10, length);
             update.addXp(length * (Math.abs(random.nextGaussian()) * 5 + 1));
             if (update.getXp() >= update.getLvl() * 250) {
                 onLvlUp(event, update);
@@ -111,12 +112,15 @@ public class XpListener extends ListenerAdapter {
         float[] rgb;
 
         embed.setAuthor("Level Up!", null, event.getAuthor().getAvatarUrl());
-        embed.setDescription("Congrats to " + event.getAuthor().getName() + " for reaching level " + update.getLvl() + "!");
+        if (event.getMember().getNickname() != null) {
+            embed.setDescription("Congrats to " + event.getMember().getNickname() + " for reaching level " + update.getLvl() + "!");
+        } else {
+            embed.setDescription("Congrats to " + event.getAuthor().getName() + " for reaching level " + update.getLvl() + "!");
+        }
         rgb = Color.RGBtoHSB(204, 255, 94, null);
         embed.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]));
 
         event.getChannel().sendMessage(embed.build()).queue();
-        UserManager.saveFile();
 
         switch (update.getLvl()) {
             case 5:

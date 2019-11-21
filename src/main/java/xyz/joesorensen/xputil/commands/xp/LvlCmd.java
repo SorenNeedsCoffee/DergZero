@@ -59,7 +59,7 @@ public class LvlCmd extends XpCommand {
             } else {
                 embed.setAuthor(event.getMember().getUser().getName(), null, event.getAuthor().getAvatarUrl());
             }
-            embed.setTitle("Level");
+            embed.setTitle("User Rank");
             embed.addField("Level", Integer.toString(user.getLvl()), true);
             embed.addField("XP", new DecimalFormat("#.##").format(user.getXp()) + " | Placement: " + placement, false);
             embed.addField("Progress to next level",
@@ -78,16 +78,16 @@ public class LvlCmd extends XpCommand {
             EmbedBuilder embed = new EmbedBuilder();
             float[] rgb;
             if (event.getMessage().getMentionedMembers().get(0).getNickname() != null) {
-                embed.setDescription("Level for " + event.getMessage().getMentionedMembers().get(0).getNickname());
+                embed.setAuthor(event.getMessage().getMentionedMembers().get(0).getNickname(), null, event.getMessage().getMentionedMembers().get(0).getUser().getAvatarUrl());
             } else {
-                embed.setDescription("Level for " + event.getMessage().getMentionedMembers().get(0).getUser().getName());
+                embed.setAuthor(event.getMessage().getMentionedMembers().get(0).getUser().getName(), null, event.getMessage().getMentionedMembers().get(0).getUser().getAvatarUrl());
             }
-            embed.setAuthor("User Level", null, event.getMessage().getMentionedMembers().get(0).getUser().getAvatarUrl());
+            embed.setTitle("User Rank");
             embed.addField("Level", Integer.toString(user.getLvl()), true);
             embed.addField("XP", new DecimalFormat("#.##").format(user.getXp()) + " | Placement: " + placement, false);
-            embed.addField("Progress to next level",
+            embed.addField("",
                     "```java\n" +
-                            progress((user.getXp() - ((user.getLvl() * 250) - 250)) / ((user.getLvl() * 250))) +
+                            progress((user.getXp() - ((user.getLvl() * 250) - 250)) / 250) +
                             " (" + new DecimalFormat("#.##").format(user.getXp()) + "/" + (user.getLvl() * 250) + ")" +
                             "\n```",
                     false);

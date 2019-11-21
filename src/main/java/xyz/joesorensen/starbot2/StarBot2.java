@@ -4,7 +4,6 @@ import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.jagrosh.jdautilities.examples.command.AboutCommand;
-import com.jagrosh.jdautilities.examples.command.PingCommand;
 import net.dv8tion.jda.api.*;
 import net.dv8tion.jda.api.entities.Activity;
 import org.slf4j.Logger;
@@ -16,6 +15,7 @@ import xyz.joesorensen.starbot2.commands.fun.HelCmd;
 import xyz.joesorensen.starbot2.commands.fun.OobifyCmd;
 import xyz.joesorensen.starbot2.commands.general.HelpCmd;
 import xyz.joesorensen.starbot2.commands.general.InviteCmd;
+import xyz.joesorensen.starbot2.commands.general.PingCmd;
 import xyz.joesorensen.starbot2.commands.owner.ShutdownCmd;
 import xyz.joesorensen.starbot2.listeners.Listener;
 import xyz.joesorensen.twitchutil.TwitchEventManager;
@@ -86,7 +86,7 @@ public class StarBot2 {
                         new FakeCmd(),
                         new AvatarCmd(),
 
-                        new PingCommand(),
+                        new PingCmd(),
 
                         new TwitchPingCmd(),
                         new BackupCmd(),
