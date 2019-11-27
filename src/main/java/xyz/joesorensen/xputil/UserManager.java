@@ -26,12 +26,13 @@ import java.util.List;
 public class UserManager {
     private static List<User> users = new ArrayList<>();
     private static DbManager db;
+    private static Logger log = LoggerFactory.getLogger("UserManager");
 
     static void addUser(String id) {
         try {
             db.addUser(id, 0, 0.0);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(ExceptionUtils.getStackTrace(e));
         }
     }
 
@@ -39,7 +40,7 @@ public class UserManager {
         try {
             db.delUser(id);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(ExceptionUtils.getStackTrace(e));
         }
     }
 
@@ -66,6 +67,7 @@ public class UserManager {
         try {
             return db.getUser(id);
         } catch (SQLException e) {
+            log.error(ExceptionUtils.getStackTrace(e));
             return null;
         }
     }
@@ -74,6 +76,7 @@ public class UserManager {
         try {
             return db.getUsers();
         } catch (SQLException e) {
+            log.error(ExceptionUtils.getStackTrace(e));
             return null;
         }
     }
@@ -85,7 +88,7 @@ public class UserManager {
         try {
             db.updateUser(user);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(ExceptionUtils.getStackTrace(e));
         }
     }
 
@@ -94,7 +97,7 @@ public class UserManager {
         try {
             users = db.getUsers();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(ExceptionUtils.getStackTrace(e));
         }
         JSONArray data = createJsonArrayFromList();
         JSONObject file = new JSONObject();
