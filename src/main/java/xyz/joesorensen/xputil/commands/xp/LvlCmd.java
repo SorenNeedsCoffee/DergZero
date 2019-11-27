@@ -62,7 +62,7 @@ public class LvlCmd extends XpCommand {
             embed.setTitle("User Rank");
             embed.addField("Level", Integer.toString(user.getLvl()), true);
             embed.addField("XP", new DecimalFormat("#.##").format(user.getXp()) + " | Placement: " + placement, false);
-            embed.addField("Progress to next level",
+            embed.addField("",
                     "```java\n" +
                             progress((user.getXp() - ((user.getLvl() * 250) - 250)) / 250) +
                             " (" + new DecimalFormat("#.##").format(user.getXp()) + "/" + (user.getLvl() * 250) + ")" +

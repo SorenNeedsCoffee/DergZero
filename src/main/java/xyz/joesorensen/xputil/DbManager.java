@@ -12,11 +12,13 @@ import java.util.List;
 class DbManager {
     private Connection connect;
     private String table;
+    private String url;
 
     DbManager(String ip, String db, String table, String user, String pass) throws Exception {
 
-        connect = DriverManager.getConnection("jdbc:mysql://" + ip + "/" + db + "?"
-                + "user=" + user + "&password=" + pass);
+        url = "jdbc:mysql://" + ip + "/" + db + "?"
+                + "user=" + user + "&password=" + pass;
+        connect = DriverManager.getConnection(url);
 
         this.table = table;
     }
