@@ -31,7 +31,7 @@ public class PingCmd extends Command {
             embed.addField("Ping", ping + "ms", true);
             embed.addBlankField(true);
             embed.addField("Websocket", event.getJDA().getGatewayPing() + "ms", true);
-            m.editMessage(new MessageBuilder().setContent(null).setEmbed(embed.build()).build()).queue();
+            m.editMessage(new MessageBuilder().setContent("​").setEmbed(embed.build()).build()).queue();
         });
     }
 
