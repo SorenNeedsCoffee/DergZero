@@ -120,7 +120,8 @@ public class XpListener extends ListenerAdapter {
         rgb = Color.RGBtoHSB(204, 255, 94, null);
         embed.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]));
 
-        event.getChannel().sendMessage(embed.build()).queue();
+        if(update.getLvl() != 1)
+            event.getChannel().sendMessage(embed.build()).queue();
 
         switch (update.getLvl()) {
             case 5:
