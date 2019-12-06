@@ -12,7 +12,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.joesorensen.xputil.lib.LvlRoleIDs;
-import xyz.joesorensen.xputil.lib.XPInfo;
+import xyz.joesorensen.xputil.lib.XpInfo;
 
 import java.awt.*;
 import java.io.File;
@@ -89,8 +89,8 @@ public class XpListener extends ListenerAdapter {
 
         if (cooldown.indexOf(event.getAuthor().getId()) == -1 || !event.getChannel().getId().equals("442556155856814080")) {
             User update = UserManager.getUser(event.getAuthor().getId());
-            update.addXp(XPInfo.earnedXP(event.getMessage().getContentDisplay()));
-            if (update.getXp() >= XPInfo.lvlXpRequirement(update.getLvl())) {
+            update.addXp(XpInfo.earnedXP(event.getMessage().getContentDisplay()));
+            if (update.getXp() >= XpInfo.lvlXpRequirement(update.getLvl())) {
                 onLvlUp(event, update);
             }
             UserManager.updateUser(update);

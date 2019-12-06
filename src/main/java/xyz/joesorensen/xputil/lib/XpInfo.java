@@ -2,7 +2,7 @@ package xyz.joesorensen.xputil.lib;
 
 import java.util.Random;
 
-public class XPInfo {
+public class XpInfo {
     private static Random random = new Random();
 
     public static double earnedXP(String msg) {
