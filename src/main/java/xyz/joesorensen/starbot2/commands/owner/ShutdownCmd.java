@@ -3,7 +3,7 @@ package xyz.joesorensen.starbot2.commands.owner;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import xyz.joesorensen.starbot2.StarBot2;
 import xyz.joesorensen.starbot2.commands.OwnerCommand;
-import xyz.joesorensen.xputil.UserManager;
+import xyz.joesorensen.xputil.util.UserManager;
 
 /**
  * -=StarBot2=-

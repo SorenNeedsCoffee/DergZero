@@ -4,7 +4,7 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.joesorensen.starbot2.commands.AdminCommand;
-import xyz.joesorensen.xputil.UserManager;
+import xyz.joesorensen.xputil.util.UserManager;
 
 /**
  * -=StarBot2=-

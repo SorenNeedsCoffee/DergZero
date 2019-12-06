@@ -1,4 +1,4 @@
-package xyz.joesorensen.xputil;
+package xyz.joesorensen.xputil.util;
 
 import org.jetbrains.annotations.NotNull;
 

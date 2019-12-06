@@ -4,6 +4,8 @@ import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import net.dv8tion.jda.api.JDA;
 import xyz.joesorensen.xputil.commands.xp.LvlCmd;
 import xyz.joesorensen.xputil.commands.xp.TopCmd;
+import xyz.joesorensen.xputil.util.UserManager;
+import xyz.joesorensen.xputil.util.XpListener;
 
 /**
  * -=XPUtil=-

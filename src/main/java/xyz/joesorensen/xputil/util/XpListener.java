@@ -1,4 +1,4 @@
-package xyz.joesorensen.xputil;
+package xyz.joesorensen.xputil.util;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
@@ -11,6 +11,8 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import xyz.joesorensen.xputil.lib.LvlRoleIDs;
+import xyz.joesorensen.xputil.lib.XPInfo;
 
 import java.awt.*;
 import java.io.File;
@@ -27,7 +29,6 @@ public class XpListener extends ListenerAdapter {
     private Logger log;
     private List<String> cooldown = new ArrayList<>();
     private Timer timer = new Timer();
-    private Random random = new Random();
 
     public XpListener() {
         this.log = LoggerFactory.getLogger("XpUtil");
@@ -88,10 +89,8 @@ public class XpListener extends ListenerAdapter {
 
         if (cooldown.indexOf(event.getAuthor().getId()) == -1 || !event.getChannel().getId().equals("442556155856814080")) {
             User update = UserManager.getUser(event.getAuthor().getId());
-            double length = Math.sqrt(event.getMessage().getContentDisplay().replaceAll(" ", "").length());
-            length = Math.min(10, length);
-            update.addXp(length * (Math.abs(random.nextGaussian()) * 5 + 1));
-            if (update.getXp() >= update.getLvl() * 250) {
+            update.addXp(XPInfo.earnedXP(event.getMessage().getContentDisplay()));
+            if (update.getXp() >= XPInfo.lvlXpRequirement(update.getLvl())) {
                 onLvlUp(event, update);
             }
             UserManager.updateUser(update);
