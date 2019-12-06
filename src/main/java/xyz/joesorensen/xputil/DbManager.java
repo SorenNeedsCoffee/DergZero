@@ -1,8 +1,14 @@
 package xyz.joesorensen.xputil;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * -=XPUtil=-
@@ -11,6 +17,8 @@ import java.util.List;
  */
 class DbManager {
     private Connection connect;
+    private Timer timer = new Timer();
+    private Logger log = LoggerFactory.getLogger("DbManager");
     private String table;
     private String url;
 
@@ -21,6 +29,24 @@ class DbManager {
         connect = DriverManager.getConnection(url);
 
         this.table = table;
+
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                log.info("Reastablishing DB connection...");
+                try {
+                    connect.close();
+                } catch (SQLException e) {
+                    connect = null;
+                }
+                try {
+                    connect = DriverManager.getConnection(url);
+                } catch (SQLException e) {
+                    log.error(ExceptionUtils.getStackTrace(e));
+                }
+                log.info("Success");
+            }
+        }, 10800000, 10800000);
     }
 
     void addUser(String id, int lvl, double xp) throws SQLException {
