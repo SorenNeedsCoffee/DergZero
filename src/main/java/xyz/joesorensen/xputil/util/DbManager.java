@@ -26,6 +26,7 @@ class DbManager {
 
         url = "jdbc:mysql://" + ip + "/" + db + "?"
                 + "user=" + user + "&password=" + pass;
+        log.info("Establishing initial connection to " + db + " at " + ip + "...");
         connect = DriverManager.getConnection(url);
 
         this.table = table;
@@ -47,6 +48,7 @@ class DbManager {
                 log.info("Success");
             }
         }, 10800000, 10800000);
+        log.info("Success.");
     }
 
     void addUser(String id, int lvl, double xp) throws SQLException {

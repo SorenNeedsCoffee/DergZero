@@ -1,8 +1,10 @@
 # Project exclude paths
 /.idea/
 /logs/
+
 #no config for you
 config.yml
+
 .gradle
 /build/
 

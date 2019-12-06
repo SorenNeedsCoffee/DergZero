@@ -122,6 +122,9 @@ public class XpListener extends ListenerAdapter {
         if (update.getLvl() != 1)
             event.getChannel().sendMessage(embed.build()).queue();
 
+        if(update.getLvl() == 69)
+            event.getGuild().addRoleToMember(event.getMember(), jda.getRoleById("652606362936672266")).queue();
+
         switch (update.getLvl()) {
             case 5:
                 replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL1.getId(), LvlRoleIDs.LVL5.getId());
