@@ -20,7 +20,7 @@ import xyz.joesorensen.starbot2.commands.owner.ShutdownCmd;
 import xyz.joesorensen.starbot2.listeners.Listener;
 import xyz.joesorensen.twitchutil.TwitchEventManager;
 import xyz.joesorensen.twitchutil.TwitchListener;
-import xyz.joesorensen.xputil.UserManager;
+import xyz.joesorensen.xputil.util.UserManager;
 import xyz.joesorensen.xputil.XPUtil;
 
 import javax.security.auth.login.LoginException;

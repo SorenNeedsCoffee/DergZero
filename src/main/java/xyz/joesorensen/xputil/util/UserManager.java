@@ -1,4 +1,4 @@
-package xyz.joesorensen.xputil;
+package xyz.joesorensen.xputil.util;
 
 import net.dv8tion.jda.api.entities.Guild;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -44,7 +44,7 @@ public class UserManager {
         }
     }
 
-    static void initDb(String url, String dbName, String user, String pass) throws Exception {
+    public static void initDb(String url, String dbName, String user, String pass) throws Exception {
         db = new DbManager(url, dbName, "users", user, pass);
     }
 
@@ -110,7 +110,7 @@ public class UserManager {
         }
     }
 
-    static void loadFile() {
+    public static void loadFile() {
         Logger log = LoggerFactory.getLogger("loadMembersFromFile");
 
         JSONObject raw = null;

@@ -2,8 +2,8 @@ package xyz.joesorensen.starbot2.commands.admin;
 
 import com.jagrosh.jdautilities.command.CommandEvent;
 import xyz.joesorensen.starbot2.commands.AdminCommand;
-import xyz.joesorensen.xputil.User;
-import xyz.joesorensen.xputil.UserManager;
+import xyz.joesorensen.xputil.util.User;
+import xyz.joesorensen.xputil.util.UserManager;
 
 /**
  * -=StarBot2=-

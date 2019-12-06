@@ -4,8 +4,9 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import xyz.joesorensen.xputil.User;
-import xyz.joesorensen.xputil.UserManager;
+import xyz.joesorensen.xputil.lib.XPInfo;
+import xyz.joesorensen.xputil.util.User;
+import xyz.joesorensen.xputil.util.UserManager;
 import xyz.joesorensen.xputil.commands.XpCommand;
 
 import java.awt.*;
@@ -75,8 +76,8 @@ public class LvlCmd extends XpCommand {
         embed.addField("XP", new DecimalFormat("#.##").format(user.getXp()) + " | Placement: " + placement, false);
         embed.addField("",
                 "```java\n" +
-                        progress((user.getXp() - ((user.getLvl() * 250) - 250)) / 250) +
-                        " (" + new DecimalFormat("#.##").format(user.getXp() - (user.getLvl() * 250)) + "/" + (user.getLvl() * 250) + ")" +
+                        progress((user.getXp() - ((XPInfo.lvlXpRequirement(user.getLvl())) - 250)) / 250) +
+                        " (" + new DecimalFormat("#.##").format(user.getXp() - XPInfo.lvlXpRequirement(user.getLvl())) + "/" + XPInfo.lvlXpRequirement(user.getLvl()) + ")" +
                         "\n```",
                 false);
         rgb = Color.RGBtoHSB(204, 255, 94, null);

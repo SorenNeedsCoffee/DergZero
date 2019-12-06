@@ -1,4 +1,4 @@
-package xyz.joesorensen.xputil;
+package xyz.joesorensen.xputil.util;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
