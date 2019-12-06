@@ -14,8 +14,7 @@ import java.time.temporal.ChronoUnit;
  */
 public class PingCmd extends Command {
 
-    public PingCmd()
-    {
+    public PingCmd() {
         this.name = "ping";
         this.help = "checks the bot's latency";
         this.guildOnly = false;

@@ -2,6 +2,8 @@ package xyz.joesorensen.xputil.commands.xp;
 
 import com.jagrosh.jdautilities.command.CommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import xyz.joesorensen.xputil.User;
 import xyz.joesorensen.xputil.UserManager;
 import xyz.joesorensen.xputil.commands.XpCommand;
@@ -47,54 +49,39 @@ public class LvlCmd extends XpCommand {
 
     @Override
     protected void execute(CommandEvent event) {
+        MessageEmbed msg;
+        if (event.getArgs().equals("")) {
+            msg = genEmbed(event.getMember());
+        } else {
+            msg = genEmbed(event.getMessage().getMentionedMembers().get(0));
+        }
+        event.reply(msg);
+    }
+
+    private MessageEmbed genEmbed(Member member) {
         List<User> users = UserManager.getUsers();
         users.sort(Collections.reverseOrder());
-        if (event.getArgs().equals("")) {
-            User user = UserManager.getUser(event.getAuthor().getId());
-            int placement = users.indexOf(user) + 1;
-            EmbedBuilder embed = new EmbedBuilder();
-            float[] rgb;
-            if (event.getMember().getNickname() != null) {
-                embed.setAuthor(event.getMember().getNickname(), null, event.getAuthor().getAvatarUrl());
-            } else {
-                embed.setAuthor(event.getMember().getUser().getName(), null, event.getAuthor().getAvatarUrl());
-            }
-            embed.setTitle("User Rank");
-            embed.addField("Level", Integer.toString(user.getLvl()), true);
-            embed.addField("XP", new DecimalFormat("#.##").format(user.getXp()) + " | Placement: " + placement, false);
-            embed.addField("",
-                    "```java\n" +
-                            progress((user.getXp() - ((user.getLvl() * 250) - 250)) / 250) +
-                            " (" + new DecimalFormat("#.##").format(user.getXp()) + "/" + (user.getLvl() * 250) + ")" +
-                            "\n```",
-                    false);
-            rgb = Color.RGBtoHSB(204, 255, 94, null);
-            embed.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]));
-
-            event.reply(embed.build());
+        User user = UserManager.getUser(member.getUser().getId());
+        int placement = users.indexOf(user) + 1;
+        EmbedBuilder embed = new EmbedBuilder();
+        float[] rgb;
+        if (member.getNickname() != null) {
+            embed.setAuthor(member.getNickname(), null, member.getUser().getAvatarUrl());
         } else {
-            User user = UserManager.getUser(event.getMessage().getMentionedMembers().get(0).getUser().getId());
-            int placement = users.indexOf(user) + 1;
-            EmbedBuilder embed = new EmbedBuilder();
-            float[] rgb;
-            if (event.getMessage().getMentionedMembers().get(0).getNickname() != null) {
-                embed.setAuthor(event.getMessage().getMentionedMembers().get(0).getNickname(), null, event.getMessage().getMentionedMembers().get(0).getUser().getAvatarUrl());
-            } else {
-                embed.setAuthor(event.getMessage().getMentionedMembers().get(0).getUser().getName(), null, event.getMessage().getMentionedMembers().get(0).getUser().getAvatarUrl());
-            }
-            embed.setTitle("User Rank");
-            embed.addField("Level", Integer.toString(user.getLvl()), true);
-            embed.addField("XP", new DecimalFormat("#.##").format(user.getXp()) + " | Placement: " + placement, false);
-            embed.addField("",
-                    "```java\n" +
-                            progress((user.getXp() - ((user.getLvl() * 250) - 250)) / 250) +
-                            " (" + new DecimalFormat("#.##").format(user.getXp()) + "/" + (user.getLvl() * 250) + ")" +
-                            "\n```",
-                    false);
-            rgb = Color.RGBtoHSB(204, 255, 94, null);
-            embed.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]));
-
-            event.reply(embed.build());
+            embed.setAuthor(member.getUser().getName(), null, member.getUser().getAvatarUrl());
         }
+        embed.setTitle("User Rank");
+        embed.addField("Level", Integer.toString(user.getLvl()), true);
+        embed.addField("XP", new DecimalFormat("#.##").format(user.getXp()) + " | Placement: " + placement, false);
+        embed.addField("",
+                "```java\n" +
+                        progress((user.getXp() - ((user.getLvl() * 250) - 250)) / 250) +
+                        " (" + new DecimalFormat("#.##").format(user.getXp() - (user.getLvl() * 250)) + "/" + (user.getLvl() * 250) + ")" +
+                        "\n```",
+                false);
+        rgb = Color.RGBtoHSB(204, 255, 94, null);
+        embed.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]));
+
+        return embed.build();
     }
 }
