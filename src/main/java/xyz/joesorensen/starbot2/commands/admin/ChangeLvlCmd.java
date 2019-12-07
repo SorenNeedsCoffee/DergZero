@@ -3,6 +3,7 @@ package xyz.joesorensen.starbot2.commands.admin;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import xyz.joesorensen.starbot2.commands.AdminCommand;
 import xyz.joesorensen.xputil.lib.LvlRoleIDs;
+import xyz.joesorensen.xputil.lib.XpInfo;
 import xyz.joesorensen.xputil.util.User;
 import xyz.joesorensen.xputil.util.UserManager;
 import xyz.joesorensen.xputil.util.XpListener;
@@ -30,7 +31,7 @@ public class ChangeLvlCmd extends AdminCommand {
 
         User update = UserManager.getUser(args[0]);
         update.setLvl(Integer.parseInt(args[1]));
-        update.setXp(update.getLvl() * 250);
+        update.setXp(XpInfo.lvlXpRequirementTotal(update.getLvl()-1)+10);
         XpListener.replaceRole(event.getGuild(), event.getGuild().getMemberById(args[0]), LvlRoleIDs.getLvlRole(UserManager.getUser(args[0]).getLvl()), LvlRoleIDs.getLvlRole(update.getLvl()));
         UserManager.updateUser(update);
     }

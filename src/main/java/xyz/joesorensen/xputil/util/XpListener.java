@@ -90,7 +90,7 @@ public class XpListener extends ListenerAdapter {
         if (cooldown.indexOf(event.getAuthor().getId()) == -1 || !event.getChannel().getId().equals("442556155856814080") && !event.getMessage().getContentDisplay().startsWith("!>")) {
             User update = UserManager.getUser(event.getAuthor().getId());
             update.addXp(XpInfo.earnedXP(event.getMessage().getContentDisplay()));
-            if (update.getXp() >= XpInfo.lvlXpRequirement(update.getLvl())) {
+            if (update.getXp() >= XpInfo.lvlXpRequirementTotal(update.getLvl())) {
                 onLvlUp(event, update);
             }
             UserManager.updateUser(update);

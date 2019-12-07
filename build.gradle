@@ -28,11 +28,20 @@ dependencies {
     implementation 'org.yaml:snakeyaml:1.11'
     implementation 'ch.qos.logback:logback-classic:1.2.3'
     implementation 'org.apache.commons:commons-lang3:3.5'
+    implementation 'org.decimal4j:decimal4j:1.0.3'
 }
 
 group = 'xyz.joesorensen'
 version = '1.1-SNAPSHOT'
 sourceCompatibility = '11'
+
+jar {
+    manifest {
+        attributes (
+            'Main-Class': 'xyz.joesorensen.starbot2.StarBot2'
+        )
+    }
+}
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'

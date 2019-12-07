@@ -73,11 +73,11 @@ public class LvlCmd extends XpCommand {
         }
         embed.setTitle("User Rank");
         embed.addField("Level", Integer.toString(user.getLvl()), true);
-        embed.addField("XP", new DecimalFormat("#.##").format(user.getXp()) + " | Placement: " + placement, false);
+        embed.addField("XP", new DecimalFormat("#,###,###.##").format(user.getXp()) + " | Placement: " + placement, false);
         embed.addField("",
                 "```java\n" +
-                        progress((user.getXp() - ((XpInfo.lvlXpRequirement(user.getLvl())) - 250)) / 250) +
-                        " (" + new DecimalFormat("#.##").format(user.getXp() - XpInfo.lvlXpRequirement(user.getLvl())) + "/" + XpInfo.lvlXpRequirement(user.getLvl()) + ")" +
+                        progress((user.getXp()-XpInfo.lvlXpRequirementTotal(user.getLvl()-1)) / XpInfo.lvlXpRequirement(user.getLvl())) +
+                        " (" + new DecimalFormat("#,###.##").format(user.getXp() - XpInfo.lvlXpRequirementTotal(user.getLvl()-1)) + "/" + XpInfo.lvlXpRequirement(user.getLvl()) + ")" +
                         "\n```",
                 false);
         rgb = Color.RGBtoHSB(204, 255, 94, null);
