@@ -17,7 +17,6 @@ import java.util.TimerTask;
  */
 class DbManager {
     private Connection connect;
-    private Timer timer = new Timer();
     private Logger log = LoggerFactory.getLogger("DbManager");
     private String table;
     private String url;
@@ -31,10 +30,11 @@ class DbManager {
 
         this.table = table;
 
+        Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                log.info("Reastablishing DB connection...");
+                log.info("Reestablishing DB connection...");
                 try {
                     connect.close();
                 } catch (SQLException e) {
