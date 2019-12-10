@@ -26,9 +26,9 @@ import java.util.*;
  */
 public class XpListener extends ListenerAdapter {
     private static JDA jda;
-    private Logger log;
-    private List<String> cooldown = new ArrayList<>();
-    private Timer timer = new Timer();
+    private final Logger log;
+    private final List<String> cooldown = new ArrayList<>();
+    private final Timer timer = new Timer();
 
     public XpListener() {
         this.log = LoggerFactory.getLogger("XpUtil");
@@ -104,7 +104,7 @@ public class XpListener extends ListenerAdapter {
         }
     }
 
-    void onLvlUp(GuildMessageReceivedEvent event, User update) {
+    private void onLvlUp(GuildMessageReceivedEvent event, User update) {
         update.setLvl(update.getLvl() + 1);
 
         EmbedBuilder embed = new EmbedBuilder();

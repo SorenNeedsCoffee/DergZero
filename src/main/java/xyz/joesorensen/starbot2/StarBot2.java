@@ -9,14 +9,9 @@ import net.dv8tion.jda.api.entities.Activity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.joesorensen.starbot2.commands.admin.*;
-import xyz.joesorensen.starbot2.commands.fun.AvatarCmd;
-import xyz.joesorensen.starbot2.commands.fun.FakeCmd;
-import xyz.joesorensen.starbot2.commands.fun.HelCmd;
-import xyz.joesorensen.starbot2.commands.fun.OobifyCmd;
-import xyz.joesorensen.starbot2.commands.general.HelpCmd;
-import xyz.joesorensen.starbot2.commands.general.InviteCmd;
-import xyz.joesorensen.starbot2.commands.general.PingCmd;
-import xyz.joesorensen.starbot2.commands.owner.ShutdownCmd;
+import xyz.joesorensen.starbot2.commands.fun.*;
+import xyz.joesorensen.starbot2.commands.general.*;
+import xyz.joesorensen.starbot2.commands.owner.*;
 import xyz.joesorensen.starbot2.listeners.Listener;
 import xyz.joesorensen.twitchutil.TwitchEventManager;
 import xyz.joesorensen.twitchutil.TwitchListener;
@@ -36,15 +31,18 @@ public class StarBot2 {
             Permission.MESSAGE_EMBED_LINKS, Permission.MESSAGE_ATTACH_FILES, Permission.MESSAGE_MANAGE, Permission.MESSAGE_EXT_EMOJI,
             Permission.MANAGE_CHANNEL, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.NICKNAME_CHANGE};
     public static TwitchListener twitchListener;
-    public static boolean shuttingDown = false;
+    private static boolean shuttingDown = false;
     private static JDA jda = null;
-    private static String version = StarBot2.class.getPackage().getImplementationVersion();
+    public static final String version = StarBot2.class.getPackage().getImplementationVersion();
 
     public static void main(String[] args) throws Exception {
         Logger log = LoggerFactory.getLogger("Startup");
         final boolean enableDiscord = true;
 
-        log.info("StarBot2 v" + version);
+        if(version != null)
+            log.info("StarBot2 | v" + version);
+        else
+            log.info("StarBot2 | DEVELOPMENT MODE");
 
         log.info("Loading config...");
         Config config = Config.load();
@@ -61,12 +59,6 @@ public class StarBot2 {
 
         log.info("Building Command Client...");
 
-        AboutCommand ab = new AboutCommand(
-                Color.BLUE, "StarBot, but better! JoeSorensen's official server bot. (v" + version + ")",
-                new String[]{"Stream Tracking via TwitchUtil", "User engagement with XPUtil", "Random and fun stuff"},
-                RECOMMENDED_PERMS
-        );
-
         EventWaiter waiter = new EventWaiter();
         CommandClientBuilder cb = new CommandClientBuilder().
                 setOwnerId(ownerID).
@@ -78,7 +70,7 @@ public class StarBot2 {
                 setActivity(Activity.playing("On Soren's server | " + prefix + "help for help")).
                 setEmojis("\u2705", "\u26A0", "\u26D4").
                 addCommands(
-                        ab,
+                        new AboutCmd(),
                         new InviteCmd(),
 
                         new HelCmd(),
@@ -93,6 +85,7 @@ public class StarBot2 {
                         new PruneCmd(),
                         new ChangeLvlCmd(),
                         new ChangeXPCmd(),
+                        new GetMembersJSONCmd(),
 
                         new ShutdownCmd()
                 );

@@ -9,9 +9,10 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+@SuppressWarnings("unused")
 public class Config {
-    private static Yaml yaml = new Yaml();
-    private static Logger log = LoggerFactory.getLogger("Config");
+    private static final Yaml yaml = new Yaml();
+    private static final Logger log = LoggerFactory.getLogger("Config");
     private String token;
     private String ownerID;
     private String defaultRoleID;

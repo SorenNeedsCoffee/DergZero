@@ -38,7 +38,9 @@ sourceCompatibility = '11'
 jar {
     manifest {
         attributes (
-            'Main-Class': 'xyz.joesorensen.starbot2.StarBot2'
+            'Main-Class': 'xyz.joesorensen.starbot2.StarBot2',
+            'Implementation-Title':   'StarBot2',
+            'Implementation-Version': '1.2'
         )
     }
 }

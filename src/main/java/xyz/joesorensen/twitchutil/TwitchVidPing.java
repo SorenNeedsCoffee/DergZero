@@ -13,10 +13,10 @@ import java.util.TimerTask;
  *
  * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
-public class TwitchVidPing extends TimerTask {
+class TwitchVidPing extends TimerTask {
     private int videoSize = 0;
-    private Twitch twitch = new Twitch();
-    private String loginName;
+    private final Twitch twitch = new Twitch();
+    private final String loginName;
 
     TwitchVidPing(String loginName) {
         twitch.setClientId(TwitchListener.id);

@@ -17,18 +17,18 @@ import java.util.TimerTask;
  */
 class DbManager {
     private Connection connect;
-    private Logger log = LoggerFactory.getLogger("DbManager");
+    private final Logger log = LoggerFactory.getLogger("DbManager");
     private String table;
-    private String url;
+    private final String url;
 
-    DbManager(String ip, String db, String table, String user, String pass) throws Exception {
+    DbManager(String ip, String db, String user, String pass) throws Exception {
 
         url = "jdbc:mysql://" + ip + "/" + db + "?"
                 + "user=" + user + "&password=" + pass;
         log.info("Establishing initial connection to " + db + " at " + ip + "...");
         connect = DriverManager.getConnection(url);
 
-        this.table = table;
+        this.table = "users";
 
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {

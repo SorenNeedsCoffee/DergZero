@@ -23,7 +23,7 @@ public enum LvlRoleIDs {
     LVL70("618905626743144489"),
     LVL75("618905744762470420");
 
-    String id;
+    private final String id;
 
     LvlRoleIDs(String id) {
         this.id = id;

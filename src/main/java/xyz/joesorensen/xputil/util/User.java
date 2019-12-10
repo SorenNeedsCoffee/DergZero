@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
  * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public class User implements Comparable<User> {
-    private String id;
+    private final String id;
     private double xp;
     private int lvl;
 

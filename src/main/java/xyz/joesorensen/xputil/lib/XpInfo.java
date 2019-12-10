@@ -4,7 +4,7 @@ import java.util.Random;
 import org.decimal4j.util.DoubleRounder;
 
 public class XpInfo {
-    private static Random random = new Random();
+    private static final Random random = new Random();
 
     public static double earnedXP(String msg) {
         double length = Math.sqrt(msg.replaceAll(" ", "").length());
@@ -21,7 +21,7 @@ public class XpInfo {
         //return lvl*250;
         double result = 0;
         for(int i = 1; i <= lvl; i++) {
-            result += 250 + 75 * Math.pow(i, 0.6);
+            result += lvlXpRequirement(i);
         }
         result = DoubleRounder.round(result, 1);
         return result;

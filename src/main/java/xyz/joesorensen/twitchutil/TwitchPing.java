@@ -16,12 +16,13 @@ import java.util.TimerTask;
  *
  * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
-public class TwitchPing extends TimerTask {
+@SuppressWarnings("unchecked")
+class TwitchPing extends TimerTask {
 
     private static boolean live = false;
-    private Twitch twitch = new Twitch();
+    private final Twitch twitch = new Twitch();
     private HashMap<String, String> map;
-    private String loginName;
+    private final String loginName;
     private Stream data;
     private Channel user;
 

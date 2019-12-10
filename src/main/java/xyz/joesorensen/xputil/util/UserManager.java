@@ -23,10 +23,11 @@ import java.util.List;
  *
  * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
+@SuppressWarnings("unchecked")
 public class UserManager {
     private static List<User> users = new ArrayList<>();
     private static DbManager db;
-    private static Logger log = LoggerFactory.getLogger("UserManager");
+    private static final Logger log = LoggerFactory.getLogger("UserManager");
 
     static void addUser(String id) {
         try {
@@ -45,7 +46,7 @@ public class UserManager {
     }
 
     public static void initDb(String url, String dbName, String user, String pass) throws Exception {
-        db = new DbManager(url, dbName, "users", user, pass);
+        db = new DbManager(url, dbName, user, pass);
     }
 
     public static void pruneUsers(Guild guild) {
@@ -94,20 +95,27 @@ public class UserManager {
 
     public static void saveFile() {
         Logger log = LoggerFactory.getLogger("SaveMembersToJSON");
-        try {
-            users = db.getUsers();
-        } catch (SQLException e) {
-            log.error(ExceptionUtils.getStackTrace(e));
-        }
-        JSONArray data = createJsonArrayFromList();
-        JSONObject file = new JSONObject();
-        file.put("data", data);
+
+        JSONObject file = getJSON();
 
         try {
             Files.write(Paths.get("backup.json"), file.toString().getBytes());
         } catch (IOException e) {
             log.error(ExceptionUtils.getStackTrace(e));
         }
+    }
+
+    public static JSONObject getJSON() {
+        try {
+            users = db.getUsers();
+        } catch (SQLException e) {
+            log.error(ExceptionUtils.getStackTrace(e));
+        }
+        JSONArray data = createJsonArrayFromList();
+        JSONObject obj = new JSONObject();
+        obj.put("data", data);
+
+        return obj;
     }
 
     public static void loadFile() {

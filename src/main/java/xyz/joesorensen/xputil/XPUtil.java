@@ -15,8 +15,8 @@ import xyz.joesorensen.xputil.util.XpListener;
  */
 
 public class XPUtil {
-    private CommandClientBuilder builder;
-    private XpListener listener;
+    private final CommandClientBuilder builder;
+    private final XpListener listener;
 
     /**
      * On startup, you can initialize the XPUtil class to handle command client and listener setup. Be sure to add the XPListener to JDA!

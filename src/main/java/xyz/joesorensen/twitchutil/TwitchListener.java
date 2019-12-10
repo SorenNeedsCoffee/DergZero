@@ -10,11 +10,12 @@ import java.util.Timer;
  *
  * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
+@SuppressWarnings("EmptyMethod")
 public class TwitchListener {
     static String id;
     private static TwitchPing ping;
     Logger log = LoggerFactory.getLogger("Twitch Tracker");
-    private Timer timer = new Timer();
+    private final Timer timer = new Timer();
 
     public TwitchListener(String clientID) {
         id = clientID;
@@ -29,7 +30,7 @@ public class TwitchListener {
         timer.scheduleAtFixedRate(ping, 0, 30000);
     }
 
-    public void trackVideos(String loginName) {
+    public void trackVideos() {
 
     }
 }
