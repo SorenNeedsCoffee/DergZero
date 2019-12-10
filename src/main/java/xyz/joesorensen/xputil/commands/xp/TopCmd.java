@@ -10,6 +10,7 @@ import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * -=XPUtil=-
@@ -23,6 +24,7 @@ public class TopCmd extends XpCommand {
         this.help = "display users with top xp values";
     }
 
+    @SuppressWarnings("ConstantConditions")
     private static String list(List<User> users, CommandEvent event) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < 10; i++) {
@@ -37,9 +39,9 @@ public class TopCmd extends XpCommand {
                         append(". ").
                         append(event.getJDA().getUserById(user.getId()).getName());
             }
-            result.append(" (XP: " + new DecimalFormat("#.##").format(user.getXp()) + ")");
+            result.append(" (XP: ").append(new DecimalFormat("#.##").format(user.getXp())).append(")");
             result.append("\n");
-            result.append("    Level: " + user.getLvl());
+            result.append("    Level: ").append(user.getLvl());
         }
         return result.toString();
     }
@@ -47,7 +49,7 @@ public class TopCmd extends XpCommand {
     @Override
     protected void execute(CommandEvent event) {
         List<User> users = UserManager.getUsers();
-        Collections.sort(users, Collections.reverseOrder());
+        Objects.requireNonNull(users).sort(Collections.reverseOrder());
         EmbedBuilder embed = new EmbedBuilder();
         float[] rgb;
         embed.setTitle("Top Users");

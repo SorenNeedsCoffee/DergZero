@@ -12,12 +12,6 @@ public class User implements Comparable<User> {
     private double xp;
     private int lvl;
 
-    public User(String id) {
-        this.id = id;
-        this.xp = 0;
-        this.lvl = 1;
-    }
-
     public User(String id, double xp, int lvl) {
         this.id = id;
         this.xp = xp;

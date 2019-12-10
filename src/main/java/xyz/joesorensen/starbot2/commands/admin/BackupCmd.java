@@ -18,11 +18,6 @@ public class BackupCmd extends AdminCommand {
 
     @Override
     protected void execute(CommandEvent event) {
-        event.getJDA()
-                .getGuildById(event.getGuild().getId())
-                .getTextChannelById(event.getChannel().getId())
-                .sendTyping()
-                .queue();
         UserManager.saveFile();
         event.reactSuccess();
     }

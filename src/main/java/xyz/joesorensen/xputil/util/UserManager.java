@@ -118,7 +118,7 @@ public class UserManager {
         return obj;
     }
 
-    public static void loadFile() {
+    static void loadFile() {
         Logger log = LoggerFactory.getLogger("loadMembersFromFile");
 
         JSONObject raw = null;

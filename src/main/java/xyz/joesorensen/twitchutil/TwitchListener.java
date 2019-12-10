@@ -1,8 +1,5 @@
 package xyz.joesorensen.twitchutil;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Timer;
 
 /**
@@ -14,7 +11,6 @@ import java.util.Timer;
 public class TwitchListener {
     static String id;
     private static TwitchPing ping;
-    Logger log = LoggerFactory.getLogger("Twitch Tracker");
     private final Timer timer = new Timer();
 
     public TwitchListener(String clientID) {
@@ -30,7 +26,4 @@ public class TwitchListener {
         timer.scheduleAtFixedRate(ping, 0, 30000);
     }
 
-    public void trackVideos() {
-
-    }
 }

@@ -5,8 +5,6 @@ import com.mb3364.twitch.api.handlers.ChannelResponseHandler;
 import com.mb3364.twitch.api.handlers.StreamResponseHandler;
 import com.mb3364.twitch.api.models.Channel;
 import com.mb3364.twitch.api.models.Stream;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.TimerTask;
@@ -32,7 +30,6 @@ class TwitchPing extends TimerTask {
     }
 
     public void run() {
-        Logger log = LoggerFactory.getLogger("Twitch Ping");
         map = null;
         data = null;
         user = null;

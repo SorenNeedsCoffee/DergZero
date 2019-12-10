@@ -13,6 +13,7 @@ import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * -=XPUtil=-
@@ -61,7 +62,7 @@ public class LvlCmd extends XpCommand {
 
     private MessageEmbed genEmbed(Member member) {
         List<User> users = UserManager.getUsers();
-        users.sort(Collections.reverseOrder());
+        Objects.requireNonNull(users).sort(Collections.reverseOrder());
         User user = UserManager.getUser(member.getUser().getId());
         int placement = users.indexOf(user) + 1;
         EmbedBuilder embed = new EmbedBuilder();
@@ -72,7 +73,7 @@ public class LvlCmd extends XpCommand {
             embed.setAuthor(member.getUser().getName(), null, member.getUser().getAvatarUrl());
         }
         embed.setTitle("User Rank");
-        embed.addField("Level", Integer.toString(user.getLvl()), true);
+        embed.addField("Level", Integer.toString(Objects.requireNonNull(user).getLvl()), true);
         embed.addField("XP", new DecimalFormat("#,###,###.##").format(user.getXp()) + " | Placement: " + placement, false);
         embed.addField("",
                 "```java\n" +

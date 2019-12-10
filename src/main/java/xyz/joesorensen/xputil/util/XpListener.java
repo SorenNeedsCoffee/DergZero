@@ -43,6 +43,7 @@ public class XpListener extends ListenerAdapter {
         XpListener.jda = jda;
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
     public void onReady(ReadyEvent event) {
         log.info("Getting things ready...");
@@ -62,7 +63,7 @@ public class XpListener extends ListenerAdapter {
                 if (!member.getRoles().contains(guild.getRoleById(LvlRoleIDs.LVL1.getId())) &&
                         !(member.getUser().isBot() || member.getUser().isFake()) &&
                         (Objects.requireNonNull(UserManager.getUser(member.getId())).getLvl() < 5))
-                    guild.addRoleToMember(member, jda.getRoleById(LvlRoleIDs.LVL1.getId())).queue();
+                    guild.addRoleToMember(member, Objects.requireNonNull(jda.getRoleById(LvlRoleIDs.LVL1.getId()))).queue();
             }
         }
         log.info("XPUtil version 0.2 ready");
@@ -89,7 +90,7 @@ public class XpListener extends ListenerAdapter {
 
         if (cooldown.indexOf(event.getAuthor().getId()) == -1 || !event.getChannel().getId().equals("442556155856814080") && !event.getMessage().getContentDisplay().startsWith("!>")) {
             User update = UserManager.getUser(event.getAuthor().getId());
-            update.addXp(XpInfo.earnedXP(event.getMessage().getContentDisplay()));
+            Objects.requireNonNull(update).addXp(XpInfo.earnedXP(event.getMessage().getContentDisplay()));
             if (update.getXp() >= XpInfo.lvlXpRequirementTotal(update.getLvl())) {
                 onLvlUp(event, update);
             }
@@ -111,7 +112,7 @@ public class XpListener extends ListenerAdapter {
         float[] rgb;
 
         embed.setAuthor("Level Up!", null, event.getAuthor().getAvatarUrl());
-        if (event.getMember().getNickname() != null) {
+        if (Objects.requireNonNull(event.getMember()).getNickname() != null) {
             embed.setDescription("Congrats to " + event.getMember().getNickname() + " for reaching level " + update.getLvl() + "!");
         } else {
             embed.setDescription("Congrats to " + event.getAuthor().getName() + " for reaching level " + update.getLvl() + "!");
@@ -123,7 +124,7 @@ public class XpListener extends ListenerAdapter {
             event.getChannel().sendMessage(embed.build()).queue();
 
         if(update.getLvl() == 69)
-            event.getGuild().addRoleToMember(event.getMember(), jda.getRoleById("652606362936672266")).queue();
+            event.getGuild().addRoleToMember(event.getMember(), Objects.requireNonNull(jda.getRoleById("652606362936672266"))).queue();
 
         switch (update.getLvl()) {
             case 5:

@@ -5,6 +5,8 @@ import xyz.joesorensen.starbot2.commands.AdminCommand;
 import xyz.joesorensen.xputil.util.User;
 import xyz.joesorensen.xputil.util.UserManager;
 
+import java.util.Objects;
+
 /**
  * -=StarBot2=-
  *
@@ -27,7 +29,7 @@ public class ChangeXPCmd extends AdminCommand {
         String[] args = event.getArgs().split(" ");
 
         User update = UserManager.getUser(args[0]);
-        update.setXp(Double.parseDouble(args[1]));
+        Objects.requireNonNull(update).setXp(Double.parseDouble(args[1]));
         UserManager.updateUser(update);
     }
 }

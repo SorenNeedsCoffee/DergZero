@@ -3,7 +3,6 @@ package xyz.joesorensen.starbot2;
 import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import com.jagrosh.jdautilities.examples.command.AboutCommand;
 import net.dv8tion.jda.api.*;
 import net.dv8tion.jda.api.entities.Activity;
 import org.slf4j.Logger;
@@ -19,17 +18,14 @@ import xyz.joesorensen.xputil.util.UserManager;
 import xyz.joesorensen.xputil.XPUtil;
 
 import javax.security.auth.login.LoginException;
-import java.awt.*;
 
 /**
  * -=StarBot2=-
  *
  * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
+@SuppressWarnings("ConstantConditions")
 public class StarBot2 {
-    private final static Permission[] RECOMMENDED_PERMS = new Permission[]{Permission.MESSAGE_READ, Permission.MESSAGE_WRITE, Permission.MESSAGE_HISTORY, Permission.MESSAGE_ADD_REACTION,
-            Permission.MESSAGE_EMBED_LINKS, Permission.MESSAGE_ATTACH_FILES, Permission.MESSAGE_MANAGE, Permission.MESSAGE_EXT_EMOJI,
-            Permission.MANAGE_CHANNEL, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.NICKNAME_CHANGE};
     public static TwitchListener twitchListener;
     private static boolean shuttingDown = false;
     private static JDA jda = null;

@@ -26,12 +26,12 @@ public class HelpCmd implements Consumer<CommandEvent> {
             list.append("```ini\n");
             list.append(command.getName());
             if (command.getAliases().length > 0 && !command.isHidden())
-                list.append(" " + Arrays.toString(command.getAliases()));
+                list.append(" ").append(Arrays.toString(command.getAliases()));
             list.append(" | ")
                     .append(command.getHelp());
 
             if (!(command.getArguments() == null || command.getArguments().isBlank() || command.getArguments().isEmpty()))
-                list.append(" | <" + command.getArguments() + ">");
+                list.append(" | <").append(command.getArguments()).append(">");
 
             list.append("```");
         }
