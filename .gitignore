@@ -1,6 +1,8 @@
 # Project exclude paths
 /.idea/
 /logs/
+members.json
+backup.json
 
 #no config for you
 config.yml
