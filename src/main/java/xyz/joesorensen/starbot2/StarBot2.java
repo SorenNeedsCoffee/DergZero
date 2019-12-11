@@ -89,7 +89,7 @@ public class StarBot2 {
         cb.setStatus(OnlineStatus.ONLINE);
 
         XPUtil xpUtil = new XPUtil(cb);
-        xpUtil.db(config.getDbUrl(), config.getDbName(), config.getDbUser(), config.getDbPass());
+        xpUtil.db(config.getDbUrl(), config.getDbName(), config.getDbTable(), config.getDbUser(), config.getDbPass());
         cb = xpUtil.builder();
 
         CommandClient client = cb.build();

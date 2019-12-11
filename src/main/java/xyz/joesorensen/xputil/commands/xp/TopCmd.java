@@ -55,7 +55,7 @@ public class TopCmd extends XpCommand {
         embed.setTitle("Top Users");
         //embed.setAuthor("User Level", null, event.getAuthor().getAvatarUrl());
         embed.addField("",
-                "```\n" +
+                "```java\n" +
                         "----------------------\n" +
                         list(users, event) +
                         "\n\n----------------------\n" +

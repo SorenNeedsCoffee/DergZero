@@ -30,23 +30,15 @@ public class UserManager {
     private static final Logger log = LoggerFactory.getLogger("UserManager");
 
     static void addUser(String id) {
-        try {
-            db.addUser(id, 0, 0.0);
-        } catch (SQLException e) {
-            log.error(ExceptionUtils.getStackTrace(e));
-        }
+        db.addUser(id, 0, 0.0);
     }
 
     static void removeUser(String id) {
-        try {
-            db.delUser(id);
-        } catch (SQLException e) {
-            log.error(ExceptionUtils.getStackTrace(e));
-        }
+        db.delUser(id);
     }
 
-    public static void initDb(String url, String dbName, String user, String pass) throws Exception {
-        db = new DbManager(url, dbName, user, pass);
+    public static void initDb(String url, String dbName, String table, String user, String pass) throws Exception {
+        db = new DbManager(url, dbName, table, user, pass);
     }
 
     public static void pruneUsers(Guild guild) {
@@ -65,32 +57,18 @@ public class UserManager {
     }
 
     public static User getUser(String id) {
-        try {
-            return db.getUser(id);
-        } catch (SQLException e) {
-            log.error(ExceptionUtils.getStackTrace(e));
-            return null;
-        }
+        return db.getUser(id);
     }
 
     public static List<User> getUsers() {
-        try {
-            return db.getUsers();
-        } catch (SQLException e) {
-            log.error(ExceptionUtils.getStackTrace(e));
-            return null;
-        }
+        return db.getUsers();
     }
 
     public static void updateUser(User user) {
         if (user.getId().equals("") || user.getId() == null)
             throw new IllegalArgumentException("Id of user cannot be empty or null.");
 
-        try {
-            db.updateUser(user);
-        } catch (SQLException e) {
-            log.error(ExceptionUtils.getStackTrace(e));
-        }
+        db.updateUser(user);
     }
 
     public static void saveFile() {
@@ -106,11 +84,7 @@ public class UserManager {
     }
 
     public static JSONObject getJSON() {
-        try {
-            users = db.getUsers();
-        } catch (SQLException e) {
-            log.error(ExceptionUtils.getStackTrace(e));
-        }
+        users = db.getUsers();
         JSONArray data = createJsonArrayFromList();
         JSONObject obj = new JSONObject();
         obj.put("data", data);
@@ -141,11 +115,7 @@ public class UserManager {
         }
 
         for (User user : users) {
-            try {
-                db.addUser(user.getId(), user.getLvl(), user.getXp());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            db.addUser(user.getId(), user.getLvl(), user.getXp());
         }
     }
 
