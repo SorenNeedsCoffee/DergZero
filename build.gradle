@@ -20,7 +20,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.jagrosh:jda-utilities:3.0.1'
+    implementation 'com.jagrosh:jda-utilities:3.0.2'
     implementation 'net.dv8tion:JDA:4.0.0_73'
     implementation 'com.github.avluis:Java-Twitch-Api-Wrapper:5.0.2'
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
