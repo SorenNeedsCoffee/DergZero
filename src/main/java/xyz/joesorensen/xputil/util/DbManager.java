@@ -7,8 +7,6 @@ import org.slf4j.LoggerFactory;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * -=XPUtil=-
@@ -16,82 +14,102 @@ import java.util.TimerTask;
  * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 class DbManager {
-    private Connection connect;
     private final Logger log = LoggerFactory.getLogger("DbManager");
-    private String table;
     private final String url;
+    private final String table;
 
-    DbManager(String ip, String db, String user, String pass) throws Exception {
+    DbManager(String ip, String db, String table, String user, String pass) throws SQLException {
+        Connection connect = null;
 
         url = "jdbc:mysql://" + ip + "/" + db + "?"
                 + "user=" + user + "&password=" + pass;
-        log.info("Establishing initial connection to " + db + " at " + ip + "...");
-        connect = DriverManager.getConnection(url);
+        this.table = table;
+        log.info("Validating connection to " + db + " at " + ip + "...");
 
-        this.table = "users";
-
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                log.info("Reestablishing DB connection...");
-                try {
-                    connect.close();
-                } catch (SQLException e) {
-                    connect = null;
-                }
-                try {
-                    connect = DriverManager.getConnection(url);
-                } catch (SQLException e) {
-                    log.error(ExceptionUtils.getStackTrace(e));
-                }
-                log.info("Success");
-            }
-        }, 10800000, 10800000);
-        log.info("Success.");
-    }
-
-    void addUser(String id, int lvl, double xp) throws SQLException {
-        Statement statement = connect.createStatement();
-
-        statement.executeUpdate("INSERT INTO " + table + " VALUES ('" + id + "', " + xp + ", " + lvl + ")");
-    }
-
-    void delUser(String id) throws SQLException {
-        Statement statement = connect.createStatement();
-
-        statement.executeUpdate("DELETE FROM " + table + " WHERE id = '" + id + "'");
-    }
-
-    void updateUser(User user) throws SQLException {
-        Statement statement = connect.createStatement();
-
-        statement.executeUpdate("UPDATE " + table + " " +
-                "SET " +
-                "xp = " + user.getXp() + ", " +
-                "lvl = " + user.getLvl() +
-                " WHERE id = '" + user.getId() + "'");
-    }
-
-    User getUser(String id) throws SQLException {
-        Statement statement = connect.createStatement();
-
-        ResultSet rs = statement.executeQuery("SELECT * FROM " + table + " WHERE id = '" + id + "'");
-        rs.next();
-
-        return new User(rs.getString("id"), rs.getDouble("xp"), rs.getInt("lvl"));
-    }
-
-    List<User> getUsers() throws SQLException {
-        Statement statement = connect.createStatement();
-
-        ResultSet rs = statement.executeQuery("SELECT * FROM " + table);
-        List<User> users = new ArrayList<>();
-        rs.next();
-        while (!rs.isAfterLast()) {
-            users.add(new User(rs.getString("id"), rs.getDouble("xp"), rs.getInt("lvl")));
-            rs.next();
+        try {
+            connect = DriverManager.getConnection(url);
+            if (connect.isValid(5))
+                log.info("Success.");
+            else
+                log.error("Failed. Please check your configuration");
+        } catch (SQLException e) {
+            log.error("JDBC experienced the following error:" + ExceptionUtils.getMessage(e) + " Please see below for details");
+            log.error(ExceptionUtils.getStackTrace(e));
+        } finally {
+            if (connect != null)
+                connect.close();
         }
-        return users;
+    }
+
+    void addUser(String id, int lvl, double xp) {
+        try (Connection connect = DriverManager.getConnection(url)) {
+            Statement statement = connect.createStatement();
+
+            statement.executeUpdate("INSERT INTO " + table + " VALUES ('" + id + "', " + xp + ", " + lvl + ")");
+        } catch (SQLException e) {
+            log.error("JDBC experienced the following error:" + ExceptionUtils.getMessage(e) + " Please see below for details");
+            log.error(ExceptionUtils.getStackTrace(e));
+        }
+    }
+
+    void delUser(String id) {
+
+        try (Connection connect = DriverManager.getConnection(url)) {
+            Statement statement = connect.createStatement();
+
+            statement.executeUpdate("DELETE FROM " + table + " WHERE id = '" + id + "'");
+        } catch (SQLException e) {
+            log.error("JDBC experienced the following error:" + ExceptionUtils.getMessage(e) + " Please see below for details");
+            log.error(ExceptionUtils.getStackTrace(e));
+        }
+    }
+
+    void updateUser(User user) {
+        try (Connection connect = DriverManager.getConnection(url)) {
+            Statement statement = connect.createStatement();
+
+            statement.executeUpdate("UPDATE " + table + " " +
+                    "SET " +
+                    "xp = " + user.getXp() + ", " +
+                    "lvl = " + user.getLvl() +
+                    " WHERE id = '" + user.getId() + "'");
+        } catch (SQLException e) {
+            log.error("JDBC experienced the following error:" + ExceptionUtils.getMessage(e) + " Please see below for details");
+            log.error(ExceptionUtils.getStackTrace(e));
+        }
+    }
+
+    User getUser(String id) {
+        try (Connection connect = DriverManager.getConnection(url)) {
+            Statement statement = connect.createStatement();
+
+            ResultSet rs = statement.executeQuery("SELECT * FROM " + table + " WHERE id = '" + id + "'");
+            rs.next();
+
+            return new User(rs.getString("id"), rs.getDouble("xp"), rs.getInt("lvl"));
+        } catch (SQLException e) {
+            log.error("JDBC experienced the following error:" + ExceptionUtils.getMessage(e) + " Please see below for details");
+            log.error(ExceptionUtils.getStackTrace(e));
+            return null;
+        }
+    }
+
+    List<User> getUsers() {
+        try (Connection connect = DriverManager.getConnection(url)) {
+            Statement statement = connect.createStatement();
+
+            ResultSet rs = statement.executeQuery("SELECT * FROM " + table);
+            List<User> users = new ArrayList<>();
+            rs.next();
+            while (!rs.isAfterLast()) {
+                users.add(new User(rs.getString("id"), rs.getDouble("xp"), rs.getInt("lvl")));
+                rs.next();
+            }
+            return users;
+        } catch (SQLException e) {
+            log.error("JDBC experienced the following error:" + ExceptionUtils.getMessage(e) + " Please see below for details");
+            log.error(ExceptionUtils.getStackTrace(e));
+            return null;
+        }
     }
 }
