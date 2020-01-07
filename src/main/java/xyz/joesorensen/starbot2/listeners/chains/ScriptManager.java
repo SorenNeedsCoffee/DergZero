@@ -72,7 +72,7 @@ public class ScriptManager {
         }
 
         String test = (String) raw.get("script");
-        script = test.replaceAll("\\p{Punct}", "").split(" ");
+        script = test.replaceAll("[^\\s\\w]", "").split(" ");
 
         title = (String) raw.get("title");
 
@@ -100,7 +100,7 @@ public class ScriptManager {
                     statement.addBatch("INSERT INTO " + sTable + " VALUES('" + i + "', '" + script[i] + "')");
                 }
                 int[] records = statement.executeBatch();
-                log.info(Arrays.toString(records));
+                log.info("Script loaded with " + records.length + " records");
             } catch (SQLException e) {
                 log.error("JDBC experienced the following error:" + ExceptionUtils.getMessage(e) + " Please see below for details");
                 log.error(ExceptionUtils.getStackTrace(e));
