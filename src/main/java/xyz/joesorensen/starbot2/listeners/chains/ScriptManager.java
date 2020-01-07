@@ -113,7 +113,7 @@ public class ScriptManager {
         try (Connection connect = DriverManager.getConnection(url)) {
             Statement statement = connect.createStatement();
 
-            ResultSet rs = statement.executeQuery("SELECT 1 FROM " + mTable + " WHERE name = '" + "index" + "'");
+            ResultSet rs = statement.executeQuery("SELECT 1 FROM " + mTable + " WHERE name = 'index'");
             rs.next();
 
             if (rs.getRow() == 1)
@@ -129,7 +129,7 @@ public class ScriptManager {
         try (Connection connect = DriverManager.getConnection(url)) {
             Statement statement = connect.createStatement();
 
-            ResultSet rs = statement.executeQuery("SELECT * FROM " + mTable + " WHERE name = '" + "index" + "'");
+            ResultSet rs = statement.executeQuery("SELECT * FROM " + mTable + " WHERE name = 'index'");
             rs.next();
 
             int index = rs.getInt("value");
@@ -152,12 +152,12 @@ public class ScriptManager {
         try (Connection connect = DriverManager.getConnection(url)) {
             Statement statement = connect.createStatement();
 
-            ResultSet rs = statement.executeQuery("SELECT * FROM " + mTable + " WHERE name = '" + "index" + "'");
+            ResultSet rs = statement.executeQuery("SELECT * FROM " + mTable + " WHERE name = 'index'");
             rs.next();
 
             int index = rs.getInt("value");
 
-            rs = statement.executeQuery("SELECT * FROM " + mTable + " WHERE name = '" + "length" + "'");
+            rs = statement.executeQuery("SELECT * FROM " + mTable + " WHERE name = 'length'");
             rs.next();
 
             int length = rs.getInt("value");
@@ -208,7 +208,7 @@ public class ScriptManager {
         try (Connection connect = DriverManager.getConnection(url)) {
             Statement statement = connect.createStatement();
 
-            ResultSet rs = statement.executeQuery("SELECT * FROM " + mTable + " WHERE name = '" + "title" + "'");
+            ResultSet rs = statement.executeQuery("SELECT * FROM " + mTable + " WHERE name = 'title'");
             rs.next();
 
             String title = rs.getString("value");
@@ -219,5 +219,39 @@ public class ScriptManager {
             log.error(ExceptionUtils.getStackTrace(e));
         }
         return null;
+    }
+
+    int length() {
+        try (Connection connect = DriverManager.getConnection(url)) {
+            Statement statement = connect.createStatement();
+
+            ResultSet rs = statement.executeQuery("SELECT * FROM " + mTable + " WHERE name = 'length'");
+            rs.next();
+
+            int length = rs.getInt("value");
+
+            return length;
+        } catch (SQLException e) {
+            log.error("JDBC experienced the following error:" + ExceptionUtils.getMessage(e) + " Please see below for details");
+            log.error(ExceptionUtils.getStackTrace(e));
+        }
+        return 0;
+    }
+
+    int index() {
+        try (Connection connect = DriverManager.getConnection(url)) {
+            Statement statement = connect.createStatement();
+
+            ResultSet rs = statement.executeQuery("SELECT * FROM " + mTable + " WHERE name = 'index'");
+            rs.next();
+
+            int index = rs.getInt("value");
+
+            return index;
+        } catch (SQLException e) {
+            log.error("JDBC experienced the following error:" + ExceptionUtils.getMessage(e) + " Please see below for details");
+            log.error(ExceptionUtils.getStackTrace(e));
+        }
+        return 0;
     }
 }
