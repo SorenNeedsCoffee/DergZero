@@ -38,43 +38,45 @@ public class Script extends ListenerAdapter {
 
         if (man.checkMsg(event.getMessage().getContentDisplay())) {
             if (man.next()) {
-                List<Message> messages;
-                messages = getMsgs(event.getChannel());
+                Thread th = new Thread(() -> {
+                    List<Message> messages;
+                    messages = getMsgs(event.getChannel());
 
-                HashMap<User, Integer> messageCounts = new HashMap<>();
+                    HashMap<User, Integer> messageCounts = new HashMap<>();
 
-                for (Message message : messages) {
-                    User user = message.getAuthor();
-                    if(!user.isBot() || !user.isFake()) {
-                        if (messageCounts.containsKey(user)) {
-                            messageCounts.put(user, messageCounts.get(user) + 1);
-                        } else {
-                            messageCounts.put(user, 0);
+                    for (Message message : messages) {
+                        User user = message.getAuthor();
+                        if(!user.isBot() || !user.isFake()) {
+                            if (messageCounts.containsKey(user)) {
+                                messageCounts.put(user, messageCounts.get(user) + 1);
+                            } else {
+                                messageCounts.put(user, 0);
+                            }
                         }
                     }
-                }
 
-                for (User user : messageCounts.keySet()) {
-                    event.getChannel().sendMessage("User: " + user.getName() + " Total Messages: " + messageCounts.get(user)).queue();
-                    XpListener.addXP(user, Math.pow((double) messageCounts.get(user), 0.8));
-                    if( (double) messageCounts.get(user)/man.length() >= 0.1) {
-                        event.getGuild().addRoleToMember(user.getId(), event.getGuild().getRoleById("663947663137308713")).queue();
-                        event.getChannel().sendMessage(user.getName() + " Earned the **" + event.getGuild().getRoleById("663947663137308713").getName() + "** Role!").queue();
+                    for (User user : messageCounts.keySet()) {
+                        event.getChannel().sendMessage("User: " + user.getName() + " Total Messages: " + messageCounts.get(user)).queue();
+                        XpListener.addXP(user, Math.pow((double) messageCounts.get(user), 0.8));
+                        if( (double) messageCounts.get(user)/man.length() >= 0.1) {
+                            event.getGuild().addRoleToMember(user.getId(), event.getGuild().getRoleById("663947663137308713")).queue();
+                            event.getChannel().sendMessage(user.getName() + " Earned the **" + event.getGuild().getRoleById("663947663137308713").getName() + "** Role!").queue();
+                        }
                     }
-                }
 
-                event.getChannel().sendMessage("New Script will start in 20 minutes.");
-                event.getChannel().getPermissionOverride(event.getGuild().getRoles().get(0)).getManager().deny(Permission.MESSAGE_WRITE).queue();
+                    event.getChannel().sendMessage("New Script will start in 20 minutes.");
+                    event.getChannel().getPermissionOverride(event.getGuild().getRoles().get(0)).getManager().deny(Permission.MESSAGE_WRITE).queue();
 
-                new Timer().schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        event.getChannel().purgeMessages(messages);
-                        event.getChannel().getPermissionOverride(event.getGuild().getRoles().get(0)).getManager().grant(Permission.MESSAGE_WRITE).queue();
-                        man.newScript();
-                    }
-                }, 1200000);
-
+                    new Timer().schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            event.getChannel().purgeMessages(messages);
+                            man.newScript();
+                            event.getChannel().getPermissionOverride(event.getGuild().getRoles().get(0)).getManager().grant(Permission.MESSAGE_WRITE).queue();
+                        }
+                    }, 1200000);
+                });
+                th.start();
             }
         } else {
             if (toPurge) {
