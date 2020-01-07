@@ -4,10 +4,11 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.utils.MarkdownUtil;
+import xyz.joesorensen.xputil.commands.XpCommand;
 import xyz.joesorensen.xputil.lib.XpInfo;
 import xyz.joesorensen.xputil.util.User;
 import xyz.joesorensen.xputil.util.UserManager;
-import xyz.joesorensen.xputil.commands.XpCommand;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -76,10 +77,8 @@ public class LvlCmd extends XpCommand {
         embed.addField("Level", Integer.toString(Objects.requireNonNull(user).getLvl()), true);
         embed.addField("XP", new DecimalFormat("#,###,###.##").format(user.getXp()) + " | Placement: " + placement, false);
         embed.addField("",
-                "```java\n" +
-                        progress((user.getXp() - XpInfo.lvlXpRequirementTotal(user.getLvl() - 1)) / XpInfo.lvlXpRequirement(user.getLvl())) +
-                        " (" + new DecimalFormat("#,###.##").format(user.getXp() - XpInfo.lvlXpRequirementTotal(user.getLvl() - 1)) + "/" + XpInfo.lvlXpRequirement(user.getLvl()) + ")" +
-                        "\n```",
+                MarkdownUtil.codeblock("java", progress((user.getXp()-XpInfo.lvlXpRequirementTotal(user.getLvl()-1)) / XpInfo.lvlXpRequirement(user.getLvl())) +
+                        " (" + new DecimalFormat("#,###.##").format(user.getXp() - XpInfo.lvlXpRequirementTotal(user.getLvl()-1)) + "/" + XpInfo.lvlXpRequirement(user.getLvl()) + ")"),
                 false);
         rgb = Color.RGBtoHSB(204, 255, 94, null);
         embed.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]));

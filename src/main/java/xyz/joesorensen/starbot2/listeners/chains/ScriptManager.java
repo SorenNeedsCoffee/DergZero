@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.*;
-import java.util.Arrays;
 import java.util.Random;
 
 public class ScriptManager {
@@ -41,7 +40,7 @@ public class ScriptManager {
         try {
             meta = (JSONObject) new JSONParser().parse(new FileReader("scripts/meta.json"));
         } catch (FileNotFoundException e) {
-            log.error("FileNotFoundException: members file not found. Please ensure that the members file exists, is in the same directory as the jar, and is called members.json");
+            log.error("FileNotFoundException: script meta file not found. Please ensure that the members file exists, is in the scripts directory, and is called meta.json");
             System.exit(1);
         } catch (IOException | ParseException e) {
             log.error(ExceptionUtils.getStackTrace(e));
@@ -64,7 +63,7 @@ public class ScriptManager {
         try {
             raw = (JSONObject) new JSONParser().parse(new FileReader("scripts/" + choice + ".json"));
         } catch (FileNotFoundException e) {
-            log.error("FileNotFoundException: members file not found. Please ensure that the members file exists, is in the same directory as the jar, and is called members.json");
+            log.error("FileNotFoundException: script file not found.");
             System.exit(1);
         } catch (IOException | ParseException e) {
             log.error(ExceptionUtils.getStackTrace(e));
@@ -72,7 +71,7 @@ public class ScriptManager {
         }
 
         String test = (String) raw.get("script");
-        script = test.replaceAll("[^\\s\\w]", "").split(" ");
+        script = test.replaceAll("([^A-Za-z0-9\\s\\-':()])+", "").split(" ");
 
         title = (String) raw.get("title");
 

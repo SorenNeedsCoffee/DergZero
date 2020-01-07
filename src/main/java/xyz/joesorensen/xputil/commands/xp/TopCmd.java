@@ -2,9 +2,9 @@ package xyz.joesorensen.xputil.commands.xp;
 
 import com.jagrosh.jdautilities.command.CommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
+import xyz.joesorensen.xputil.commands.XpCommand;
 import xyz.joesorensen.xputil.util.User;
 import xyz.joesorensen.xputil.util.UserManager;
-import xyz.joesorensen.xputil.commands.XpCommand;
 
 import java.awt.*;
 import java.text.DecimalFormat;

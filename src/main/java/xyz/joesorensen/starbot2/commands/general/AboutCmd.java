@@ -3,6 +3,7 @@ package xyz.joesorensen.starbot2.commands.general;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.utils.MarkdownUtil;
 import xyz.joesorensen.starbot2.StarBot2;
 
 /**
@@ -26,6 +27,6 @@ public class AboutCmd extends Command {
         else
             embed.setTitle("StarBot2 | DEVELOPMENT MODE");
 
-        embed.setDescription("*StarBot, but better!* Built with Java, JDA, and JDA-Utilities. Use ``!>help `` to view commands.");
+        embed.setDescription(MarkdownUtil.italics("StarBot, but better!") + " Built with Java, JDA, and JDA-Utilities. Use " + MarkdownUtil.monospace("!>help") +  " to view commands.");
     }
 }

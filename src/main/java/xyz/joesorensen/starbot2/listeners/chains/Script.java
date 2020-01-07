@@ -1,29 +1,16 @@
 package xyz.joesorensen.starbot2.listeners.chains;
 
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import xyz.joesorensen.xputil.util.XpListener;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.sql.Time;
-import java.time.temporal.ChronoUnit;
+import java.text.DecimalFormat;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.function.Consumer;
 
 public class Script extends ListenerAdapter {
     private ScriptManager man;
@@ -37,7 +24,7 @@ public class Script extends ListenerAdapter {
             man.newScript();
         }
 
-        event.getJDA().getGuildChannelById("663544151547314255").getManager().setTopic("Title: " + man.title() + " | Next Word: " + man.nextWord() + " [" + man.index() + "/" + man.length() + "]").queue();
+        event.getJDA().getGuildChannelById("663544151547314255").getManager().setTopic("Title: " + man.title() + " | Next Word: " + man.nextWord() + " [" + new DecimalFormat("##,###.##").format(man.index()-1) + "/" + new DecimalFormat("##,###.##").format(man.length()) + "]").queue();
     }
 
     @Override
@@ -58,33 +45,37 @@ public class Script extends ListenerAdapter {
 
                 for (Message message : messages) {
                     User user = message.getAuthor();
-                    if (messageCounts.containsKey(user)) {
-                        messageCounts.put(user, messageCounts.get(user) + 1);
-                    } else {
-                        messageCounts.put(user, 0);
+                    if(!user.isBot() || !user.isFake()) {
+                        if (messageCounts.containsKey(user)) {
+                            messageCounts.put(user, messageCounts.get(user) + 1);
+                        } else {
+                            messageCounts.put(user, 0);
+                        }
                     }
                 }
 
                 for (User user : messageCounts.keySet()) {
                     event.getChannel().sendMessage("User: " + user.getName() + " Total Messages: " + messageCounts.get(user)).queue();
-                    if(messageCounts.get(user)/man.length() >= 0.1) {
+                    XpListener.addXP(user, Math.pow((double) messageCounts.get(user), 0.8));
+                    if( (double) messageCounts.get(user)/man.length() >= 0.1) {
                         event.getGuild().addRoleToMember(user.getId(), event.getGuild().getRoleById("663947663137308713")).queue();
                         event.getChannel().sendMessage(user.getName() + " Earned the **" + event.getGuild().getRoleById("663947663137308713").getName() + "** Role!").queue();
                     }
                 }
 
                 event.getChannel().sendMessage("New Script will start in 20 minutes.");
+                event.getChannel().getPermissionOverride(event.getGuild().getRoles().get(0)).getManager().deny(Permission.MESSAGE_WRITE).queue();
 
                 new Timer().schedule(new TimerTask() {
                     @Override
                     public void run() {
                         event.getChannel().purgeMessages(messages);
+                        event.getChannel().getPermissionOverride(event.getGuild().getRoles().get(0)).getManager().grant(Permission.MESSAGE_WRITE).queue();
                         man.newScript();
                     }
                 }, 1200000);
 
             }
-            event.getJDA().getGuildChannelById("663544151547314255").getManager().setTopic("Title: " + man.title() + " | Next Word: " + man.nextWord() + " [" + man.index() + "/" + man.length() + "]").queue();
         } else {
             if (toPurge) {
                 List<Message> messages = getMsgs(event.getChannel());
@@ -93,6 +84,7 @@ public class Script extends ListenerAdapter {
             } else
                 event.getMessage().delete().queue();
         }
+        event.getJDA().getGuildChannelById("663544151547314255").getManager().setTopic("Title: " + man.title() + " | Next Word: " + man.nextWord() + " [" + new DecimalFormat("##,###.##").format(man.index()-1) + "/" + new DecimalFormat("##,###.##").format(man.length()) + "]").queue();
     }
 
     private List<Message> getMsgs(MessageChannel channel) {

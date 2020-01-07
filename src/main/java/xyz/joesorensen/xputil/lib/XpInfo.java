@@ -1,8 +1,8 @@
 package xyz.joesorensen.xputil.lib;
 
-import java.util.Random;
-
 import org.decimal4j.util.DoubleRounder;
+
+import java.util.Random;
 
 public class XpInfo {
     private static final Random random = new Random();

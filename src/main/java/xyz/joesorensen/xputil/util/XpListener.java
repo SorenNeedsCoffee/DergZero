@@ -84,11 +84,11 @@ public class XpListener extends ListenerAdapter {
         if (event.getAuthor().isBot() || event.getAuthor().isFake())
             return;
 
-        if (cooldown.indexOf(event.getAuthor().getId()) == -1 || !event.getChannel().getId().equals("442556155856814080")) {
+        if (cooldown.indexOf(event.getAuthor().getId()) == -1 || !event.getChannel().getParent().getId().equals("506503114845716490")) {
             User update = UserManager.getUser(event.getAuthor().getId());
             update.addXp(XpInfo.earnedXP(event.getMessage().getContentDisplay().replaceAll(" ", "")));
             if (update.getXp() >= XpInfo.lvlXpRequirementTotal(update.getLvl())) {
-                onLvlUp(event, update);
+                onLvlUp(event.getAuthor(), update);
             }
             UserManager.updateUser(update);
             cooldown.add(event.getAuthor().getId());
@@ -101,68 +101,77 @@ public class XpListener extends ListenerAdapter {
         }
     }
 
-    void onLvlUp(GuildMessageReceivedEvent event, User update) {
+    public static void addXP(net.dv8tion.jda.api.entities.User user, double amt) {
+        User update = UserManager.getUser(user.getId());
+        update.addXp(amt);
+        if (update.getXp() >= XpInfo.lvlXpRequirementTotal(update.getLvl())) {
+            onLvlUp(user, update);
+        }
+        UserManager.updateUser(update);
+    }
+
+    static void onLvlUp(net.dv8tion.jda.api.entities.User user, User update) {
         update.setLvl(update.getLvl() + 1);
 
         EmbedBuilder embed = new EmbedBuilder();
         float[] rgb;
 
-        embed.setAuthor("Level Up!", null, event.getAuthor().getAvatarUrl());
-        if (event.getMember().getNickname() != null) {
-            embed.setDescription("Congrats to " + event.getMember().getNickname() + " for reaching level " + update.getLvl() + "!");
+        embed.setAuthor("Level Up!", null, user.getAvatarUrl());
+        if (jda.getGuildById("442552203694047232").getMember(user).getNickname() != null) {
+            embed.setDescription("Congrats to " + jda.getGuildById("442552203694047232").getMember(user).getNickname() + " for reaching level " + update.getLvl() + "!");
         } else {
-            embed.setDescription("Congrats to " + event.getAuthor().getName() + " for reaching level " + update.getLvl() + "!");
+            embed.setDescription("Congrats to " + user.getName() + " for reaching level " + update.getLvl() + "!");
         }
         rgb = Color.RGBtoHSB(204, 255, 94, null);
         embed.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]));
 
-        event.getChannel().sendMessage(embed.build()).queue();
+        jda.getGuildById("442552203694047232").getTextChannelById("664089444126687242").sendMessage(embed.build()).queue();
 
         switch (update.getLvl()) {
             case 5:
-                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL1.getId(), LvlRoleIDs.LVL5.getId());
+                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL1.getId(), LvlRoleIDs.LVL5.getId());
                 break;
             case 10:
-                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL5.getId(), LvlRoleIDs.LVL10.getId());
+                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL5.getId(), LvlRoleIDs.LVL10.getId());
                 break;
             case 15:
-                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL10.getId(), LvlRoleIDs.LVL15.getId());
+                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL10.getId(), LvlRoleIDs.LVL15.getId());
                 break;
             case 20:
-                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL15.getId(), LvlRoleIDs.LVL20.getId());
+                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL15.getId(), LvlRoleIDs.LVL20.getId());
                 break;
             case 25:
-                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL20.getId(), LvlRoleIDs.LVL25.getId());
+                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL20.getId(), LvlRoleIDs.LVL25.getId());
                 break;
             case 30:
-                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL25.getId(), LvlRoleIDs.LVL30.getId());
+                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL25.getId(), LvlRoleIDs.LVL30.getId());
                 break;
             case 35:
-                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL30.getId(), LvlRoleIDs.LVL35.getId());
+                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL30.getId(), LvlRoleIDs.LVL35.getId());
                 break;
             case 40:
-                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL35.getId(), LvlRoleIDs.LVL40.getId());
+                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL35.getId(), LvlRoleIDs.LVL40.getId());
                 break;
             case 45:
-                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL40.getId(), LvlRoleIDs.LVL45.getId());
+                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL40.getId(), LvlRoleIDs.LVL45.getId());
                 break;
             case 50:
-                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL45.getId(), LvlRoleIDs.LVL50.getId());
+                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL45.getId(), LvlRoleIDs.LVL50.getId());
                 break;
             case 55:
-                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL50.getId(), LvlRoleIDs.LVL55.getId());
+                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL50.getId(), LvlRoleIDs.LVL55.getId());
                 break;
             case 60:
-                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL55.getId(), LvlRoleIDs.LVL60.getId());
+                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL55.getId(), LvlRoleIDs.LVL60.getId());
                 break;
             case 65:
-                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL60.getId(), LvlRoleIDs.LVL65.getId());
+                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL60.getId(), LvlRoleIDs.LVL65.getId());
                 break;
             case 70:
-                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL65.getId(), LvlRoleIDs.LVL70.getId());
+                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL65.getId(), LvlRoleIDs.LVL70.getId());
                 break;
             case 75:
-                replaceRole(event.getGuild(), event.getMember(), LvlRoleIDs.LVL70.getId(), LvlRoleIDs.LVL75.getId());
+                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL70.getId(), LvlRoleIDs.LVL75.getId());
                 break;
 
         }
