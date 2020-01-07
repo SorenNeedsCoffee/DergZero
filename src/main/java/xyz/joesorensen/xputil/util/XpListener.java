@@ -26,9 +26,9 @@ import java.util.*;
  */
 public class XpListener extends ListenerAdapter {
     private static JDA jda;
-    private final Logger log;
-    private final List<String> cooldown = new ArrayList<>();
-    private final Timer timer = new Timer();
+    private Logger log;
+    private List<String> cooldown = new ArrayList<>();
+    private Timer timer = new Timer();
 
     public XpListener() {
         this.log = LoggerFactory.getLogger("XpUtil");
@@ -39,11 +39,6 @@ public class XpListener extends ListenerAdapter {
         Objects.requireNonNull(guild).addRoleToMember(member, Objects.requireNonNull(jda.getRoleById(replace))).queue();
     }
 
-    public void setJDA(JDA jda) {
-        XpListener.jda = jda;
-    }
-
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
     public void onReady(ReadyEvent event) {
         log.info("Getting things ready...");
@@ -63,9 +58,10 @@ public class XpListener extends ListenerAdapter {
                 if (!member.getRoles().contains(guild.getRoleById(LvlRoleIDs.LVL1.getId())) &&
                         !(member.getUser().isBot() || member.getUser().isFake()) &&
                         (Objects.requireNonNull(UserManager.getUser(member.getId())).getLvl() < 5))
-                    guild.addRoleToMember(member, Objects.requireNonNull(jda.getRoleById(LvlRoleIDs.LVL1.getId()))).queue();
+                    guild.addRoleToMember(member, jda.getRoleById(LvlRoleIDs.LVL1.getId())).queue();
             }
         }
+        jda = event.getJDA();
         log.info("XPUtil version 0.2 ready");
     }
 
@@ -88,9 +84,9 @@ public class XpListener extends ListenerAdapter {
         if (event.getAuthor().isBot() || event.getAuthor().isFake())
             return;
 
-        if (cooldown.indexOf(event.getAuthor().getId()) == -1 || !event.getChannel().getId().equals("442556155856814080") && !event.getMessage().getContentDisplay().startsWith("!>")) {
+        if (cooldown.indexOf(event.getAuthor().getId()) == -1 || !event.getChannel().getId().equals("442556155856814080")) {
             User update = UserManager.getUser(event.getAuthor().getId());
-            Objects.requireNonNull(update).addXp(XpInfo.earnedXP(event.getMessage().getContentDisplay()));
+            update.addXp(XpInfo.earnedXP(event.getMessage().getContentDisplay().replaceAll(" ", "")));
             if (update.getXp() >= XpInfo.lvlXpRequirementTotal(update.getLvl())) {
                 onLvlUp(event, update);
             }
@@ -105,14 +101,14 @@ public class XpListener extends ListenerAdapter {
         }
     }
 
-    private void onLvlUp(GuildMessageReceivedEvent event, User update) {
+    void onLvlUp(GuildMessageReceivedEvent event, User update) {
         update.setLvl(update.getLvl() + 1);
 
         EmbedBuilder embed = new EmbedBuilder();
         float[] rgb;
 
         embed.setAuthor("Level Up!", null, event.getAuthor().getAvatarUrl());
-        if (Objects.requireNonNull(event.getMember()).getNickname() != null) {
+        if (event.getMember().getNickname() != null) {
             embed.setDescription("Congrats to " + event.getMember().getNickname() + " for reaching level " + update.getLvl() + "!");
         } else {
             embed.setDescription("Congrats to " + event.getAuthor().getName() + " for reaching level " + update.getLvl() + "!");
@@ -120,11 +116,7 @@ public class XpListener extends ListenerAdapter {
         rgb = Color.RGBtoHSB(204, 255, 94, null);
         embed.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]));
 
-        if (update.getLvl() != 1)
-            event.getChannel().sendMessage(embed.build()).queue();
-
-        if(update.getLvl() == 69)
-            event.getGuild().addRoleToMember(event.getMember(), Objects.requireNonNull(jda.getRoleById("652606362936672266"))).queue();
+        event.getChannel().sendMessage(embed.build()).queue();
 
         switch (update.getLvl()) {
             case 5:

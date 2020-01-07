@@ -21,7 +21,7 @@ public class AboutCmd extends Command {
     protected void execute(CommandEvent event) {
         EmbedBuilder embed = new EmbedBuilder();
 
-        if(StarBot2.version != null)
+        if (StarBot2.version != null)
             embed.setTitle("StarBot2 | v" + StarBot2.version);
         else
             embed.setTitle("StarBot2 | DEVELOPMENT MODE");

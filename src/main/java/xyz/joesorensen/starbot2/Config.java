@@ -109,7 +109,11 @@ public class Config {
         this.dbName = dbName;
     }
 
-    public String getDbTable() { return dbTable; }
+    public String getDbTable() {
+        return dbTable;
+    }
 
-    public void setDbTable(String dbTable) { this.dbTable = dbTable; }
+    public void setDbTable(String dbTable) {
+        this.dbTable = dbTable;
+    }
 }

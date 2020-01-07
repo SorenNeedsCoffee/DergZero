@@ -12,6 +12,8 @@ import xyz.joesorensen.starbot2.commands.fun.*;
 import xyz.joesorensen.starbot2.commands.general.*;
 import xyz.joesorensen.starbot2.commands.owner.*;
 import xyz.joesorensen.starbot2.listeners.Listener;
+import xyz.joesorensen.starbot2.listeners.chains.Hi;
+import xyz.joesorensen.starbot2.listeners.chains.Script;
 import xyz.joesorensen.twitchutil.TwitchEventManager;
 import xyz.joesorensen.twitchutil.TwitchListener;
 import xyz.joesorensen.xputil.util.UserManager;
@@ -35,7 +37,7 @@ public class StarBot2 {
         Logger log = LoggerFactory.getLogger("Startup");
         final boolean enableDiscord = true;
 
-        if(version != null)
+        if (version != null)
             log.info("StarBot2 | v" + version);
         else
             log.info("StarBot2 | DEVELOPMENT MODE");
@@ -105,15 +107,12 @@ public class StarBot2 {
                         .setToken(token)
                         .setStatus(OnlineStatus.DO_NOT_DISTURB)
                         .setActivity(Activity.playing("loading..."))
-                        .addEventListeners(client, waiter, xpUtil.listener(), listener)
+                        .addEventListeners(client, waiter, xpUtil.listener(), listener, new Hi(), new Script())
                         .build();
             } catch (LoginException ex) {
                 log.error("Invalid Token");
                 System.exit(1);
             }
-
-            listener.setJDA(jda);
-            xpUtil.setJDA(jda);
         } else {
             log.info("DEV: Discord functionality disabled for testing purposes.");
         }

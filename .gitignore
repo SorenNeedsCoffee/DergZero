@@ -7,6 +7,8 @@ backup.json
 #no config for you
 config.yml
 
+scripts/
+
 .gradle
 /build/
 

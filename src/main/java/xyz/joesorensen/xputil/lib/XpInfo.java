@@ -1,6 +1,7 @@
 package xyz.joesorensen.xputil.lib;
 
 import java.util.Random;
+
 import org.decimal4j.util.DoubleRounder;
 
 public class XpInfo {
@@ -20,7 +21,7 @@ public class XpInfo {
     public static double lvlXpRequirementTotal(int lvl) {
         //return lvl*250;
         double result = 0;
-        for(int i = 1; i <= lvl; i++) {
+        for (int i = 1; i <= lvl; i++) {
             result += lvlXpRequirement(i);
         }
         result = DoubleRounder.round(result, 1);

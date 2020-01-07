@@ -8,11 +8,21 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.joesorensen.starbot2.StarBot2;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,17 +32,13 @@ import java.util.Objects;
  * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public class Listener extends ListenerAdapter {
-    private final Logger log;
+    private Logger log;
     private JDA jda;
     private String id;
     private String prefix;
 
     public Listener() {
         this.log = LoggerFactory.getLogger("Main");
-    }
-
-    public void setJDA(JDA jda) {
-        this.jda = jda;
     }
 
     public void setRoleID(String id) {
@@ -45,7 +51,6 @@ public class Listener extends ListenerAdapter {
 
     @Override
     public void onReady(ReadyEvent event) {
-        log.info("Ready!");
         List<Guild> guilds = event.getJDA().getGuilds();
         for (Guild guild : guilds) {
             List<Member> members = guild.getMembers();
@@ -56,6 +61,8 @@ public class Listener extends ListenerAdapter {
             }
         }
         StarBot2.twitchListener.track("JoeSorensen");
+        this.jda = event.getJDA();
+        log.info("Ready!");
     }
 
     @Override
@@ -71,8 +78,8 @@ public class Listener extends ListenerAdapter {
         if (event.getAuthor().isBot() || event.getAuthor().isFake())
             return;
 
-        if (event.getChannel() == jda.getTextChannelById("506503200866697226") && !event.getMessage().getContentDisplay().equalsIgnoreCase("hi"))
-            event.getMessage().delete().queue();
+        if (event.getMessage().getContentDisplay().toLowerCase().contains("yo, can i have some memes?"))
+            event.getChannel().sendMessage("dude not out in the open!").queue();
 
         if (event.getMessage().getContentDisplay().equalsIgnoreCase("cooked joesorensen") || event.getMessage().getContentDisplay().equalsIgnoreCase("cooked soren")) {
             switch ((int) (Math.random() * 10 + 1)) {
@@ -88,6 +95,51 @@ public class Listener extends ListenerAdapter {
                 default:
                     event.getChannel().sendMessage("holy shit.").queue();
                     break;
+            }
+        }
+    }
+
+    @Override
+    public void onPrivateMessageReceived(PrivateMessageReceivedEvent event) {
+        if (event.getMessage().getAuthor().isBot())
+            return;
+        if (event.getMessage().getContentDisplay().toLowerCase().contains("yo, can i have some memes?")) {
+            event.getChannel().sendTyping().queue();
+            String imgurl = null;
+            while (imgurl == null) {
+                try {
+                    String url = "https://www.reddit.com/r/memes/best/.json?count=1&t=all";
+                    URL obj;
+
+                    obj = new URL(url);
+                    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+                    con.setRequestMethod("GET");
+
+                    BufferedReader in = new BufferedReader(
+                            new InputStreamReader(con.getInputStream()));
+                    String inputLine;
+                    StringBuilder response = new StringBuilder();
+
+                    while ((inputLine = in.readLine()) != null) {
+                        response.append(inputLine);
+                    }
+                    in.close();
+
+                    JSONObject result = (JSONObject) new JSONParser().parse(response.toString());
+                    JSONObject data = (JSONObject) result.get("data");
+                    JSONArray children = (JSONArray) data.get("children");
+                    JSONObject post = (JSONObject) children.get(0);
+                    JSONObject postdata = (JSONObject) post.get("data");
+                    imgurl = (String) postdata.get("url");
+                    break;
+                } catch (IOException | ParseException ignore) {
+                }
+            }
+            try {
+                //event.getChannel().sendMessage(imgurl).queue();
+            } catch (Exception e) {
+                event.getChannel().sendMessage("Sorry, there was an issue getting the freshest meme!").queue();
             }
         }
     }

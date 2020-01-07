@@ -33,7 +33,7 @@ public class ChangeLvlCmd extends AdminCommand {
 
         User update = UserManager.getUser(args[0]);
         Objects.requireNonNull(update).setLvl(Integer.parseInt(args[1]));
-        update.setXp(XpInfo.lvlXpRequirementTotal(update.getLvl()-1)+10);
+        update.setXp(XpInfo.lvlXpRequirementTotal(update.getLvl() - 1) + 10);
         XpListener.replaceRole(event.getGuild(), event.getGuild().getMemberById(args[0]), LvlRoleIDs.getLvlRole(Objects.requireNonNull(UserManager.getUser(args[0])).getLvl()), LvlRoleIDs.getLvlRole(update.getLvl()));
         UserManager.updateUser(update);
     }

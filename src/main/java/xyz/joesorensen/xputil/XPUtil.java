@@ -43,8 +43,4 @@ public class XPUtil {
     public XpListener listener() {
         return this.listener;
     }
-
-    public void setJDA(JDA jda) {
-        this.listener.setJDA(jda);
-    }
 }
