@@ -84,10 +84,10 @@ public class XpListener extends ListenerAdapter {
         if (event.getAuthor().isBot() || event.getAuthor().isFake())
             return;
 
-        if (cooldown.indexOf(event.getAuthor().getId()) == -1 || !event.getChannel().getParent().getId().equals("506503114845716490")) {
+        if (cooldown.indexOf(event.getAuthor().getId()) == -1 || !event.getChannel().getId().equals("506503200866697226") || !event.getChannel().getId().equals("663544151547314255")) {
             User update = UserManager.getUser(event.getAuthor().getId());
             update.addXp(XpInfo.earnedXP(event.getMessage().getContentDisplay().replaceAll(" ", "")));
-            if (update.getXp() >= XpInfo.lvlXpRequirementTotal(update.getLvl())) {
+            if (update.getXp() >= XpInfo.lvlXpRequirementTotal(update.getLvl()) && update.getLvl() == 1) {
                 onLvlUp(event.getAuthor(), update);
             }
             UserManager.updateUser(update);
