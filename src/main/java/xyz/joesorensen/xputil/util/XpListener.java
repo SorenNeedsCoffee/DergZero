@@ -87,7 +87,7 @@ public class XpListener extends ListenerAdapter {
         if (cooldown.indexOf(event.getAuthor().getId()) == -1 || !event.getChannel().getId().equals("506503200866697226") || !event.getChannel().getId().equals("663544151547314255")) {
             User update = UserManager.getUser(event.getAuthor().getId());
             update.addXp(XpInfo.earnedXP(event.getMessage().getContentDisplay().replaceAll(" ", "")));
-            if (update.getXp() >= XpInfo.lvlXpRequirementTotal(update.getLvl()) && update.getLvl() == 1) {
+            if (update.getXp() >= XpInfo.lvlXpRequirementTotal(update.getLvl())) {
                 onLvlUp(event.getAuthor(), update);
             }
             UserManager.updateUser(update);
@@ -113,19 +113,24 @@ public class XpListener extends ListenerAdapter {
     static void onLvlUp(net.dv8tion.jda.api.entities.User user, User update) {
         update.setLvl(update.getLvl() + 1);
 
-        EmbedBuilder embed = new EmbedBuilder();
-        float[] rgb;
+        if(update.getLvl() != 1) {
+            EmbedBuilder embed = new EmbedBuilder();
+            float[] rgb;
 
-        embed.setAuthor("Level Up!", null, user.getAvatarUrl());
-        if (jda.getGuildById("442552203694047232").getMember(user).getNickname() != null) {
-            embed.setDescription("Congrats to " + jda.getGuildById("442552203694047232").getMember(user).getNickname() + " for reaching level " + update.getLvl() + "!");
-        } else {
-            embed.setDescription("Congrats to " + user.getName() + " for reaching level " + update.getLvl() + "!");
+            embed.setAuthor("Level Up!", null, user.getAvatarUrl());
+            if (jda.getGuildById("442552203694047232").getMember(user).getNickname() != null) {
+                embed.setDescription("Congrats to " + jda.getGuildById("442552203694047232").getMember(user).getNickname() + " for reaching level " + update.getLvl() + "!");
+            } else {
+                embed.setDescription("Congrats to " + user.getName() + " for reaching level " + update.getLvl() + "!");
+            }
+            rgb = Color.RGBtoHSB(204, 255, 94, null);
+            embed.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]));
+
+            jda.getGuildById("442552203694047232").getTextChannelById("664089444126687242").sendMessage(embed.build()).queue();
         }
-        rgb = Color.RGBtoHSB(204, 255, 94, null);
-        embed.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]));
 
-        jda.getGuildById("442552203694047232").getTextChannelById("664089444126687242").sendMessage(embed.build()).queue();
+        if(update.getLvl() == 69)
+            jda.getGuildById("442552203694047232").addRoleToMember(update.getId(), jda.getGuildById("442552203694047232").getRoleById("652606362936672266"));
 
         switch (update.getLvl()) {
             case 5:
