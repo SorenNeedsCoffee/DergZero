@@ -59,7 +59,7 @@ public class StarBot2 {
         String defaultRoleID = config.getDefaultRoleID();
         String prefix = config.getPrefix();
         String clientID = config.getClientID();
-        if (token.equals("") || ownerID.equals("") || prefix.equals("") || clientID.equals("") || defaultRoleID.equals("")) {
+        if ("".equals(token) || "".equals(ownerID) || "".equals(prefix) || "".equals(clientID) || "".equals(defaultRoleID)) {
             log.error("Incomplete config file. Please ensure that properties token, ownerID, clientID, defaultRoleID, and prefix are present and not empty");
             System.exit(1);
         }

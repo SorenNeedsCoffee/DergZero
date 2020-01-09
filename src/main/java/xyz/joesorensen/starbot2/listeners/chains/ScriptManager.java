@@ -113,9 +113,8 @@ public class ScriptManager {
             Statement statement = connect.createStatement();
 
             ResultSet rs = statement.executeQuery("SELECT 1 FROM " + mTable + " WHERE name = 'index'");
-            rs.next();
 
-            if (rs.getRow() == 1)
+            if (rs.next() && rs.getRow() == 1)
                 return true;
         } catch (SQLException e) {
             log.error("JDBC experienced the following error:" + ExceptionUtils.getMessage(e) + " Please see below for details");
@@ -129,16 +128,18 @@ public class ScriptManager {
             Statement statement = connect.createStatement();
 
             ResultSet rs = statement.executeQuery("SELECT * FROM " + mTable + " WHERE name = 'index'");
-            rs.next();
+            if(!rs.next())
+                throw new SQLException("Returned result is null.");
 
             int index = rs.getInt("value");
 
             rs = statement.executeQuery("SELECT * FROM " + sTable + " WHERE `index` = " + index);
-            rs.next();
+            if(!rs.next())
+                throw new SQLException("Returned result is null.");
 
             String correct = rs.getString("value");
 
-            if (msg.toLowerCase().equals(correct.toLowerCase()))
+            if (msg.equalsIgnoreCase(correct))
                 return true;
         } catch (SQLException e) {
             log.error("JDBC experienced the following error:" + ExceptionUtils.getMessage(e) + " Please see below for details");
@@ -152,12 +153,14 @@ public class ScriptManager {
             Statement statement = connect.createStatement();
 
             ResultSet rs = statement.executeQuery("SELECT * FROM " + mTable + " WHERE name = 'index'");
-            rs.next();
+            if(!rs.next())
+                throw new SQLException("Returned result is null.");
 
             int index = rs.getInt("value");
 
             rs = statement.executeQuery("SELECT * FROM " + mTable + " WHERE name = 'length'");
-            rs.next();
+            if(!rs.next())
+                throw new SQLException("Returned result is null.");
 
             int length = rs.getInt("value");
 
@@ -181,12 +184,14 @@ public class ScriptManager {
             Statement statement = connect.createStatement();
 
             ResultSet rs = statement.executeQuery("SELECT * FROM script_meta WHERE name = 'index'");
-            rs.next();
+            if(!rs.next())
+                throw new SQLException("Returned result is null.");
 
             int index = rs.getInt("value");
 
             rs = statement.executeQuery("SELECT * FROM " + sTable + " WHERE `index` = " + index);
-            rs.next();
+            if(!rs.next())
+                throw new SQLException("Returned result is null.");
 
             String word;
             try {
@@ -208,11 +213,10 @@ public class ScriptManager {
             Statement statement = connect.createStatement();
 
             ResultSet rs = statement.executeQuery("SELECT * FROM " + mTable + " WHERE name = 'title'");
-            rs.next();
+            if(!rs.next())
+                throw new SQLException("Returned result is null.");
 
-            String title = rs.getString("value");
-
-            return title;
+            return rs.getString("value");
         } catch (SQLException e) {
             log.error("JDBC experienced the following error:" + ExceptionUtils.getMessage(e) + " Please see below for details");
             log.error(ExceptionUtils.getStackTrace(e));
@@ -225,11 +229,10 @@ public class ScriptManager {
             Statement statement = connect.createStatement();
 
             ResultSet rs = statement.executeQuery("SELECT * FROM " + mTable + " WHERE name = 'length'");
-            rs.next();
+            if(!rs.next())
+                throw new SQLException("Returned result is null.");
 
-            int length = rs.getInt("value");
-
-            return length;
+            return rs.getInt("value");
         } catch (SQLException e) {
             log.error("JDBC experienced the following error:" + ExceptionUtils.getMessage(e) + " Please see below for details");
             log.error(ExceptionUtils.getStackTrace(e));
@@ -242,11 +245,10 @@ public class ScriptManager {
             Statement statement = connect.createStatement();
 
             ResultSet rs = statement.executeQuery("SELECT * FROM " + mTable + " WHERE name = 'index'");
-            rs.next();
+            if(!rs.next())
+                throw new SQLException("Returned result is null.");
 
-            int index = rs.getInt("value");
-
-            return index;
+            return rs.getInt("value");
         } catch (SQLException e) {
             log.error("JDBC experienced the following error:" + ExceptionUtils.getMessage(e) + " Please see below for details");
             log.error(ExceptionUtils.getStackTrace(e));

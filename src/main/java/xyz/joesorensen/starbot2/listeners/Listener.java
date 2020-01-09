@@ -78,9 +78,6 @@ public class Listener extends ListenerAdapter {
         if (event.getAuthor().isBot() || event.getAuthor().isFake())
             return;
 
-        if (event.getMessage().getContentDisplay().toLowerCase().contains("yo, can i have some memes?"))
-            event.getChannel().sendMessage("dude not out in the open!").queue();
-
         if (event.getMessage().getContentDisplay().equalsIgnoreCase("cooked joesorensen") || event.getMessage().getContentDisplay().equalsIgnoreCase("cooked soren")) {
             switch ((int) (Math.random() * 10 + 1)) {
                 case 3:
@@ -95,51 +92,6 @@ public class Listener extends ListenerAdapter {
                 default:
                     event.getChannel().sendMessage("holy shit.").queue();
                     break;
-            }
-        }
-    }
-
-    @Override
-    public void onPrivateMessageReceived(PrivateMessageReceivedEvent event) {
-        if (event.getMessage().getAuthor().isBot())
-            return;
-        if (event.getMessage().getContentDisplay().toLowerCase().contains("yo, can i have some memes?")) {
-            event.getChannel().sendTyping().queue();
-            String imgurl = null;
-            while (imgurl == null) {
-                try {
-                    String url = "https://www.reddit.com/r/memes/best/.json?count=1&t=all";
-                    URL obj;
-
-                    obj = new URL(url);
-                    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-                    con.setRequestMethod("GET");
-
-                    BufferedReader in = new BufferedReader(
-                            new InputStreamReader(con.getInputStream()));
-                    String inputLine;
-                    StringBuilder response = new StringBuilder();
-
-                    while ((inputLine = in.readLine()) != null) {
-                        response.append(inputLine);
-                    }
-                    in.close();
-
-                    JSONObject result = (JSONObject) new JSONParser().parse(response.toString());
-                    JSONObject data = (JSONObject) result.get("data");
-                    JSONArray children = (JSONArray) data.get("children");
-                    JSONObject post = (JSONObject) children.get(0);
-                    JSONObject postdata = (JSONObject) post.get("data");
-                    imgurl = (String) postdata.get("url");
-                    break;
-                } catch (IOException | ParseException ignore) {
-                }
-            }
-            try {
-                //event.getChannel().sendMessage(imgurl).queue();
-            } catch (Exception e) {
-                event.getChannel().sendMessage("Sorry, there was an issue getting the freshest meme!").queue();
             }
         }
     }
