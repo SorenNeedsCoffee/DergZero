@@ -136,6 +136,8 @@ public class XpListener extends ListenerAdapter {
             jda.getGuildById("442552203694047232").addRoleToMember(update.getId(), jda.getGuildById("442552203694047232").getRoleById("652606362936672266"));
 
         switch (update.getLvl()) {
+            default:
+                break;
             case 5:
                 replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL1.getId(), LvlRoleIDs.LVL5.getId());
                 break;

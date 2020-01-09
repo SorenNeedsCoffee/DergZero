@@ -26,7 +26,6 @@ import java.util.List;
 public class UserManager {
     private static List<User> users = new ArrayList<>();
     private static DbManager db;
-    private static final Logger log = LoggerFactory.getLogger("UserManager");
 
     static void addUser(String id) {
         db.addUser(id, 0, 0.0);

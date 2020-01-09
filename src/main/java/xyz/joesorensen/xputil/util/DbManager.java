@@ -84,7 +84,8 @@ class DbManager {
             Statement statement = connect.createStatement();
 
             ResultSet rs = statement.executeQuery("SELECT * FROM " + table + " WHERE id = '" + id + "'");
-            rs.next();
+            if(!rs.next())
+                throw new SQLException("Returned result is null.");
 
             return new User(rs.getString("id"), rs.getDouble("xp"), rs.getInt("lvl"));
         } catch (SQLException e) {
@@ -103,7 +104,8 @@ class DbManager {
             rs.next();
             while (!rs.isAfterLast()) {
                 users.add(new User(rs.getString("id"), rs.getDouble("xp"), rs.getInt("lvl")));
-                rs.next();
+                if(!rs.next())
+                    throw new SQLException("Returned result is null.");
             }
             return users;
         } catch (SQLException e) {
