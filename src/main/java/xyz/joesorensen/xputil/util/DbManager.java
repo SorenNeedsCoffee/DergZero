@@ -100,8 +100,10 @@ class DbManager {
             Statement statement = connect.createStatement();
 
             ResultSet rs = statement.executeQuery("SELECT * FROM " + table);
+            if(!rs.next())
+                throw new SQLException("Returned result is null.");
+
             List<User> users = new ArrayList<>();
-            rs.next();
             while (!rs.isAfterLast()) {
                 users.add(new User(rs.getString("id"), rs.getDouble("xp"), rs.getInt("lvl")));
                 if(!rs.next())
