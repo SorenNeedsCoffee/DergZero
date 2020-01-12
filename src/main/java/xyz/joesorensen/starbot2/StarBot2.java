@@ -11,10 +11,7 @@ import net.dv8tion.jda.api.entities.Activity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.joesorensen.starbot2.commands.admin.*;
-import xyz.joesorensen.starbot2.commands.fun.AvatarCmd;
-import xyz.joesorensen.starbot2.commands.fun.FakeCmd;
-import xyz.joesorensen.starbot2.commands.fun.HelCmd;
-import xyz.joesorensen.starbot2.commands.fun.OobifyCmd;
+import xyz.joesorensen.starbot2.commands.fun.*;
 import xyz.joesorensen.starbot2.commands.general.AboutCmd;
 import xyz.joesorensen.starbot2.commands.general.HelpCmd;
 import xyz.joesorensen.starbot2.commands.general.InviteCmd;
@@ -84,6 +81,7 @@ public class StarBot2 {
                         new OobifyCmd(),
                         new FakeCmd(),
                         new AvatarCmd(),
+                        new ThesaurusCmd(),
 
                         new PingCmd(),
 
