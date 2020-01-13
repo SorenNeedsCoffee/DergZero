@@ -22,6 +22,7 @@ public class ThesaurusCmd extends Command {
     public ThesaurusCmd() {
         this.name = "thesaurus";
         this.help = "replace every word in arguments with a synonym";
+        this.arguments = "statement | .lookup word";
         this.guildOnly = false;
         this.aliases = new String[]{"ths"};
     }
@@ -58,6 +59,7 @@ public class ThesaurusCmd extends Command {
                     event.replyError("Sorry, the thesaurus had a stroke.");
                 }
             });
+            th.start();
         } else {
             Thread th = new Thread(() -> {
                 String[] statement = args.replaceAll("([^A-Za-z0-9\\s\\-':()])+", "").split(" ");
