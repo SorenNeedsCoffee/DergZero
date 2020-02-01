@@ -22,9 +22,13 @@ repositories {
 dependencies {
     implementation 'com.jagrosh:jda-utilities:3.0.2'
     implementation 'net.dv8tion:JDA:4.0.0_73'
+    implementation 'club.minnced:discord-webhooks:0.2.0'
     implementation 'com.github.avluis:Java-Twitch-Api-Wrapper:5.0.2'
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
     implementation 'mysql:mysql-connector-java:8.0.18'
+    implementation 'org.jooq:jooq:3.12.3'
+    implementation 'org.jooq:jooq-meta:3.12.3'
+    implementation 'org.jooq:jooq-codegen:3.12.3'
     implementation 'org.yaml:snakeyaml:1.11'
     implementation 'ch.qos.logback:logback-classic:1.2.3'
     implementation 'org.apache.commons:commons-lang3:3.5'

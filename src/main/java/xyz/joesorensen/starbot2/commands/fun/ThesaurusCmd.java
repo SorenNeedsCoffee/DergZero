@@ -48,7 +48,9 @@ public class ThesaurusCmd extends Command {
 
                         for (Object o : array) {
                             JSONObject list = (JSONObject) ((JSONObject) o).get("list");
-                            builder.append(list.get("category")).append(":").append(list.get("synonyms")).append("\n");
+                            String synonyms = (String) list.get("synonyms");
+                            synonyms = synonyms.replaceAll("[|]", " | ");
+                            builder.append(list.get("category")).append(" : ").append(synonyms).append("\n");
                         }
                         event.reply(builder.toString());
                     } else if (rc == 404) {

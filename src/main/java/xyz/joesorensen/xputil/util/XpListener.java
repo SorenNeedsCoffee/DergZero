@@ -3,7 +3,9 @@ package xyz.joesorensen.xputil.util;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Icon;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Webhook;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberLeaveEvent;
@@ -16,6 +18,7 @@ import xyz.joesorensen.xputil.lib.XpInfo;
 
 import java.awt.*;
 import java.io.File;
+import java.net.URL;
 import java.util.List;
 import java.util.*;
 
@@ -116,24 +119,42 @@ public class XpListener extends ListenerAdapter {
     static void onLvlUp(net.dv8tion.jda.api.entities.User user, User update) {
         update.setLvl(update.getLvl() + 1);
 
+        String name;
+        if (jda.getGuildById("442552203694047232").getMember(user).getNickname() != null) {
+            name = jda.getGuildById("442552203694047232").getMember(user).getNickname();
+        } else {
+            name = user.getName();
+        }
+
+
+        List<Webhook> test = jda.getGuildById("442552203694047232").getTextChannelById("664089444126687242").retrieveWebhooks().complete();
+        Webhook hook = null;
+        for (Webhook i : test) {
+            if (i.getName().equals(name))
+                hook = i;
+        }
+        if (hook == null)
+            hook = jda.getGuildById("442552203694047232").getTextChannelById("664089444126687242").createWebhook(name).setAvatar(Icon.from(new URL(user.getAvatarUrl()).openStream())).complete();
+
         if(update.getLvl() != 1) {
             EmbedBuilder embed = new EmbedBuilder();
             float[] rgb;
 
             embed.setAuthor("Level Up!", null, user.getAvatarUrl());
-            if (jda.getGuildById("442552203694047232").getMember(user).getNickname() != null) {
-                embed.setDescription("Congrats to " + jda.getGuildById("442552203694047232").getMember(user).getNickname() + " for reaching level " + update.getLvl() + "!");
+            if(update.getLvl() == 69) {
+                embed.setDescription("Congrats to " + name + " for reaching level " + update.getLvl() + "! Nice.");
             } else {
-                embed.setDescription("Congrats to " + user.getName() + " for reaching level " + update.getLvl() + "!");
+                embed.setDescription("Congrats to " + name + " for reaching level " + update.getLvl() + "!");
             }
             rgb = Color.RGBtoHSB(204, 255, 94, null);
             embed.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]));
 
-            jda.getGuildById("442552203694047232").getTextChannelById("664089444126687242").sendMessage(embed.build()).queue();
+            //jda.getGuildById("442552203694047232").getTextChannelById("664089444126687242").sendMessage(embed.build()).queue();
+
         }
 
         if(update.getLvl() == 69)
-            jda.getGuildById("442552203694047232").addRoleToMember(update.getId(), jda.getGuildById("442552203694047232").getRoleById("652606362936672266"));
+            jda.getGuildById("442552203694047232").addRoleToMember(update.getId(), jda.getGuildById("442552203694047232").getRoleById("652606362936672266")).queue();
 
         switch (update.getLvl()) {
             default:

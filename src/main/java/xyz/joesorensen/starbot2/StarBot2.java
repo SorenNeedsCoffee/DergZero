@@ -12,14 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.joesorensen.starbot2.commands.admin.*;
 import xyz.joesorensen.starbot2.commands.fun.*;
-import xyz.joesorensen.starbot2.commands.general.AboutCmd;
-import xyz.joesorensen.starbot2.commands.general.HelpCmd;
-import xyz.joesorensen.starbot2.commands.general.InviteCmd;
-import xyz.joesorensen.starbot2.commands.general.PingCmd;
-import xyz.joesorensen.starbot2.commands.owner.ShutdownCmd;
-import xyz.joesorensen.starbot2.listeners.Listener;
-import xyz.joesorensen.starbot2.listeners.chains.Hi;
-import xyz.joesorensen.starbot2.listeners.chains.Script;
+import xyz.joesorensen.starbot2.commands.general.*;
+import xyz.joesorensen.starbot2.commands.owner.*;
+import xyz.joesorensen.starbot2.listeners.*;
+import xyz.joesorensen.starbot2.listeners.chains.*;
 import xyz.joesorensen.twitchutil.TwitchEventManager;
 import xyz.joesorensen.twitchutil.TwitchListener;
 import xyz.joesorensen.xputil.XPUtil;
@@ -132,6 +128,7 @@ public class StarBot2 {
         if (shuttingDown)
             return;
         shuttingDown = true;
+        jda.getPresence().setStatus(OnlineStatus.OFFLINE);
         UserManager.saveFile();
         if (jda.getStatus() != JDA.Status.SHUTTING_DOWN)
             jda.shutdown();
