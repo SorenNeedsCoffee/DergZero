@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import fyi.sorenneedscoffee.starbot2.listeners.Listener;
+import fyi.sorenneedscoffee.derg_zero.listeners.Listener;
 
 import java.awt.*;
 import java.util.HashMap;

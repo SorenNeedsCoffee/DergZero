@@ -35,16 +35,16 @@ dependencies {
     implementation 'org.decimal4j:decimal4j:1.0.3'
 }
 
-group = 'xyz.joesorensen'
+group = 'fyi.sorenneedscoffee'
 version = '1.2'
 sourceCompatibility = '11'
 
 jar {
     manifest {
         attributes (
-            'Main-Class': 'xyz.joesorensen.starbot2.StarBot2',
-            'Implementation-Title':   'StarBot2',
-            'Implementation-Version': '1.2'
+            'Main-Class': 'fyi.sorenneedscoffee.derg_zero.DergZero',
+            'Implementation-Title':   'DergZero',
+            'Implementation-Version': '1.3'
         )
     }
 }
