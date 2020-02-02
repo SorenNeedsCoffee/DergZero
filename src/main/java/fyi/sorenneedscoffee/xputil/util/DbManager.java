@@ -24,7 +24,7 @@ class DbManager {
     private final Logger log = LoggerFactory.getLogger("DbManager");
     private final String url;
 
-    DbManager(String ip, String db, String table, String user, String pass) throws SQLException {
+    DbManager(String ip, String db, String user, String pass) throws SQLException {
         Connection connect = null;
 
         url = "jdbc:mysql://" + ip + "/" + db + "?"

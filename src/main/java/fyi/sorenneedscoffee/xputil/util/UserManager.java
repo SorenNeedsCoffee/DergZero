@@ -35,8 +35,8 @@ public class UserManager {
         db.delUser(id);
     }
 
-    public static void initDb(String url, String dbName, String table, String user, String pass) throws Exception {
-        db = new DbManager(url, dbName, table, user, pass);
+    public static void initDb(String url, String dbName, String user, String pass) throws Exception {
+        db = new DbManager(url, dbName, user, pass);
     }
 
     public static void pruneUsers(Guild guild) {

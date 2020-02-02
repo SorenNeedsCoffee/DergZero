@@ -20,7 +20,6 @@ public class Config {
     private String clientID;
     private String dbUrl;
     private String dbName;
-    private String dbTable;
     private String dbUser;
     private String dbPass;
 
@@ -107,13 +106,5 @@ public class Config {
 
     public void setDbName(String dbName) {
         this.dbName = dbName;
-    }
-
-    public String getDbTable() {
-        return dbTable;
-    }
-
-    public void setDbTable(String dbTable) {
-        this.dbTable = dbTable;
     }
 }

@@ -31,8 +31,8 @@ public class XPUtil {
         this.listener = new XpListener();
     }
 
-    public void db(String url, String name, String table, String user, String pass) throws Exception {
-        UserManager.initDb(url, name, table, user, pass);
+    public void db(String url, String name, String user, String pass) throws Exception {
+        UserManager.initDb(url, name, user, pass);
     }
 
     public CommandClientBuilder builder() {
