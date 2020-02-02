@@ -11,7 +11,7 @@ plugins {
 repositories {
     mavenLocal()
     maven {
-        url = 'http://jcenter.bintray.com'
+        url = 'https://jcenter.bintray.com'
     }
 
     maven {
