@@ -1,5 +1,6 @@
 package fyi.sorenneedscoffee.derg_zero.listeners.chains;
 
+import fyi.sorenneedscoffee.derg_zero.config.ScriptDb;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jooq.*;
 import org.jooq.impl.DSL;
@@ -17,8 +18,8 @@ import java.nio.file.Paths;
 import java.sql.*;
 import java.util.Random;
 
-import static fyi.sorenneedscoffee.derg_zero.listeners.chains.db.Tables.SCRIPT;
-import static fyi.sorenneedscoffee.derg_zero.listeners.chains.db.Tables.SCRIPT_META;
+import static fyi.sorenneedscoffee.derg_zero.db.Tables.SCRIPT;
+import static fyi.sorenneedscoffee.derg_zero.db.Tables.SCRIPT_META;
 
 public class ScriptManager {
     private final Logger log = LoggerFactory.getLogger("ScriptManager");
@@ -26,13 +27,23 @@ public class ScriptManager {
     private String first;
     private final String url;
 
-    ScriptManager() {
-        url = "jdbc:mysql://" + "192.168.86.74" + "/" + "s4_starbot2" + "?"
-                + "user=" + "u4_FTxSjk9AiF" + "&password=" + "zQeV9UsjANUrk4B8RzmrZmLF";
+    ScriptManager(ScriptDb db) {
+        url = "jdbc:mysql://" + db.getIp() + "/" + db.getDb() + "?"
+                + "user=" + db.getUser() + "&password=" + db.getPass();
+        log.info("Validating connection to " + db.getDb() + " at " + db.getIp() + "...");
+
+        try (Connection connect = DriverManager.getConnection(url)) {
+            if (connect.isValid(5))
+                log.info("Success.");
+            else
+                log.error("Failed. Please check your configuration");
+        } catch (SQLException e) {
+            log.error("JDBC experienced the following error:" + ExceptionUtils.getMessage(e) + " Please see below for details");
+            log.error(ExceptionUtils.getStackTrace(e));
+        }
     }
 
     void newScript() {
-        Logger log = LoggerFactory.getLogger("loadScriptFromFile");
         int index = 0;
         String title;
         String[] script;

@@ -22,21 +22,11 @@ import java.util.Objects;
  * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public class Listener extends ListenerAdapter {
-    private Logger log;
-    private JDA jda;
+    private Logger log = LoggerFactory.getLogger("Main");;
     private String id;
-    private String prefix;
-
-    public Listener() {
-        this.log = LoggerFactory.getLogger("Main");
-    }
 
     public void setRoleID(String id) {
         this.id = id;
-    }
-
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
     }
 
     @Override
@@ -50,8 +40,7 @@ public class Listener extends ListenerAdapter {
                     guild.addRoleToMember(member, Objects.requireNonNull(guild.getRoleById(id))).queue();
             }
         }
-        DergZero.twitchListener.track("JoeSorensen");
-        this.jda = event.getJDA();
+
         log.info("Ready!");
     }
 
@@ -84,16 +73,5 @@ public class Listener extends ListenerAdapter {
                     break;
             }
         }
-    }
-
-    public void onLive(Message embed) {
-        log.info("live!");
-        jda.getPresence().setActivity(Activity.streaming("JoeSorensen is live!", "https://twitch.tv/joesorensen"));
-        Objects.requireNonNull(Objects.requireNonNull(jda.getGuildById("442552203694047232")).getTextChannelById("442556155856814080")).sendMessage(embed).queue();
-    }
-
-    public void onOffline() {
-        log.info("offline");
-        jda.getPresence().setActivity(Activity.playing("On Soren's server | " + prefix + "help for help"));
     }
 }

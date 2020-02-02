@@ -13,7 +13,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fyi.sorenneedscoffee.xputil.util.db.Tables.USERS;
+import static fyi.sorenneedscoffee.xputil.db.Tables.USERS;
 
 /**
  * -=XPUtil=-
@@ -25,14 +25,11 @@ class DbManager {
     private final String url;
 
     DbManager(String ip, String db, String user, String pass) throws SQLException {
-        Connection connect = null;
-
-        url = "jdbc:mysql://" + ip + "/" + db + "?"
+        url = "jdbc:mariadb://" + ip + "/" + db + "?"
                 + "user=" + user + "&password=" + pass;
         log.info("Validating connection to " + db + " at " + ip + "...");
 
-        try {
-            connect = DriverManager.getConnection(url);
+        try (Connection connect = DriverManager.getConnection(url);) {
             if (connect.isValid(5))
                 log.info("Success.");
             else
@@ -40,9 +37,6 @@ class DbManager {
         } catch (SQLException e) {
             log.error("JDBC experienced the following error:" + ExceptionUtils.getMessage(e) + " Please see below for details");
             log.error(ExceptionUtils.getStackTrace(e));
-        } finally {
-            if (connect != null)
-                connect.close();
         }
     }
 

@@ -1,5 +1,9 @@
 package fyi.sorenneedscoffee.xputil.util;
 
+import club.minnced.discord.webhook.WebhookClient;
+import club.minnced.discord.webhook.WebhookClientBuilder;
+import club.minnced.discord.webhook.send.WebhookEmbed;
+import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
@@ -18,6 +22,8 @@ import fyi.sorenneedscoffee.xputil.lib.XpInfo;
 
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.*;
@@ -127,31 +133,38 @@ public class XpListener extends ListenerAdapter {
         }
 
 
-        List<Webhook> test = jda.getGuildById("442552203694047232").getTextChannelById("664089444126687242").retrieveWebhooks().complete();
-        Webhook hook = null;
-        for (Webhook i : test) {
-            if (i.getName().equals(name))
-                hook = i;
-        }
-        if (hook == null)
-            hook = jda.getGuildById("442552203694047232").getTextChannelById("664089444126687242").createWebhook(name).setAvatar(Icon.from(new URL(user.getAvatarUrl()).openStream())).complete();
-
-        if(update.getLvl() != 1) {
-            EmbedBuilder embed = new EmbedBuilder();
-            float[] rgb;
-
-            embed.setAuthor("Level Up!", null, user.getAvatarUrl());
-            if(update.getLvl() == 69) {
-                embed.setDescription("Congrats to " + name + " for reaching level " + update.getLvl() + "! Nice.");
-            } else {
-                embed.setDescription("Congrats to " + name + " for reaching level " + update.getLvl() + "!");
+        try {
+            List<Webhook> test = jda.getGuildById("442552203694047232").getTextChannelById("664089444126687242").retrieveWebhooks().complete();
+            Webhook hook = null;
+            for (Webhook i : test) {
+                if (i.getName().equals(name))
+                    hook = i;
             }
-            rgb = Color.RGBtoHSB(204, 255, 94, null);
-            embed.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]));
+            if (hook == null)
+                hook = jda.getGuildById("442552203694047232").getTextChannelById("664089444126687242").createWebhook(name).setAvatar(Icon.from(new URL(user.getAvatarUrl()).openStream())).complete();
 
-            //jda.getGuildById("442552203694047232").getTextChannelById("664089444126687242").sendMessage(embed.build()).queue();
 
-        }
+            if(update.getLvl() != 1) {
+                WebhookEmbedBuilder embed = new WebhookEmbedBuilder();
+                float[] rgb;
+
+                embed.setTitle(new WebhookEmbed.EmbedTitle("Level up!", null));
+                if(update.getLvl() == 69) {
+                    embed.setDescription("Congrats to " + name + " for reaching level " + update.getLvl() + "! Nice.");
+                } else {
+                    embed.setDescription("Congrats to " + name + " for reaching level " + update.getLvl() + "!");
+                }
+                rgb = Color.RGBtoHSB(204, 255, 94, null);
+                embed.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]).getRGB());
+
+                WebhookClient client = WebhookClient.withUrl(hook.getUrl());
+                client.send(embed.build());
+                client.close();
+
+                //jda.getGuildById("442552203694047232").getTextChannelById("664089444126687242").sendMessage(embed.build()).queue();
+
+            }
+        } catch (IOException ignore) {}
 
         if(update.getLvl() == 69)
             jda.getGuildById("442552203694047232").addRoleToMember(update.getId(), jda.getGuildById("442552203694047232").getRoleById("652606362936672266")).queue();

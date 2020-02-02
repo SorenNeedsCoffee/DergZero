@@ -1,5 +1,6 @@
 package fyi.sorenneedscoffee.derg_zero.listeners.chains;
 
+import fyi.sorenneedscoffee.derg_zero.config.ScriptDb;
 import fyi.sorenneedscoffee.xputil.util.XpListener;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
@@ -16,9 +17,12 @@ public class Script extends ListenerAdapter {
     private ScriptManager man;
     private boolean toPurge = false;
 
+    public Script(ScriptDb db) {
+        man = new ScriptManager(db);
+    }
+
     @Override
     public void onReady(ReadyEvent event) {
-        man = new ScriptManager();
         if (!man.isActive()) {
             toPurge = true;
             man.newScript();

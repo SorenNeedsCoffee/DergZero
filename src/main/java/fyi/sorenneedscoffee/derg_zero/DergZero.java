@@ -7,6 +7,7 @@ import fyi.sorenneedscoffee.derg_zero.commands.admin.*;
 import fyi.sorenneedscoffee.derg_zero.commands.fun.*;
 import fyi.sorenneedscoffee.derg_zero.commands.general.*;
 import fyi.sorenneedscoffee.derg_zero.commands.owner.*;
+import fyi.sorenneedscoffee.derg_zero.config.*;
 import fyi.sorenneedscoffee.derg_zero.listeners.*;
 import fyi.sorenneedscoffee.derg_zero.listeners.chains.*;
 import net.dv8tion.jda.api.AccountType;
@@ -16,8 +17,6 @@ import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import fyi.sorenneedscoffee.twitchutil.TwitchEventManager;
-import fyi.sorenneedscoffee.twitchutil.TwitchListener;
 import fyi.sorenneedscoffee.xputil.XPUtil;
 import fyi.sorenneedscoffee.xputil.util.UserManager;
 
@@ -30,7 +29,6 @@ import javax.security.auth.login.LoginException;
  */
 @SuppressWarnings("ConstantConditions")
 public class DergZero {
-    public static TwitchListener twitchListener;
     private static boolean shuttingDown = false;
     private static JDA jda = null;
     public static final String version = DergZero.class.getPackage().getImplementationVersion();
@@ -45,17 +43,12 @@ public class DergZero {
             log.info("DergZero | DEVELOPMENT MODE");
 
         log.info("Loading config...");
-        Config config = Config.load();
+        Config config = ConfigManager.load();
 
         String token = config.getToken();
         String ownerID = config.getOwnerID();
         String defaultRoleID = config.getDefaultRoleID();
         String prefix = config.getPrefix();
-        String clientID = config.getClientID();
-        if ("".equals(token) || "".equals(ownerID) || "".equals(prefix) || "".equals(clientID) || "".equals(defaultRoleID)) {
-            log.error("Incomplete config file. Please ensure that properties token, ownerID, clientID, defaultRoleID, and prefix are present and not empty");
-            System.exit(1);
-        }
 
         log.info("Building Command Client...");
 
@@ -75,13 +68,11 @@ public class DergZero {
 
                         new HelCmd(),
                         new OobifyCmd(),
-                        new FakeCmd(),
                         new AvatarCmd(),
                         new ThesaurusCmd(),
 
                         new PingCmd(),
 
-                        new TwitchPingCmd(),
                         new BackupCmd(),
                         new PruneCmd(),
                         new ChangeLvlCmd(),
@@ -94,13 +85,13 @@ public class DergZero {
         cb.setStatus(OnlineStatus.ONLINE);
 
         XPUtil xpUtil = new XPUtil(cb);
-        xpUtil.db(config.getDbUrl(), config.getDbName(), config.getDbUser(), config.getDbPass());
+        UsersDb usersDb = config.getUsersDb();
+        xpUtil.db(usersDb.getIp(), usersDb.getDb(), usersDb.getUser(), usersDb.getPass());
         cb = xpUtil.builder();
 
         CommandClient client = cb.build();
         Listener listener = new Listener();
         listener.setRoleID(defaultRoleID);
-        listener.setPrefix(prefix);
 
         log.info("Attempting login...");
 
@@ -110,7 +101,7 @@ public class DergZero {
                         .setToken(token)
                         .setStatus(OnlineStatus.DO_NOT_DISTURB)
                         .setActivity(Activity.playing("loading..."))
-                        .addEventListeners(client, waiter, xpUtil.listener(), listener, new Hi(), new Script())
+                        .addEventListeners(client, waiter, xpUtil.listener(), listener, new Hi(), new Script(config.getScriptDb()))
                         .build();
             } catch (LoginException ex) {
                 log.error("Invalid Token");
@@ -119,9 +110,6 @@ public class DergZero {
         } else {
             log.info("DEV: Discord functionality disabled for testing purposes.");
         }
-
-        twitchListener = new TwitchListener(clientID);
-        TwitchEventManager.setListener(listener);
     }
 
     public static void shutdown() {
