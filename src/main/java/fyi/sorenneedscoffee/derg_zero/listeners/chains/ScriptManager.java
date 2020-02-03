@@ -2,7 +2,10 @@ package fyi.sorenneedscoffee.derg_zero.listeners.chains;
 
 import fyi.sorenneedscoffee.derg_zero.config.ScriptDb;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.jooq.*;
+import org.jooq.DSLContext;
+import org.jooq.Record;
+import org.jooq.Result;
+import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -15,7 +18,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Random;
 
 import static fyi.sorenneedscoffee.derg_zero.db.Tables.SCRIPT;
@@ -23,9 +28,9 @@ import static fyi.sorenneedscoffee.derg_zero.db.Tables.SCRIPT_META;
 
 public class ScriptManager {
     private final Logger log = LoggerFactory.getLogger("ScriptManager");
+    private final String url;
     Random random = new Random();
     private String first;
-    private final String url;
 
     ScriptManager(ScriptDb db) {
         url = "jdbc:mysql://" + db.getIp() + "/" + db.getDb() + "?"
@@ -115,8 +120,8 @@ public class ScriptManager {
 
                 for (int i = 0; i < script.length; i++) {
                     context.insertInto(SCRIPT, SCRIPT.INDEX, SCRIPT.VALUE)
-                        .values(i, script[i])
-                        .execute();
+                            .values(i, script[i])
+                            .execute();
                 }
 
                 log.info("Script loaded with " + script.length + " records");
@@ -156,7 +161,7 @@ public class ScriptManager {
                     .from(SCRIPT)
                     .where(SCRIPT.INDEX.eq(index))
                     .fetch();
-            if(resultScript.isEmpty())
+            if (resultScript.isEmpty())
                 throw new SQLException("Returned result is null.");
 
             String correct = resultScript.get(0).getValue(SCRIPT.VALUE);
@@ -204,7 +209,7 @@ public class ScriptManager {
                     .fetch();
 
             String word;
-            if(resultScript.isNotEmpty())
+            if (resultScript.isNotEmpty())
                 word = resultScript.get(0).getValue(SCRIPT.VALUE);
             else
                 return first;
@@ -225,7 +230,7 @@ public class ScriptManager {
                     .from(SCRIPT_META)
                     .where(SCRIPT_META.NAME.eq("title"))
                     .fetch();
-            if(result.isEmpty())
+            if (result.isEmpty())
                 throw new SQLException("Returned result is null.");
 
             return result.get(0).getValue(SCRIPT_META.VALUE);
@@ -244,7 +249,7 @@ public class ScriptManager {
                     .from(SCRIPT_META)
                     .where(SCRIPT_META.NAME.eq("length"))
                     .fetch();
-            if(result.isEmpty())
+            if (result.isEmpty())
                 throw new SQLException("Returned result is null.");
 
             return Integer.parseInt(result.get(0).getValue(SCRIPT_META.VALUE));
@@ -263,7 +268,7 @@ public class ScriptManager {
                     .from(SCRIPT_META)
                     .where(SCRIPT_META.NAME.eq("index"))
                     .fetch();
-            if(result.isEmpty())
+            if (result.isEmpty())
                 throw new SQLException("Returned result is null.");
 
             return Integer.parseInt(result.get(0).getValue(SCRIPT_META.VALUE));

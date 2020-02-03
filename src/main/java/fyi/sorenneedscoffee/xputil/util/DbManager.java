@@ -9,7 +9,9 @@ import org.jooq.impl.DSL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +31,7 @@ class DbManager {
                 + "user=" + user + "&password=" + pass;
         log.info("Validating connection to " + db + " at " + ip + "...");
 
-        try (Connection connect = DriverManager.getConnection(url);) {
+        try (Connection connect = DriverManager.getConnection(url)) {
             if (connect.isValid(5))
                 log.info("Success.");
             else
@@ -103,7 +105,7 @@ class DbManager {
                     .fetch();
 
             List<User> users = new ArrayList<>();
-            for(Record r : result)
+            for (Record r : result)
                 users.add(new User(r.getValue(USERS.ID), r.getValue(USERS.XP), r.getValue(USERS.LVL)));
 
             return users;

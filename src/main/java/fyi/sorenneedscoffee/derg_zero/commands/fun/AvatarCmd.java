@@ -1,8 +1,8 @@
 package fyi.sorenneedscoffee.derg_zero.commands.fun;
 
 import com.jagrosh.jdautilities.command.CommandEvent;
-import net.dv8tion.jda.api.entities.Member;
 import fyi.sorenneedscoffee.derg_zero.commands.FunCommand;
+import net.dv8tion.jda.api.entities.Member;
 
 /**
  * -=DergZero=-
@@ -21,7 +21,7 @@ public class AvatarCmd extends FunCommand {
     protected void execute(CommandEvent event) {
         String args = event.getArgs();
 
-        if (args.equals(""))
+        if ("".equals(args))
             event.reply(event.getAuthor().getAvatarUrl());
 
         Member target = event.getMessage().getMentionedMembers().get(0);

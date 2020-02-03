@@ -28,7 +28,7 @@ public class Script extends ListenerAdapter {
             man.newScript();
         }
 
-        event.getJDA().getGuildChannelById("663544151547314255").getManager().setTopic("Title: " + man.title() + " | Next Word: " + man.nextWord() + " [" + new DecimalFormat("##,###.##").format(man.index()-1) + "/" + new DecimalFormat("##,###.##").format(man.length()) + "]").queue();
+        event.getJDA().getGuildChannelById("663544151547314255").getManager().setTopic("Title: " + man.title() + " | Next Word: " + man.nextWord() + " [" + new DecimalFormat("##,###.##").format(man.index() - 1) + "/" + new DecimalFormat("##,###.##").format(man.length()) + "]").queue();
     }
 
     @Override
@@ -50,7 +50,7 @@ public class Script extends ListenerAdapter {
 
                     for (Message message : messages) {
                         User user = message.getAuthor();
-                        if(!user.isBot() || !user.isFake()) {
+                        if (!user.isBot() || !user.isFake()) {
                             if (messageCounts.containsKey(user)) {
                                 messageCounts.put(user, messageCounts.get(user) + 1);
                             } else {
@@ -62,7 +62,7 @@ public class Script extends ListenerAdapter {
                     for (User user : messageCounts.keySet()) {
                         event.getChannel().sendMessage("User: " + user.getName() + " Total Messages: " + messageCounts.get(user)).queue();
                         XpListener.addXP(user, Math.pow((double) messageCounts.get(user), 0.8));
-                        if( (double) messageCounts.get(user)/man.length() >= 0.1) {
+                        if ((double) messageCounts.get(user) / man.length() >= 0.1) {
                             event.getGuild().addRoleToMember(user.getId(), event.getGuild().getRoleById("663947663137308713")).queue();
                             event.getChannel().sendMessage(user.getName() + " Earned the **" + event.getGuild().getRoleById("663947663137308713").getName() + "** Role!").queue();
                         }
@@ -90,7 +90,7 @@ public class Script extends ListenerAdapter {
             } else
                 event.getMessage().delete().queue();
         }
-        event.getJDA().getGuildChannelById("663544151547314255").getManager().setTopic("Title: " + man.title() + " | Next Word: " + man.nextWord() + " [" + new DecimalFormat("##,###.##").format(man.index()-1) + "/" + new DecimalFormat("##,###.##").format(man.length()) + "]").queue();
+        event.getJDA().getGuildChannelById("663544151547314255").getManager().setTopic("Title: " + man.title() + " | Next Word: " + man.nextWord() + " [" + new DecimalFormat("##,###.##").format(man.index() - 1) + "/" + new DecimalFormat("##,###.##").format(man.length()) + "]").queue();
     }
 
     private List<Message> getMsgs(MessageChannel channel) {

@@ -1,11 +1,7 @@
 package fyi.sorenneedscoffee.derg_zero.listeners;
 
-import fyi.sorenneedscoffee.derg_zero.DergZero;
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -22,7 +18,7 @@ import java.util.Objects;
  * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public class Listener extends ListenerAdapter {
-    private Logger log = LoggerFactory.getLogger("Main");;
+    private Logger log = LoggerFactory.getLogger("Main");
     private String id;
 
     public void setRoleID(String id) {

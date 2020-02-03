@@ -4,12 +4,23 @@ import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import fyi.sorenneedscoffee.derg_zero.commands.admin.*;
-import fyi.sorenneedscoffee.derg_zero.commands.fun.*;
-import fyi.sorenneedscoffee.derg_zero.commands.general.*;
-import fyi.sorenneedscoffee.derg_zero.commands.owner.*;
-import fyi.sorenneedscoffee.derg_zero.config.*;
-import fyi.sorenneedscoffee.derg_zero.listeners.*;
-import fyi.sorenneedscoffee.derg_zero.listeners.chains.*;
+import fyi.sorenneedscoffee.derg_zero.commands.fun.AvatarCmd;
+import fyi.sorenneedscoffee.derg_zero.commands.fun.HelCmd;
+import fyi.sorenneedscoffee.derg_zero.commands.fun.OobifyCmd;
+import fyi.sorenneedscoffee.derg_zero.commands.fun.ThesaurusCmd;
+import fyi.sorenneedscoffee.derg_zero.commands.general.AboutCmd;
+import fyi.sorenneedscoffee.derg_zero.commands.general.HelpCmd;
+import fyi.sorenneedscoffee.derg_zero.commands.general.InviteCmd;
+import fyi.sorenneedscoffee.derg_zero.commands.general.PingCmd;
+import fyi.sorenneedscoffee.derg_zero.commands.owner.ShutdownCmd;
+import fyi.sorenneedscoffee.derg_zero.config.Config;
+import fyi.sorenneedscoffee.derg_zero.config.ConfigManager;
+import fyi.sorenneedscoffee.derg_zero.config.UsersDb;
+import fyi.sorenneedscoffee.derg_zero.listeners.Listener;
+import fyi.sorenneedscoffee.derg_zero.listeners.chains.Hi;
+import fyi.sorenneedscoffee.derg_zero.listeners.chains.Script;
+import fyi.sorenneedscoffee.xputil.XPUtil;
+import fyi.sorenneedscoffee.xputil.util.UserManager;
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -17,8 +28,6 @@ import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import fyi.sorenneedscoffee.xputil.XPUtil;
-import fyi.sorenneedscoffee.xputil.util.UserManager;
 
 import javax.security.auth.login.LoginException;
 
@@ -29,9 +38,9 @@ import javax.security.auth.login.LoginException;
  */
 @SuppressWarnings("ConstantConditions")
 public class DergZero {
+    public static final String version = DergZero.class.getPackage().getImplementationVersion();
     private static boolean shuttingDown = false;
     private static JDA jda = null;
-    public static final String version = DergZero.class.getPackage().getImplementationVersion();
 
     public static void main(String[] args) throws Exception {
         Logger log = LoggerFactory.getLogger("Startup");
@@ -120,6 +129,6 @@ public class DergZero {
         UserManager.saveFile();
         if (jda.getStatus() != JDA.Status.SHUTTING_DOWN)
             jda.shutdown();
-        System.exit(0);
+        Runtime.getRuntime().exit(0);
     }
 }

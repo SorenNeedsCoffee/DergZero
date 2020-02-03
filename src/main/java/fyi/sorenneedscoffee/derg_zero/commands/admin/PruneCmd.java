@@ -1,10 +1,10 @@
 package fyi.sorenneedscoffee.derg_zero.commands.admin;
 
 import com.jagrosh.jdautilities.command.CommandEvent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import fyi.sorenneedscoffee.derg_zero.commands.AdminCommand;
 import fyi.sorenneedscoffee.xputil.util.UserManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * -=DergZero=-

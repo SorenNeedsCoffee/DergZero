@@ -27,6 +27,6 @@ public class AboutCmd extends Command {
         else
             embed.setTitle("DergZero | DEVELOPMENT MODE");
 
-        embed.setDescription(MarkdownUtil.italics("StarBot, but better!") + " Built with Java, JDA, and JDA-Utilities. Use " + MarkdownUtil.monospace("!>help") +  " to view commands.");
+        embed.setDescription(MarkdownUtil.italics("StarBot, but better!") + " Built with Java, JDA, and JDA-Utilities. Use " + MarkdownUtil.monospace("!>help") + " to view commands.");
     }
 }

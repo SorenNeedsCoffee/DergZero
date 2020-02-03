@@ -1,11 +1,11 @@
 package fyi.sorenneedscoffee.derg_zero.commands.fun;
 
 import com.jagrosh.jdautilities.command.CommandEvent;
+import fyi.sorenneedscoffee.derg_zero.commands.FunCommand;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import fyi.sorenneedscoffee.derg_zero.commands.FunCommand;
 
 import java.io.BufferedReader;
 import java.io.IOException;

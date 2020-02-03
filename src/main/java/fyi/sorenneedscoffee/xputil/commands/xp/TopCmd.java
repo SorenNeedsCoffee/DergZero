@@ -1,10 +1,10 @@
 package fyi.sorenneedscoffee.xputil.commands.xp;
 
 import com.jagrosh.jdautilities.command.CommandEvent;
+import fyi.sorenneedscoffee.xputil.commands.XpCommand;
 import fyi.sorenneedscoffee.xputil.util.User;
 import fyi.sorenneedscoffee.xputil.util.UserManager;
 import net.dv8tion.jda.api.EmbedBuilder;
-import fyi.sorenneedscoffee.xputil.commands.XpCommand;
 
 import java.awt.*;
 import java.text.DecimalFormat;

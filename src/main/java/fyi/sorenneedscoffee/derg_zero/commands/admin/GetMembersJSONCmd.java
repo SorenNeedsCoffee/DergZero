@@ -1,9 +1,9 @@
 package fyi.sorenneedscoffee.derg_zero.commands.admin;
 
 import com.jagrosh.jdautilities.command.CommandEvent;
-import net.dv8tion.jda.api.utils.MarkdownUtil;
 import fyi.sorenneedscoffee.derg_zero.commands.AdminCommand;
 import fyi.sorenneedscoffee.xputil.util.UserManager;
+import net.dv8tion.jda.api.utils.MarkdownUtil;
 
 public class GetMembersJSONCmd extends AdminCommand {
 
