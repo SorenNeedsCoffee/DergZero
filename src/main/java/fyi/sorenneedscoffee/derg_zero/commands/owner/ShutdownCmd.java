@@ -20,8 +20,7 @@ public class ShutdownCmd extends OwnerCommand {
 
     @Override
     protected void execute(CommandEvent event) {
-        UserManager.saveFile();
         event.getChannel().sendMessage("\u26A0 Shutting down...").complete();
-        DergZero.shutdown();
+        System.exit(0);
     }
 }

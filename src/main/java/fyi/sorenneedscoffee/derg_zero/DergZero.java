@@ -26,10 +26,12 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import org.jooq.meta.derby.sys.Sys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
+import java.io.Console;
 
 /**
  * -=DergZero=-
@@ -39,6 +41,7 @@ import javax.security.auth.login.LoginException;
 @SuppressWarnings("ConstantConditions")
 public class DergZero {
     public static final String version = DergZero.class.getPackage().getImplementationVersion();
+    public static Script script;
     private static boolean shuttingDown = false;
     private static JDA jda = null;
 
@@ -87,6 +90,7 @@ public class DergZero {
                         new ChangeLvlCmd(),
                         new ChangeXPCmd(),
                         new GetMembersJSONCmd(),
+                        new NewScriptCmd(),
 
                         new ShutdownCmd()
                 );
@@ -102,6 +106,8 @@ public class DergZero {
         Listener listener = new Listener();
         listener.setRoleID(defaultRoleID);
 
+        script = new Script(config.getScriptDb());
+
         log.info("Attempting login...");
 
         if (enableDiscord) {
@@ -110,7 +116,12 @@ public class DergZero {
                         .setToken(token)
                         .setStatus(OnlineStatus.DO_NOT_DISTURB)
                         .setActivity(Activity.playing("loading..."))
-                        .addEventListeners(client, waiter, xpUtil.listener(), listener, new Hi(), new Script(config.getScriptDb()))
+                        .addEventListeners(client,
+                                waiter,
+                                xpUtil.listener(),
+                                listener,
+                                new Hi(),
+                                script)
                         .build();
             } catch (LoginException ex) {
                 log.error("Invalid Token");
@@ -119,6 +130,21 @@ public class DergZero {
         } else {
             log.info("DEV: Discord functionality disabled for testing purposes.");
         }
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            LoggerFactory.getLogger("DergZero").info("Shutting down...");
+            shutdown();
+        }));
+
+        Console console = System.console();
+        Thread th = new Thread(() -> {
+            while (true) {
+                String in = console.readLine();
+                if("shutdown".equals(in))
+                    System.exit(0);
+            }
+        });
+        th.start();
     }
 
     public static void shutdown() {
@@ -129,6 +155,5 @@ public class DergZero {
         UserManager.saveFile();
         if (jda.getStatus() != JDA.Status.SHUTTING_DOWN)
             jda.shutdown();
-        Runtime.getRuntime().exit(0);
     }
 }

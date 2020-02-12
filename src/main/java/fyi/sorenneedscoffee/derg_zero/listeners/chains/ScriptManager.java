@@ -29,7 +29,8 @@ import static fyi.sorenneedscoffee.derg_zero.db.Tables.SCRIPT_META;
 public class ScriptManager {
     private final Logger log = LoggerFactory.getLogger("ScriptManager");
     private final String url;
-    Random random = new Random();
+    private Random random = new Random();
+    private Thread th = null;
     private String first;
 
     ScriptManager(ScriptDb db) {
@@ -94,6 +95,9 @@ public class ScriptManager {
 
         first = script[0];
 
+        if(th != null)
+            th.interrupt();
+
         try (Connection connect = DriverManager.getConnection(url)) {
             DSLContext context = DSL.using(connect, SQLDialect.MARIADB);
 
@@ -114,7 +118,7 @@ public class ScriptManager {
             log.error(ExceptionUtils.getStackTrace(e));
         }
 
-        Thread th = new Thread(() -> {
+        th = new Thread(() -> {
             try (Connection connect = DriverManager.getConnection(url)) {
                 DSLContext context = DSL.using(connect, SQLDialect.MARIADB);
 
@@ -188,7 +192,7 @@ public class ScriptManager {
                     .where(SCRIPT_META.NAME.eq("index"))
                     .execute();
 
-            if (index == length)
+            if (index >= length)
                 return true;
         } catch (SQLException e) {
             log.error("JDBC experienced the following error:" + ExceptionUtils.getMessage(e) + " Please see below for details");
