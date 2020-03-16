@@ -19,7 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -32,6 +31,7 @@ import java.util.*;
  */
 public class XpListener extends ListenerAdapter {
     private static JDA jda;
+    private static Guild guild;
     private Logger log;
     private List<String> cooldown = new ArrayList<>();
     private Timer timer = new Timer();
@@ -58,23 +58,15 @@ public class XpListener extends ListenerAdapter {
         update.setLvl(update.getLvl() + 1);
 
         String name;
-        if (jda.getGuildById("442552203694047232").getMember(user).getNickname() != null) {
-            name = jda.getGuildById("442552203694047232").getMember(user).getNickname();
+        if (guild.getMember(user).getNickname() != null) {
+            name = guild.getMember(user).getNickname();
         } else {
             name = user.getName();
         }
 
 
         try {
-            List<Webhook> test = jda.getGuildById("442552203694047232").getTextChannelById("664089444126687242").retrieveWebhooks().complete();
-            Webhook hook = null;
-            for (Webhook i : test) {
-                if (i.getName().equals(name))
-                    hook = i;
-            }
-            if (hook == null)
-                hook = jda.getGuildById("442552203694047232").getTextChannelById("664089444126687242").createWebhook(name).setAvatar(Icon.from(new URL(user.getAvatarUrl()).openStream())).complete();
-
+            Webhook hook = guild.getTextChannelById("664089444126687242").createWebhook(name).setAvatar(Icon.from(new URL(user.getAvatarUrl()).openStream())).complete();
 
             if (update.getLvl() != 1) {
                 WebhookEmbedBuilder embed = new WebhookEmbedBuilder();
@@ -92,78 +84,71 @@ public class XpListener extends ListenerAdapter {
                 WebhookClient client = WebhookClient.withUrl(hook.getUrl());
                 client.send(embed.build());
                 client.close();
-
-                //jda.getGuildById("442552203694047232").getTextChannelById("664089444126687242").sendMessage(embed.build()).queue();
-
+                hook.delete().queue();
             }
         } catch (IOException ignore) {
         }
 
         if (update.getLvl() == 69)
-            jda.getGuildById("442552203694047232").addRoleToMember(update.getId(), jda.getGuildById("442552203694047232").getRoleById("652606362936672266")).queue();
+            guild.addRoleToMember(update.getId(), guild.getRoleById("652606362936672266")).queue();
 
         switch (update.getLvl()) {
-            default:
-                break;
+
             case 5:
-                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL1.getId(), LvlRoleIDs.LVL5.getId());
+                replaceRole(guild, guild.getMember(user), LvlRoleIDs.LVL1.getId(), LvlRoleIDs.LVL5.getId());
                 break;
             case 10:
-                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL5.getId(), LvlRoleIDs.LVL10.getId());
+                replaceRole(guild, guild.getMember(user), LvlRoleIDs.LVL5.getId(), LvlRoleIDs.LVL10.getId());
                 break;
             case 15:
-                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL10.getId(), LvlRoleIDs.LVL15.getId());
+                replaceRole(guild, guild.getMember(user), LvlRoleIDs.LVL10.getId(), LvlRoleIDs.LVL15.getId());
                 break;
             case 20:
-                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL15.getId(), LvlRoleIDs.LVL20.getId());
+                replaceRole(guild, guild.getMember(user), LvlRoleIDs.LVL15.getId(), LvlRoleIDs.LVL20.getId());
                 break;
             case 25:
-                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL20.getId(), LvlRoleIDs.LVL25.getId());
+                replaceRole(guild, guild.getMember(user), LvlRoleIDs.LVL20.getId(), LvlRoleIDs.LVL25.getId());
                 break;
             case 30:
-                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL25.getId(), LvlRoleIDs.LVL30.getId());
+                replaceRole(guild, guild.getMember(user), LvlRoleIDs.LVL25.getId(), LvlRoleIDs.LVL30.getId());
                 break;
             case 35:
-                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL30.getId(), LvlRoleIDs.LVL35.getId());
+                replaceRole(guild, guild.getMember(user), LvlRoleIDs.LVL30.getId(), LvlRoleIDs.LVL35.getId());
                 break;
             case 40:
-                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL35.getId(), LvlRoleIDs.LVL40.getId());
+                replaceRole(guild, guild.getMember(user), LvlRoleIDs.LVL35.getId(), LvlRoleIDs.LVL40.getId());
                 break;
             case 45:
-                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL40.getId(), LvlRoleIDs.LVL45.getId());
+                replaceRole(guild, guild.getMember(user), LvlRoleIDs.LVL40.getId(), LvlRoleIDs.LVL45.getId());
                 break;
             case 50:
-                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL45.getId(), LvlRoleIDs.LVL50.getId());
+                replaceRole(guild, guild.getMember(user), LvlRoleIDs.LVL45.getId(), LvlRoleIDs.LVL50.getId());
                 break;
             case 55:
-                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL50.getId(), LvlRoleIDs.LVL55.getId());
+                replaceRole(guild, guild.getMember(user), LvlRoleIDs.LVL50.getId(), LvlRoleIDs.LVL55.getId());
                 break;
             case 60:
-                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL55.getId(), LvlRoleIDs.LVL60.getId());
+                replaceRole(guild, guild.getMember(user), LvlRoleIDs.LVL55.getId(), LvlRoleIDs.LVL60.getId());
                 break;
             case 65:
-                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL60.getId(), LvlRoleIDs.LVL65.getId());
+                replaceRole(guild, guild.getMember(user), LvlRoleIDs.LVL60.getId(), LvlRoleIDs.LVL65.getId());
                 break;
             case 70:
-                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL65.getId(), LvlRoleIDs.LVL70.getId());
+                replaceRole(guild, guild.getMember(user), LvlRoleIDs.LVL65.getId(), LvlRoleIDs.LVL70.getId());
                 break;
             case 75:
-                replaceRole(jda.getGuildById("442552203694047232"), jda.getGuildById("442552203694047232").getMember(user), LvlRoleIDs.LVL70.getId(), LvlRoleIDs.LVL75.getId());
+                replaceRole(guild, guild.getMember(user), LvlRoleIDs.LVL70.getId(), LvlRoleIDs.LVL75.getId());
                 break;
-
         }
     }
 
     @Override
     public void onReady(ReadyEvent event) {
         log.info("Getting things ready...");
-        List<Guild> guilds = event.getJDA().getGuilds();
-        File membersFile = new File("members.json");
-        if (membersFile.exists()) {
-            UserManager.loadFile();
-            membersFile.delete();
-        }
+        jda = event.getJDA();
+        List<Guild> guilds = jda.getGuilds();
         for (Guild guild : guilds) {
+            XpListener.guild = guild;
             List<Member> members = guild.getMembers();
             for (Member member : members) {
                 if (!(member.getUser().isBot() || member.getUser().isFake() ||
@@ -176,7 +161,6 @@ public class XpListener extends ListenerAdapter {
                     guild.addRoleToMember(member, jda.getRoleById(LvlRoleIDs.LVL1.getId())).queue();
             }
         }
-        jda = event.getJDA();
         log.info("XPUtil version 0.2 ready");
     }
 
@@ -204,7 +188,7 @@ public class XpListener extends ListenerAdapter {
                 !event.getChannel().getId().equals("506503200866697226") &&
                 !event.getChannel().getId().equals("663544151547314255")) {
             User update = UserManager.getUser(event.getAuthor().getId());
-            update.addXp(XpInfo.earnedXP(event.getMessage().getContentDisplay().replaceAll(" ", "")));
+            update.addXp(XpInfo.earnedXP(event.getMessage().getContentDisplay()));
             if (update.getXp() >= XpInfo.lvlXpRequirementTotal(update.getLvl())) {
                 onLvlUp(event.getAuthor(), update);
             }

@@ -4,25 +4,19 @@
 
 plugins {
     id 'java'
-    id "com.github.johnrengelman.shadow" version "5.2.0"
-    id "idea"
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
+    id 'idea'
 }
 
 repositories {
-    mavenLocal()
-    maven {
-        url = 'https://jcenter.bintray.com'
-    }
-
-    maven {
-        url = 'https://jitpack.io'
-    }
+    jcenter()
+    mavenCentral()
 }
 
 dependencies {
     //for jooq annotations
-    compileOnly group: "javax.annotation", name: "javax.annotation-api", version: "1.3.2"
-    compileOnly group: "org.jetbrains", name: "annotations", version: "13.0"
+    compileOnly group: 'javax.annotation', name: 'javax.annotation-api', version: '1.3.2'
+    compileOnly group: 'org.jetbrains', name: 'annotations', version: '13.0'
 
     //for filesystem interactions (config, script, users)
     implementation 'org.yaml:snakeyaml:1.11'
@@ -30,14 +24,15 @@ dependencies {
 
     //discord libraries
     implementation 'com.jagrosh:jda-utilities:3.0.2'
-    implementation 'net.dv8tion:JDA:4.0.0_73'
+    implementation ('net.dv8tion:JDA:4.1.1_108') {
+        exclude module: 'opus-java'
+    }
     implementation 'club.minnced:discord-webhooks:0.2.0'
 
     //for db interactions
     implementation 'org.mariadb.jdbc:mariadb-java-client:2.5.4'
     implementation 'org.jooq:jooq:3.12.3'
     implementation 'org.jooq:jooq-meta:3.12.3'
-    implementation 'org.jooq:jooq-codegen:3.12.3'
 
     //logs, etc.
     implementation 'ch.qos.logback:logback-classic:1.2.3'

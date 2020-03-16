@@ -88,13 +88,15 @@ class DbManager {
                     .where(USERS.ID.eq(id))
                     .fetch();
 
-            Record r = result.get(0);
-            return new User(r.getValue(USERS.ID), r.getValue(USERS.XP), r.getValue(USERS.LVL));
+            if (!result.isEmpty()) {
+                Record r = result.get(0);
+                return new User(r.getValue(USERS.ID), r.getValue(USERS.XP), r.getValue(USERS.LVL));
+            }
         } catch (SQLException e) {
             log.error("JDBC experienced the following error:" + ExceptionUtils.getMessage(e) + " Please see below for details");
             log.error(ExceptionUtils.getStackTrace(e));
-            return null;
         }
+        return null;
     }
 
     List<User> getUsers() {
@@ -108,11 +110,12 @@ class DbManager {
             for (Record r : result)
                 users.add(new User(r.getValue(USERS.ID), r.getValue(USERS.XP), r.getValue(USERS.LVL)));
 
-            return users;
+            if (!users.isEmpty())
+                return users;
         } catch (SQLException e) {
             log.error("JDBC experienced the following error:" + ExceptionUtils.getMessage(e) + " Please see below for details");
             log.error(ExceptionUtils.getStackTrace(e));
-            return null;
         }
+        return null;
     }
 }

@@ -28,7 +28,7 @@ public class UserManager {
     private static DbManager db;
 
     static void addUser(String id) {
-        db.addUser(id, 0, 0.0);
+        db.addUser(id, 1, 0.0);
     }
 
     static void removeUser(String id) {
