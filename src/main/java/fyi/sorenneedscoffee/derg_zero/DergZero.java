@@ -12,6 +12,7 @@ import fyi.sorenneedscoffee.derg_zero.commands.general.AboutCmd;
 import fyi.sorenneedscoffee.derg_zero.commands.general.HelpCmd;
 import fyi.sorenneedscoffee.derg_zero.commands.general.InviteCmd;
 import fyi.sorenneedscoffee.derg_zero.commands.general.PingCmd;
+import fyi.sorenneedscoffee.derg_zero.commands.moderator.WarnCmd;
 import fyi.sorenneedscoffee.derg_zero.commands.owner.ShutdownCmd;
 import fyi.sorenneedscoffee.derg_zero.config.Config;
 import fyi.sorenneedscoffee.derg_zero.config.ConfigManager;
@@ -19,6 +20,8 @@ import fyi.sorenneedscoffee.derg_zero.config.UsersDb;
 import fyi.sorenneedscoffee.derg_zero.listeners.Listener;
 import fyi.sorenneedscoffee.derg_zero.listeners.chains.Hi;
 import fyi.sorenneedscoffee.derg_zero.listeners.chains.Script;
+import fyi.sorenneedscoffee.derg_zero.moderation.DbManager;
+import fyi.sorenneedscoffee.derg_zero.moderation.ModListener;
 import fyi.sorenneedscoffee.xputil.XPUtil;
 import fyi.sorenneedscoffee.xputil.util.UserManager;
 import net.dv8tion.jda.api.AccountType;
@@ -26,7 +29,6 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
-import org.jooq.meta.derby.sys.Sys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -92,6 +94,8 @@ public class DergZero {
                         new GetMembersJSONCmd(),
                         new NewScriptCmd(),
 
+                        new WarnCmd(),
+
                         new ShutdownCmd()
                 );
 
@@ -101,6 +105,8 @@ public class DergZero {
         UsersDb usersDb = config.getUsersDb();
         xpUtil.db(usersDb.getIp(), usersDb.getDb(), usersDb.getUser(), usersDb.getPass());
         cb = xpUtil.builder();
+
+        DbManager.init(usersDb.getIp(), usersDb.getDb(), usersDb.getUser(), usersDb.getPass());
 
         CommandClient client = cb.build();
         Listener listener = new Listener();
@@ -120,6 +126,7 @@ public class DergZero {
                                 waiter,
                                 xpUtil.listener(),
                                 listener,
+                                new ModListener(),
                                 new Hi(),
                                 script)
                         .build();
