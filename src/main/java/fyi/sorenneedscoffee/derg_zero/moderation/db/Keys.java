@@ -4,7 +4,9 @@
 package fyi.sorenneedscoffee.derg_zero.moderation.db;
 
 
+import fyi.sorenneedscoffee.derg_zero.moderation.db.tables.KickList;
 import fyi.sorenneedscoffee.derg_zero.moderation.db.tables.ModerationCases;
+import fyi.sorenneedscoffee.derg_zero.moderation.db.tables.records.KickListRecord;
 import fyi.sorenneedscoffee.derg_zero.moderation.db.tables.records.ModerationCasesRecord;
 
 import javax.annotation.Generated;
@@ -38,6 +40,7 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final UniqueKey<KickListRecord> KEY_KICK_LIST_PRIMARY = UniqueKeys0.KEY_KICK_LIST_PRIMARY;
     public static final UniqueKey<ModerationCasesRecord> KEY_MODERATION_CASES_PRIMARY = UniqueKeys0.KEY_MODERATION_CASES_PRIMARY;
 
     // -------------------------------------------------------------------------
@@ -54,6 +57,7 @@ public class Keys {
     }
 
     private static class UniqueKeys0 {
+        public static final UniqueKey<KickListRecord> KEY_KICK_LIST_PRIMARY = Internal.createUniqueKey(KickList.KICK_LIST, "KEY_kick_list_PRIMARY", KickList.KICK_LIST.ID);
         public static final UniqueKey<ModerationCasesRecord> KEY_MODERATION_CASES_PRIMARY = Internal.createUniqueKey(ModerationCases.MODERATION_CASES, "KEY_moderation_cases_PRIMARY", ModerationCases.MODERATION_CASES.ID);
     }
 }

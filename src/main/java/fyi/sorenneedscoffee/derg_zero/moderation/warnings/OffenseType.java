@@ -1,4 +1,4 @@
-package fyi.sorenneedscoffee.derg_zero.moderation;
+package fyi.sorenneedscoffee.derg_zero.moderation.warnings;
 
 public enum OffenseType {
     MISC(-1, "Miscellaneous", "Fake warning, for mostly jokes. If you receive this offense type, don't worry! You're not actually in trouble"),

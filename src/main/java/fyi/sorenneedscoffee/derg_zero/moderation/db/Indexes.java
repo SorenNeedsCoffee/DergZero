@@ -4,6 +4,7 @@
 package fyi.sorenneedscoffee.derg_zero.moderation.db;
 
 
+import fyi.sorenneedscoffee.derg_zero.moderation.db.tables.KickList;
 import fyi.sorenneedscoffee.derg_zero.moderation.db.tables.ModerationCases;
 
 import javax.annotation.Generated;
@@ -30,6 +31,7 @@ public class Indexes {
     // INDEX definitions
     // -------------------------------------------------------------------------
 
+    public static final Index KICK_LIST_PRIMARY = Indexes0.KICK_LIST_PRIMARY;
     public static final Index MODERATION_CASES_MODERATION_CASES_OFFENSE_TYPES_ID_FK = Indexes0.MODERATION_CASES_MODERATION_CASES_OFFENSE_TYPES_ID_FK;
     public static final Index MODERATION_CASES_PRIMARY = Indexes0.MODERATION_CASES_PRIMARY;
 
@@ -38,6 +40,7 @@ public class Indexes {
     // -------------------------------------------------------------------------
 
     private static class Indexes0 {
+        public static Index KICK_LIST_PRIMARY = Internal.createIndex("PRIMARY", KickList.KICK_LIST, new OrderField[] { KickList.KICK_LIST.ID }, true);
         public static Index MODERATION_CASES_MODERATION_CASES_OFFENSE_TYPES_ID_FK = Internal.createIndex("moderation_cases_offense_types_id_fk", ModerationCases.MODERATION_CASES, new OrderField[] { ModerationCases.MODERATION_CASES.OFFENSE_ID }, false);
         public static Index MODERATION_CASES_PRIMARY = Internal.createIndex("PRIMARY", ModerationCases.MODERATION_CASES, new OrderField[] { ModerationCases.MODERATION_CASES.ID }, true);
     }

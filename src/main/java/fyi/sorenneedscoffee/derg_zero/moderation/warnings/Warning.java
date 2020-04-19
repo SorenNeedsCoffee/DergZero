@@ -1,16 +1,17 @@
-package fyi.sorenneedscoffee.derg_zero.moderation;
+package fyi.sorenneedscoffee.derg_zero.moderation.warnings;
 
+import fyi.sorenneedscoffee.derg_zero.moderation.util.TimeUtil;
 import fyi.sorenneedscoffee.derg_zero.moderation.db.tables.records.ModerationCasesRecord;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class Warning {
-    private int id;
-    private String uId;
-    private OffenseType offenseType;
-    private String additionalComments;
-    private Timestamp creationTime;
+    private final int id;
+    private final String uId;
+    private final OffenseType offenseType;
+    private final String additionalComments;
+    private final Timestamp creationTime;
 
     public Warning(int id, String uId, OffenseType offenseType, String additionalComments, Timestamp creationTime) {
         this.id = id;
@@ -62,5 +63,14 @@ public class Warning {
             return false;
 
         return ((Warning) obj).getId() == this.id;
+    }
+
+    public String toString() {
+        return "Issued at " + TimeUtil.formatter.format(creationTime.toLocalDateTime()) + " UTC. \n" +
+                "\n" +
+                "Offense: " + offenseType.getShortName() + " - " + offenseType.getDescription() + "\n" +
+                "\n" +
+                "Additional Comments:\n" +
+                additionalComments;
     }
 }

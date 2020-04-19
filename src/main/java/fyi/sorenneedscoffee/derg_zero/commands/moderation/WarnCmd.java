@@ -1,12 +1,11 @@
-package fyi.sorenneedscoffee.derg_zero.commands.moderator;
+package fyi.sorenneedscoffee.derg_zero.commands.moderation;
 
 import com.jagrosh.jdautilities.command.CommandEvent;
 import fyi.sorenneedscoffee.derg_zero.commands.ModCommand;
-import fyi.sorenneedscoffee.derg_zero.moderation.ModUtil;
-import fyi.sorenneedscoffee.derg_zero.moderation.OffenseType;
-import fyi.sorenneedscoffee.derg_zero.moderation.WarningResult;
-import fyi.sorenneedscoffee.derg_zero.moderation.WarningUtil;
-import net.dv8tion.jda.api.entities.PrivateChannel;
+import fyi.sorenneedscoffee.derg_zero.moderation.util.ModUtil;
+import fyi.sorenneedscoffee.derg_zero.moderation.warnings.OffenseType;
+import fyi.sorenneedscoffee.derg_zero.moderation.warnings.WarningResult;
+import fyi.sorenneedscoffee.derg_zero.moderation.warnings.WarningUtil;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.utils.MarkdownUtil;
 
@@ -21,7 +20,13 @@ public class WarnCmd extends ModCommand {
         String[] args = event.getArgs().split(" ");
 
         User target = ModUtil.getTarget(args[0]);
-        int offenseType = Integer.parseInt(args[1]);
+        int offenseType;
+        try {
+            offenseType = Integer.parseInt(args[1]);
+        } catch (NumberFormatException e) {
+            event.replyError("Invalid offense type.");
+            return;
+        }
         String comments = "";
         if(args.length > 2) {
             StringBuilder builder = new StringBuilder();
@@ -48,10 +53,16 @@ public class WarnCmd extends ModCommand {
 
         switch (result) {
             case NO_ACTION:
+                ModUtil.sendNotification(target, event.getGuild().getTextChannelById("442555652359979009"), WarningUtil.generateWarningMessage(result.getWarning(), result.previouslyKicked),
+                        target.getAsMention() + ", you have received a warning but we couldn't contact you. Please enable DMs and use " + MarkdownUtil.monospace("!>vw " + result.getWarning().getId()) + " to view your warning.");
                 break;
             case KICK_ACTION:
+                target.openPrivateChannel().complete().sendMessage(WarningUtil.generateActionMessage(result)).complete();
+                event.getGuild().kick(target.getId(), "Automated Kick Event").queue();
                 break;
             case BAN_ACTION:
+                target.openPrivateChannel().complete().sendMessage(WarningUtil.generateActionMessage(result)).complete();
+                event.getGuild().ban(target, 0, "Automated Ban Event").queue();
                 break;
             case ERROR:
                 event.replyError("There was a problem");

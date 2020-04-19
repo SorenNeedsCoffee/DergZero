@@ -4,6 +4,7 @@
 package fyi.sorenneedscoffee.derg_zero.moderation.db;
 
 
+import fyi.sorenneedscoffee.derg_zero.moderation.db.tables.KickList;
 import fyi.sorenneedscoffee.derg_zero.moderation.db.tables.ModerationCases;
 
 import javax.annotation.Generated;
@@ -21,6 +22,11 @@ import javax.annotation.Generated;
 )
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
+
+    /**
+     * The table <code>s4_d0_users.kick_list</code>.
+     */
+    public static final KickList KICK_LIST = KickList.KICK_LIST;
 
     /**
      * The table <code>s4_d0_users.moderation_cases</code>.

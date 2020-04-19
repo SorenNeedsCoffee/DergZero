@@ -12,7 +12,9 @@ import fyi.sorenneedscoffee.derg_zero.commands.general.AboutCmd;
 import fyi.sorenneedscoffee.derg_zero.commands.general.HelpCmd;
 import fyi.sorenneedscoffee.derg_zero.commands.general.InviteCmd;
 import fyi.sorenneedscoffee.derg_zero.commands.general.PingCmd;
-import fyi.sorenneedscoffee.derg_zero.commands.moderator.WarnCmd;
+import fyi.sorenneedscoffee.derg_zero.commands.moderation.ViewWarningCmd;
+import fyi.sorenneedscoffee.derg_zero.commands.moderation.ViewWarningsCmd;
+import fyi.sorenneedscoffee.derg_zero.commands.moderation.WarnCmd;
 import fyi.sorenneedscoffee.derg_zero.commands.owner.ShutdownCmd;
 import fyi.sorenneedscoffee.derg_zero.config.Config;
 import fyi.sorenneedscoffee.derg_zero.config.ConfigManager;
@@ -20,8 +22,8 @@ import fyi.sorenneedscoffee.derg_zero.config.UsersDb;
 import fyi.sorenneedscoffee.derg_zero.listeners.Listener;
 import fyi.sorenneedscoffee.derg_zero.listeners.chains.Hi;
 import fyi.sorenneedscoffee.derg_zero.listeners.chains.Script;
-import fyi.sorenneedscoffee.derg_zero.moderation.DbManager;
-import fyi.sorenneedscoffee.derg_zero.moderation.ModListener;
+import fyi.sorenneedscoffee.derg_zero.moderation.util.DbManager;
+import fyi.sorenneedscoffee.derg_zero.moderation.util.ModListener;
 import fyi.sorenneedscoffee.xputil.XPUtil;
 import fyi.sorenneedscoffee.xputil.util.UserManager;
 import net.dv8tion.jda.api.AccountType;
@@ -49,7 +51,6 @@ public class DergZero {
 
     public static void main(String[] args) throws Exception {
         Logger log = LoggerFactory.getLogger("Startup");
-        final boolean enableDiscord = true;
 
         if (version != null)
             log.info("DergZero | v" + version);
@@ -93,8 +94,11 @@ public class DergZero {
                         new ChangeXPCmd(),
                         new GetMembersJSONCmd(),
                         new NewScriptCmd(),
+                        new ModClearCmd(),
 
                         new WarnCmd(),
+                        new ViewWarningCmd(),
+                        new ViewWarningsCmd(),
 
                         new ShutdownCmd()
                 );
@@ -116,7 +120,6 @@ public class DergZero {
 
         log.info("Attempting login...");
 
-        if (enableDiscord) {
             try {
                 jda = new JDABuilder(AccountType.BOT)
                         .setToken(token)
@@ -134,9 +137,6 @@ public class DergZero {
                 log.error("Invalid Token");
                 System.exit(1);
             }
-        } else {
-            log.info("DEV: Discord functionality disabled for testing purposes.");
-        }
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             LoggerFactory.getLogger("DergZero").info("Shutting down...");

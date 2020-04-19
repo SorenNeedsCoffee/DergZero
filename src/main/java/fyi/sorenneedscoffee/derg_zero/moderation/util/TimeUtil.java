@@ -1,4 +1,4 @@
-package fyi.sorenneedscoffee.derg_zero.moderation;
+package fyi.sorenneedscoffee.derg_zero.moderation.util;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;

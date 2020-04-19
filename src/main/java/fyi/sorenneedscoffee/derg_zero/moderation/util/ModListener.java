@@ -1,9 +1,7 @@
-package fyi.sorenneedscoffee.derg_zero.moderation;
+package fyi.sorenneedscoffee.derg_zero.moderation.util;
 
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-
-import javax.annotation.Nonnull;
 
 public class ModListener extends ListenerAdapter {
 

@@ -4,6 +4,7 @@
 package fyi.sorenneedscoffee.derg_zero.moderation.db;
 
 
+import fyi.sorenneedscoffee.derg_zero.moderation.db.tables.KickList;
 import fyi.sorenneedscoffee.derg_zero.moderation.db.tables.ModerationCases;
 
 import java.util.ArrayList;
@@ -30,12 +31,17 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class S4D0Users extends SchemaImpl {
 
-    private static final long serialVersionUID = 1146937894;
+    private static final long serialVersionUID = 1227234338;
 
     /**
      * The reference instance of <code>s4_d0_users</code>
      */
     public static final S4D0Users S4_D0_USERS = new S4D0Users();
+
+    /**
+     * The table <code>s4_d0_users.kick_list</code>.
+     */
+    public final KickList KICK_LIST = fyi.sorenneedscoffee.derg_zero.moderation.db.tables.KickList.KICK_LIST;
 
     /**
      * The table <code>s4_d0_users.moderation_cases</code>.
@@ -64,6 +70,7 @@ public class S4D0Users extends SchemaImpl {
 
     private final List<Table<?>> getTables0() {
         return Arrays.<Table<?>>asList(
+            KickList.KICK_LIST,
             ModerationCases.MODERATION_CASES);
     }
 }
