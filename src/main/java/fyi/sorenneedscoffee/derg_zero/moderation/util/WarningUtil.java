@@ -1,6 +1,5 @@
 package fyi.sorenneedscoffee.derg_zero.moderation.util;
 
-import fyi.sorenneedscoffee.derg_zero.moderation.util.DbManager;
 import fyi.sorenneedscoffee.derg_zero.moderation.warnings.OffenseType;
 import fyi.sorenneedscoffee.derg_zero.moderation.warnings.Warning;
 import fyi.sorenneedscoffee.derg_zero.moderation.warnings.WarningResult;
@@ -17,20 +16,20 @@ public class WarningUtil {
     public static WarningResult addWarning(String uId, int offenseType, String comments) {
         Warning warning = DbManager.addWarning(uId, offenseType, comments);
 
-        if(warning == null)
+        if (warning == null)
             return WarningResult.ERROR;
 
         WarningResult result;
 
-        if(DbManager.isOnKicklist(uId)) {
-            if(!warning.getOffenseType().equals(OffenseType.MISC) && DbManager.getWarnings(uId, false).size() == uniqueAllowedPostKick) {
+        if (DbManager.isOnKicklist(uId)) {
+            if (!warning.getOffenseType().equals(OffenseType.MISC) && DbManager.getWarnings(uId, false).size() == uniqueAllowedPostKick) {
                 result = WarningResult.BAN_ACTION;
             } else {
                 result = WarningResult.NO_ACTION;
             }
             result.previouslyKicked = true;
         } else {
-            if(!warning.getOffenseType().equals(OffenseType.MISC) && DbManager.getWarnings(uId, false).size() == uniqueAllowed || DbManager.getSimilarWarnings(warning).size() == similarAllowed-1) {
+            if (!warning.getOffenseType().equals(OffenseType.MISC) && DbManager.getWarnings(uId, false).size() == uniqueAllowed || DbManager.getSimilarWarnings(warning).size() == similarAllowed - 1) {
                 DbManager.addUserToKicklist(uId);
                 result = WarningResult.KICK_ACTION;
             } else {
@@ -58,7 +57,7 @@ public class WarningUtil {
     public static String generateWarningMessage(Warning current, boolean previouslyKicked) {
         String result;
 
-        if(current.getOffenseType().equals(OffenseType.MISC))
+        if (current.getOffenseType().equals(OffenseType.MISC))
             result = MarkdownUtil.bold("You have received a warning from the DRACONIUM staff team") + "\n" +
                     "\n" +
                     current.toString() + "\n" +
@@ -66,7 +65,7 @@ public class WarningUtil {
                     MarkdownUtil.bold("Because this is a fake warning, this doesn't count towards a kick or ban.") + "\n" +
                     "\n" +
                     "If you have any questions, please contact a moderator";
-        else if(previouslyKicked) {
+        else if (previouslyKicked) {
             int remaining;
 
             try {

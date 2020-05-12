@@ -13,7 +13,20 @@ public enum OffenseType {
         this.shortName = shortName;
         this.description = description;
     }
-    
+
+    public static OffenseType getTypeById(int id) {
+        switch (id) {
+            default:
+                return null;
+            case -1:
+                return OffenseType.MISC;
+            case 0:
+                return OffenseType.GENERAL;
+            case 1:
+                return OffenseType.RULE_VIOLATION;
+        }
+    }
+
     public int getId() {
         return this.id;
     }
@@ -24,18 +37,5 @@ public enum OffenseType {
 
     public String getDescription() {
         return description;
-    }
-    
-    public static OffenseType getTypeById(int id) {
-        switch(id) {
-            default:
-                return null;
-            case -1:
-                return OffenseType.MISC;
-            case 0:
-                return OffenseType.GENERAL;
-            case 1:
-                return OffenseType.RULE_VIOLATION;
-        }
     }
 }

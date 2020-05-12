@@ -47,6 +47,7 @@ public class MessageListener extends XPListener {
                         hook.delete().queue();
                         client.close();
                     });
-        } catch (IOException ignore) {}
+        } catch (IOException ignore) {
+        }
     }
 }

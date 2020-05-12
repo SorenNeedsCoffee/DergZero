@@ -1,7 +1,7 @@
 package fyi.sorenneedscoffee.derg_zero.moderation.warnings;
 
-import fyi.sorenneedscoffee.derg_zero.moderation.util.TimeUtil;
 import fyi.sorenneedscoffee.derg_zero.moderation.db.tables.records.ModerationCasesRecord;
+import fyi.sorenneedscoffee.derg_zero.moderation.util.TimeUtil;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -59,7 +59,7 @@ public class Warning {
 
     @Override
     public boolean equals(Object obj) {
-        if(!obj.getClass().equals(Warning.class))
+        if (!obj.getClass().equals(Warning.class))
             return false;
 
         return ((Warning) obj).getId() == this.id;

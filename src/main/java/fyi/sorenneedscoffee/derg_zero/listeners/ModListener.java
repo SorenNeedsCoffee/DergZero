@@ -1,16 +1,14 @@
 package fyi.sorenneedscoffee.derg_zero.listeners;
 
 import fyi.sorenneedscoffee.derg_zero.moderation.util.ModUtil;
-import fyi.sorenneedscoffee.derg_zero.moderation.warnings.WarningResult;
 import fyi.sorenneedscoffee.derg_zero.moderation.util.WarningUtil;
+import fyi.sorenneedscoffee.derg_zero.moderation.warnings.WarningResult;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.utils.MarkdownUtil;
-
-import static fyi.sorenneedscoffee.derg_zero.moderation.warnings.WarningResult.*;
 
 public class ModListener extends ListenerAdapter {
     private Guild guild;

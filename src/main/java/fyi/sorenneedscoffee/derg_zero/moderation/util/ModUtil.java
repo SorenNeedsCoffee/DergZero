@@ -16,9 +16,9 @@ public class ModUtil {
     public static User getTarget(String uId) {
         User target;
         try {
-            if(uId.matches("<[@][!&]?[0-9]+>"))
+            if (uId.matches("<[@][!&]?[0-9]+>"))
                 target = jda.getUserById(uId.replaceAll("<@[!&]", "").replaceAll(">", ""));
-            else if(uId.matches("(.)+(#)\\d\\d\\d\\d"))
+            else if (uId.matches("(.)+(#)\\d\\d\\d\\d"))
                 target = jda.getUserByTag(uId);
             else
                 target = jda.getUserById(uId);

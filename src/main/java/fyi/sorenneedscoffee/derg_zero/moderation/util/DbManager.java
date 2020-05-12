@@ -12,7 +12,10 @@ import org.jooq.impl.DSL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
@@ -83,7 +86,7 @@ public class DbManager {
                     .where(MODERATION_CASES.ID.eq(id))
                     .fetch();
 
-            if(result.isEmpty())
+            if (result.isEmpty())
                 return null;
 
             ModerationCasesRecord record = result.get(0).into(MODERATION_CASES);
@@ -108,7 +111,7 @@ public class DbManager {
 
             var warnings = createList(result);
 
-            if(!includeMisc)
+            if (!includeMisc)
                 warnings.removeIf(warning -> warning.getOffenseType().equals(OffenseType.MISC));
 
             return warnings;
@@ -177,7 +180,7 @@ public class DbManager {
     private static List<Warning> createList(Result<Record> result) {
         List<Warning> warnings = new ArrayList<>();
 
-        for(Record r : result) {
+        for (Record r : result) {
             ModerationCasesRecord record = r.into(MODERATION_CASES);
             OffenseType offense = OffenseType.getTypeById(record.getOffenseId());
 

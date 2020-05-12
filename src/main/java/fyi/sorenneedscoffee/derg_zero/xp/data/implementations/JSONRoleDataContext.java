@@ -4,7 +4,10 @@ import com.google.gson.*;
 import fyi.sorenneedscoffee.derg_zero.xp.data.RoleDataContext;
 import fyi.sorenneedscoffee.derg_zero.xp.data.models.LevelRole;
 import fyi.sorenneedscoffee.derg_zero.xp.data.models.LevelRoleList;
-import fyi.sorenneedscoffee.derg_zero.xp.data.requests.*;
+import fyi.sorenneedscoffee.derg_zero.xp.data.requests.RemoveListRequest;
+import fyi.sorenneedscoffee.derg_zero.xp.data.requests.RetrieveListRequest;
+import fyi.sorenneedscoffee.derg_zero.xp.data.requests.SaveListRequest;
+import fyi.sorenneedscoffee.derg_zero.xp.data.requests.UpdateListRequest;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,9 +15,8 @@ import java.io.FileWriter;
 import java.util.Scanner;
 
 public class JSONRoleDataContext implements RoleDataContext {
-    private Gson gson;
-
     private final File file;
+    private Gson gson;
     private JsonObject data;
     private boolean beautify = false;
 
@@ -100,7 +102,7 @@ public class JSONRoleDataContext implements RoleDataContext {
         data.add(groupId, obj);
 
         JsonArray array = new JsonArray();
-        for(LevelRole role : list) {
+        for (LevelRole role : list) {
             JsonObject roleObj = new JsonObject();
             roleObj.addProperty("level", role.getLevel());
             roleObj.addProperty("roleId", role.getRoleID());
@@ -112,7 +114,7 @@ public class JSONRoleDataContext implements RoleDataContext {
     }
 
     private JsonArray getListObject(String groupId) {
-        if(data.has(groupId))
+        if (data.has(groupId))
             return data.getAsJsonObject(groupId).getAsJsonArray("roles");
 
         return null;
@@ -133,11 +135,11 @@ public class JSONRoleDataContext implements RoleDataContext {
     @Override
     public LevelRoleList retrieveList(RetrieveListRequest request) {
         JsonArray roles = getListObject(request.getGroupId());
-        if(roles == null)
+        if (roles == null)
             return null;
         LevelRoleList result = new LevelRoleList();
 
-        for(JsonElement element : roles) {
+        for (JsonElement element : roles) {
             JsonObject roleObj = element.getAsJsonObject();
             LevelRole role = new LevelRole(roleObj.get("level").getAsInt(), roleObj.get("roleId").getAsString());
             result.add(role);

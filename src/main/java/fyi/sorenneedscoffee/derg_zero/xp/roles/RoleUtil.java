@@ -3,7 +3,9 @@ package fyi.sorenneedscoffee.derg_zero.xp.roles;
 
 import fyi.sorenneedscoffee.derg_zero.xp.data.RoleDataContext;
 import fyi.sorenneedscoffee.derg_zero.xp.data.models.LevelRoleList;
-import fyi.sorenneedscoffee.derg_zero.xp.data.requests.*;
+import fyi.sorenneedscoffee.derg_zero.xp.data.requests.RemoveListRequest;
+import fyi.sorenneedscoffee.derg_zero.xp.data.requests.RetrieveListRequest;
+import fyi.sorenneedscoffee.derg_zero.xp.data.requests.SaveListRequest;
 import net.dv8tion.jda.api.entities.Guild;
 
 import java.util.HashMap;
@@ -15,9 +17,9 @@ public class RoleUtil {
 
     public static void init(RoleDataContext context, List<Guild> guilds) {
         RoleUtil.context = context;
-        for(Guild guild : guilds) {
+        for (Guild guild : guilds) {
             LevelRoleList list = context.retrieveList(new RetrieveListRequest(guild.getId()));
-            if(list != null)
+            if (list != null)
                 put(guild.getId(), list);
         }
     }

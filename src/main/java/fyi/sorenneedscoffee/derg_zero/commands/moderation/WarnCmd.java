@@ -3,9 +3,9 @@ package fyi.sorenneedscoffee.derg_zero.commands.moderation;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import fyi.sorenneedscoffee.derg_zero.commands.ModCommand;
 import fyi.sorenneedscoffee.derg_zero.moderation.util.ModUtil;
+import fyi.sorenneedscoffee.derg_zero.moderation.util.WarningUtil;
 import fyi.sorenneedscoffee.derg_zero.moderation.warnings.OffenseType;
 import fyi.sorenneedscoffee.derg_zero.moderation.warnings.WarningResult;
-import fyi.sorenneedscoffee.derg_zero.moderation.util.WarningUtil;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.exceptions.ErrorHandler;
 import net.dv8tion.jda.api.requests.ErrorResponse;
@@ -21,7 +21,7 @@ public class WarnCmd extends ModCommand {
 
     @Override
     protected void execute(CommandEvent event) {
-        if(event.getArgs().isEmpty()) {
+        if (event.getArgs().isEmpty()) {
             event.replyError("Invalid arguments.");
             return;
         }
@@ -36,28 +36,28 @@ public class WarnCmd extends ModCommand {
             return;
         }
         String comments = "";
-        if(args.length > 2) {
+        if (args.length > 2) {
             StringBuilder builder = new StringBuilder();
-            for(int i = 2; i < args.length-1; i++) {
+            for (int i = 2; i < args.length - 1; i++) {
                 builder.append(args[i])
                         .append(" ");
             }
-            builder.append(args[args.length-1]);
+            builder.append(args[args.length - 1]);
             comments = builder.toString();
         }
 
 
-        if(target == null) {
+        if (target == null) {
             event.replyError("That user doesn't exist.");
             return;
         }
 
-        if(target.equals(event.getAuthor())) {
+        if (target.equals(event.getAuthor())) {
             event.replyWarning("You shouldn't be warning yourself.");
             return;
         }
 
-        if(OffenseType.getTypeById(offenseType) == null) {
+        if (OffenseType.getTypeById(offenseType) == null) {
             event.replyError("Invalid offense type.");
             return;
         }

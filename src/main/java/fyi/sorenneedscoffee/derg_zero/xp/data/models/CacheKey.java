@@ -23,7 +23,7 @@ public class CacheKey {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof CacheKey) {
+        if (obj instanceof CacheKey) {
             CacheKey c = (CacheKey) obj;
 
             return Objects.equal(c.getGuild(), guild) && Objects.equal(c.getUser(), user);

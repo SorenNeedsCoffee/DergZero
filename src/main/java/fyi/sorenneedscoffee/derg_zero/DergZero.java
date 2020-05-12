@@ -3,21 +3,36 @@ package fyi.sorenneedscoffee.derg_zero;
 import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import fyi.sorenneedscoffee.derg_zero.commands.admin.*;
-import fyi.sorenneedscoffee.derg_zero.commands.fun.*;
-import fyi.sorenneedscoffee.derg_zero.commands.general.*;
-import fyi.sorenneedscoffee.derg_zero.commands.moderation.*;
-import fyi.sorenneedscoffee.derg_zero.commands.owner.*;
-import fyi.sorenneedscoffee.derg_zero.commands.xp.*;
-import fyi.sorenneedscoffee.derg_zero.config.*;
-import fyi.sorenneedscoffee.derg_zero.listeners.*;
-import fyi.sorenneedscoffee.derg_zero.listeners.chains.*;
-import fyi.sorenneedscoffee.derg_zero.xp.*;
-import fyi.sorenneedscoffee.derg_zero.xp.messages.*;
-import fyi.sorenneedscoffee.derg_zero.xp.roles.*;
+import fyi.sorenneedscoffee.derg_zero.commands.fun.AvatarCmd;
+import fyi.sorenneedscoffee.derg_zero.commands.fun.HelCmd;
+import fyi.sorenneedscoffee.derg_zero.commands.fun.OobifyCmd;
+import fyi.sorenneedscoffee.derg_zero.commands.fun.ThesaurusCmd;
+import fyi.sorenneedscoffee.derg_zero.commands.general.AboutCmd;
+import fyi.sorenneedscoffee.derg_zero.commands.general.HelpCmd;
+import fyi.sorenneedscoffee.derg_zero.commands.general.InviteCmd;
+import fyi.sorenneedscoffee.derg_zero.commands.general.PingCmd;
+import fyi.sorenneedscoffee.derg_zero.commands.moderation.ViewWarningCmd;
+import fyi.sorenneedscoffee.derg_zero.commands.moderation.ViewWarningsCmd;
+import fyi.sorenneedscoffee.derg_zero.commands.moderation.WarnCmd;
+import fyi.sorenneedscoffee.derg_zero.commands.owner.ShutdownCmd;
+import fyi.sorenneedscoffee.derg_zero.commands.xp.LvlCmd;
+import fyi.sorenneedscoffee.derg_zero.commands.xp.TopCmd;
+import fyi.sorenneedscoffee.derg_zero.config.Config;
+import fyi.sorenneedscoffee.derg_zero.config.ConfigManager;
+import fyi.sorenneedscoffee.derg_zero.config.UsersDb;
+import fyi.sorenneedscoffee.derg_zero.listeners.Listener;
+import fyi.sorenneedscoffee.derg_zero.listeners.ModListener;
+import fyi.sorenneedscoffee.derg_zero.listeners.chains.Hi;
+import fyi.sorenneedscoffee.derg_zero.xp.HandlerEvents;
+import fyi.sorenneedscoffee.derg_zero.xp.XPCalculator;
+import fyi.sorenneedscoffee.derg_zero.xp.messages.MessageListener;
+import fyi.sorenneedscoffee.derg_zero.xp.messages.MessageListenerAdapter;
+import fyi.sorenneedscoffee.derg_zero.xp.roles.RoleListener;
+import fyi.sorenneedscoffee.derg_zero.xp.roles.RoleListenerAdapter;
 import fyi.sorenneedscoffee.xputil.data.DataContext;
 import fyi.sorenneedscoffee.xputil.data.implementations.SQLDataContext;
-import fyi.sorenneedscoffee.xputil.handler.*;
+import fyi.sorenneedscoffee.xputil.handler.EventHandler;
+import fyi.sorenneedscoffee.xputil.handler.EventHandlerBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -123,34 +138,34 @@ public class DergZero {
 
         log.info("Attempting login...");
 
-            try {
-                jda = JDABuilder.createDefault(token,
-                        GatewayIntent.GUILD_MEMBERS,
-                        GatewayIntent.GUILD_MESSAGES,
-                        GatewayIntent.GUILD_PRESENCES,
-                        GatewayIntent.GUILD_VOICE_STATES,
-                        GatewayIntent.GUILD_EMOJIS,
-                        GatewayIntent.GUILD_BANS,
-                        GatewayIntent.DIRECT_MESSAGES)
-                        .setStatus(OnlineStatus.DO_NOT_DISTURB)
-                        .setMemberCachePolicy(MemberCachePolicy.ALL)
-                        .setActivity(Activity.playing("loading..."))
-                        .addEventListeners(client,
-                                waiter,
-                                listener,
-                                new MessageListenerAdapter(),
-                                new RoleListenerAdapter(),
-                                new HandlerEvents(handler),
-                                new ModListener(),
-                                new Hi()
-                        )
-                        .build();
-                messageListener.setJda(jda);
-                roleListener.setJda(jda);
-            } catch (LoginException ex) {
-                log.error("Invalid Token");
-                System.exit(1);
-            }
+        try {
+            jda = JDABuilder.createDefault(token,
+                    GatewayIntent.GUILD_MEMBERS,
+                    GatewayIntent.GUILD_MESSAGES,
+                    GatewayIntent.GUILD_PRESENCES,
+                    GatewayIntent.GUILD_VOICE_STATES,
+                    GatewayIntent.GUILD_EMOJIS,
+                    GatewayIntent.GUILD_BANS,
+                    GatewayIntent.DIRECT_MESSAGES)
+                    .setStatus(OnlineStatus.DO_NOT_DISTURB)
+                    .setMemberCachePolicy(MemberCachePolicy.ALL)
+                    .setActivity(Activity.playing("loading..."))
+                    .addEventListeners(client,
+                            waiter,
+                            listener,
+                            new MessageListenerAdapter(),
+                            new RoleListenerAdapter(),
+                            new HandlerEvents(handler),
+                            new ModListener(),
+                            new Hi()
+                    )
+                    .build();
+            messageListener.setJda(jda);
+            roleListener.setJda(jda);
+        } catch (LoginException ex) {
+            log.error("Invalid Token");
+            System.exit(1);
+        }
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             LoggerFactory.getLogger("DergZero").info("Shutting down...");
@@ -161,7 +176,7 @@ public class DergZero {
         Thread th = new Thread(() -> {
             while (true) {
                 String in = console.readLine();
-                if("shutdown".equals(in))
+                if ("shutdown".equals(in))
                     System.exit(0);
             }
         });

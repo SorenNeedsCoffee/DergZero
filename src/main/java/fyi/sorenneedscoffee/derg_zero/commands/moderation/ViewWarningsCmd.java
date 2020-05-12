@@ -27,7 +27,7 @@ public class ViewWarningsCmd extends ModCommand {
         sb.append("Id: " + warnings.get(0).getId() + "\n" +
                 "Issued at: " + TimeUtil.formatter.format(warnings.get(0).getCreationTime().toLocalDateTime()) + " UTC" + "\n" +
                 "Offense Type: " + warnings.get(0).getOffenseType().getShortName());
-        for(int i = 1; i < warnings.size(); i++) {
+        for (int i = 1; i < warnings.size(); i++) {
             sb.append("\n\n");
             sb.append("Id: " + warnings.get(i).getId() + "\n" +
                     "Issued at: " + TimeUtil.formatter.format(warnings.get(i).getCreationTime().toLocalDateTime()) + " UTC" + "\n" +

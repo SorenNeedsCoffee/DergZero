@@ -26,19 +26,19 @@ public class ViewWarningCmd extends Command {
         }
 
         Warning warning = WarningUtil.getWarning(targetId);
-        if(warning == null) {
+        if (warning == null) {
             event.replyError("Something went wrong, is the ID correct?");
             return;
         }
 
-        if(event.getMember().hasPermission(Permission.MESSAGE_MANAGE)) {
+        if (event.getMember().hasPermission(Permission.MESSAGE_MANAGE)) {
             event.replyInDm(MarkdownUtil.bold("Warning #" + warning.getId()) + "\n" +
                     "\n" +
                     "Issued to " + event.getJDA().getUserById(warning.getuId()).getAsTag() + "\n" +
                     "\n" +
                     warning.toString());
         } else {
-            if(!warning.getuId().equals(event.getAuthor().getId())) {
+            if (!warning.getuId().equals(event.getAuthor().getId())) {
                 event.replyError("You can't view that warning");
                 return;
             }

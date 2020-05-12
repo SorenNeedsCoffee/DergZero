@@ -23,7 +23,7 @@ public class RoleListener extends fyi.sorenneedscoffee.xputil.listener.XPListene
     @Override
     public void onMissedUser(MissedUserEvent event) {
         Guild guild = jda.getGuildById(event.getGroupId());
-        if(RoleUtil.exists(guild.getId()) && !RoleUtil.getList(guild.getId()).isEmpty()) {
+        if (RoleUtil.exists(guild.getId()) && !RoleUtil.getList(guild.getId()).isEmpty()) {
             guild.addRoleToMember(guild.getMemberById(event.getUserId()), guild.getRoleById(RoleUtil.getList(guild.getId()).get(0).getRoleID())).queue();
         }
     }
