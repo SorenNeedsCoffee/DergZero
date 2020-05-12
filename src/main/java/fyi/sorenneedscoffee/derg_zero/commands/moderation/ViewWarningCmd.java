@@ -2,8 +2,8 @@ package fyi.sorenneedscoffee.derg_zero.commands.moderation;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import fyi.sorenneedscoffee.derg_zero.moderation.util.WarningUtil;
 import fyi.sorenneedscoffee.derg_zero.moderation.warnings.Warning;
-import fyi.sorenneedscoffee.derg_zero.moderation.warnings.WarningUtil;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.utils.MarkdownUtil;
 

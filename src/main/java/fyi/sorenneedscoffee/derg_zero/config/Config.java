@@ -8,7 +8,6 @@ public final class Config {
     private String prefix;
 
     private UsersDb usersDb;
-    private ScriptDb scriptDb;
 
     public String getToken() {
         return token;
@@ -48,13 +47,5 @@ public final class Config {
 
     public void setUsersDb(UsersDb usersDb) {
         this.usersDb = usersDb;
-    }
-
-    public ScriptDb getScriptDb() {
-        return scriptDb;
-    }
-
-    public void setScriptDb(ScriptDb scriptDb) {
-        this.scriptDb = scriptDb;
     }
 }

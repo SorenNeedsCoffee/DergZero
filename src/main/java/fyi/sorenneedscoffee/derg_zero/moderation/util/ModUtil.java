@@ -4,6 +4,8 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
+import static net.dv8tion.jda.api.requests.ErrorResponse.CANNOT_SEND_TO_USER;
+
 public class ModUtil {
     private static JDA jda;
 
@@ -27,12 +29,12 @@ public class ModUtil {
     }
 
     public static void sendNotification(User target, TextChannel alt, String message, String altMessage) {
-        if(target == null)
+        if (target == null)
             return;
         target.openPrivateChannel()
                 .flatMap(c -> c.sendMessage(message))
-                .queue(null, error -> {
-                    alt.sendMessage(altMessage).queue();
-                });
+                .onErrorFlatMap(CANNOT_SEND_TO_USER::test,
+                        (error) -> alt.sendMessage(altMessage))
+                .queue();
     }
 }

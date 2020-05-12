@@ -4,7 +4,7 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import fyi.sorenneedscoffee.derg_zero.commands.ModCommand;
 import fyi.sorenneedscoffee.derg_zero.moderation.util.ModUtil;
 import fyi.sorenneedscoffee.derg_zero.moderation.util.TimeUtil;
-import fyi.sorenneedscoffee.derg_zero.moderation.warnings.WarningUtil;
+import fyi.sorenneedscoffee.derg_zero.moderation.util.WarningUtil;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.utils.MarkdownUtil;
 

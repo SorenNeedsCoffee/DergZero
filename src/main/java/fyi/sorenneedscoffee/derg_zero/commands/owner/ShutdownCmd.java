@@ -1,9 +1,7 @@
 package fyi.sorenneedscoffee.derg_zero.commands.owner;
 
 import com.jagrosh.jdautilities.command.CommandEvent;
-import fyi.sorenneedscoffee.derg_zero.DergZero;
 import fyi.sorenneedscoffee.derg_zero.commands.OwnerCommand;
-import fyi.sorenneedscoffee.xputil.util.UserManager;
 
 /**
  * -=DergZero=-

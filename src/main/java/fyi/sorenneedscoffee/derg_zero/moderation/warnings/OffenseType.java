@@ -5,8 +5,8 @@ public enum OffenseType {
     GENERAL(0, "General", "A warning that doesn't fall under any other category"),
     RULE_VIOLATION(1, "Rule Violation", "You'll receive this warning if you broke a rule.");
 
-    private int id;
-    private String shortName, description;
+    private final int id;
+    private final String shortName, description;
 
     OffenseType(int id, String shortName, String description) {
         this.id = id;

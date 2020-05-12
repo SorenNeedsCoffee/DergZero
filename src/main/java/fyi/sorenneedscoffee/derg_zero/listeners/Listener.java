@@ -18,7 +18,7 @@ import java.util.Objects;
  * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
 public class Listener extends ListenerAdapter {
-    private Logger log = LoggerFactory.getLogger("Main");
+    private final Logger log = LoggerFactory.getLogger("Main");
     private String id;
 
     public void setRoleID(String id) {

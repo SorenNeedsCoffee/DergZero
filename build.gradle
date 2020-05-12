@@ -11,6 +11,9 @@ plugins {
 repositories {
     jcenter()
     mavenCentral()
+    maven {
+        url  "https://dl.bintray.com/sorenneedscoffee/XPUtil"
+    }
 }
 
 dependencies {
@@ -21,16 +24,18 @@ dependencies {
     //for filesystem interactions (config, script, users)
     implementation 'org.yaml:snakeyaml:1.11'
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+    implementation 'com.google.code.gson:gson:2.8.6'
 
     //discord libraries
-    implementation 'com.jagrosh:jda-utilities:3.0.2'
-    implementation ('net.dv8tion:JDA:4.1.1_108') {
+    implementation 'com.jagrosh:jda-utilities:3.0.3'
+    implementation ('net.dv8tion:JDA:4.1.1_+') {
         exclude module: 'opus-java'
     }
     implementation 'club.minnced:discord-webhooks:0.2.0'
+    implementation 'fyi.sorenneedscoffee:xputil:0.0.6'
 
     //for db interactions
-    implementation 'org.mariadb.jdbc:mariadb-java-client:2.5.4'
+    implementation 'org.mariadb.jdbc:mariadb-java-client:2.1.2'
     implementation 'org.jooq:jooq:3.12.3'
     implementation 'org.jooq:jooq-meta:3.12.3'
 
@@ -38,6 +43,7 @@ dependencies {
     implementation 'ch.qos.logback:logback-classic:1.2.3'
     implementation 'org.apache.commons:commons-lang3:3.5'
     implementation 'org.decimal4j:decimal4j:1.0.3'
+    implementation 'com.google.guava:guava:28.0-jre'
 }
 
 group = 'fyi.sorenneedscoffee'

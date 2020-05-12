@@ -106,7 +106,6 @@ public class ThesaurusCmd extends Command {
         while ((line = br.readLine()) != null)
             sb.append(line + '\n');
         JSONObject obj = (JSONObject) JSONValue.parse(sb.toString());
-        JSONArray array = (JSONArray) obj.get("response");
-        return array;
+        return (JSONArray) obj.get("response");
     }
 }

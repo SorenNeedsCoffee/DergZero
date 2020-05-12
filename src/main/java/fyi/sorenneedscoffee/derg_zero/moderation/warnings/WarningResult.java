@@ -10,7 +10,7 @@ public enum WarningResult {
         this.warning = warning;
     }
 
-    void overrideWarning(Warning warning) {
+    public void overrideWarning(Warning warning) {
         this.warning = warning;
     }
 

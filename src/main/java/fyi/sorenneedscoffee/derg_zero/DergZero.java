@@ -4,52 +4,47 @@ import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import fyi.sorenneedscoffee.derg_zero.commands.admin.*;
-import fyi.sorenneedscoffee.derg_zero.commands.fun.AvatarCmd;
-import fyi.sorenneedscoffee.derg_zero.commands.fun.HelCmd;
-import fyi.sorenneedscoffee.derg_zero.commands.fun.OobifyCmd;
-import fyi.sorenneedscoffee.derg_zero.commands.fun.ThesaurusCmd;
-import fyi.sorenneedscoffee.derg_zero.commands.general.AboutCmd;
-import fyi.sorenneedscoffee.derg_zero.commands.general.HelpCmd;
-import fyi.sorenneedscoffee.derg_zero.commands.general.InviteCmd;
-import fyi.sorenneedscoffee.derg_zero.commands.general.PingCmd;
-import fyi.sorenneedscoffee.derg_zero.commands.moderation.ViewWarningCmd;
-import fyi.sorenneedscoffee.derg_zero.commands.moderation.ViewWarningsCmd;
-import fyi.sorenneedscoffee.derg_zero.commands.moderation.WarnCmd;
-import fyi.sorenneedscoffee.derg_zero.commands.owner.ShutdownCmd;
-import fyi.sorenneedscoffee.derg_zero.config.Config;
-import fyi.sorenneedscoffee.derg_zero.config.ConfigManager;
-import fyi.sorenneedscoffee.derg_zero.config.UsersDb;
-import fyi.sorenneedscoffee.derg_zero.listeners.Listener;
-import fyi.sorenneedscoffee.derg_zero.listeners.chains.Hi;
-import fyi.sorenneedscoffee.derg_zero.listeners.chains.Script;
-import fyi.sorenneedscoffee.derg_zero.moderation.util.DbManager;
-import fyi.sorenneedscoffee.derg_zero.moderation.util.ModListener;
-import fyi.sorenneedscoffee.xputil.XPUtil;
-import fyi.sorenneedscoffee.xputil.util.UserManager;
-import net.dv8tion.jda.api.AccountType;
+import fyi.sorenneedscoffee.derg_zero.commands.fun.*;
+import fyi.sorenneedscoffee.derg_zero.commands.general.*;
+import fyi.sorenneedscoffee.derg_zero.commands.moderation.*;
+import fyi.sorenneedscoffee.derg_zero.commands.owner.*;
+import fyi.sorenneedscoffee.derg_zero.commands.xp.*;
+import fyi.sorenneedscoffee.derg_zero.config.*;
+import fyi.sorenneedscoffee.derg_zero.listeners.*;
+import fyi.sorenneedscoffee.derg_zero.listeners.chains.*;
+import fyi.sorenneedscoffee.derg_zero.xp.*;
+import fyi.sorenneedscoffee.derg_zero.xp.messages.*;
+import fyi.sorenneedscoffee.derg_zero.xp.roles.*;
+import fyi.sorenneedscoffee.xputil.data.DataContext;
+import fyi.sorenneedscoffee.xputil.data.implementations.SQLDataContext;
+import fyi.sorenneedscoffee.xputil.handler.*;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
 import java.io.Console;
+import java.util.concurrent.TimeUnit;
 
 /**
  * -=DergZero=-
  *
  * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
  */
-@SuppressWarnings("ConstantConditions")
 public class DergZero {
     public static final String version = DergZero.class.getPackage().getImplementationVersion();
-    public static Script script;
+    public static DataContext context;
+    public static XPCalculator calculator;
+    public static EventHandler handler;
     private static boolean shuttingDown = false;
     private static JDA jda = null;
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         Logger log = LoggerFactory.getLogger("Startup");
 
         if (version != null)
@@ -88,51 +83,70 @@ public class DergZero {
 
                         new PingCmd(),
 
-                        new BackupCmd(),
-                        new PruneCmd(),
-                        new ChangeLvlCmd(),
-                        new ChangeXPCmd(),
-                        new GetMembersJSONCmd(),
-                        new NewScriptCmd(),
-                        new ModClearCmd(),
-
                         new WarnCmd(),
                         new ViewWarningCmd(),
                         new ViewWarningsCmd(),
+
+                        new LvlCmd(),
+                        new TopCmd(),
 
                         new ShutdownCmd()
                 );
 
         cb.setStatus(OnlineStatus.ONLINE);
 
-        XPUtil xpUtil = new XPUtil(cb);
+        EventHandlerBuilder builder = new EventHandlerBuilder();
         UsersDb usersDb = config.getUsersDb();
-        xpUtil.db(usersDb.getIp(), usersDb.getDb(), usersDb.getUser(), usersDb.getPass());
-        cb = xpUtil.builder();
+        context = new SQLDataContext("jdbc:mariadb://" + usersDb.getIp() + ":3306/" + usersDb.getDb(), usersDb.getUser(), usersDb.getPass(),
+                "MARIADB",
+                "users",
+                "group_id",
+                "user_id",
+                "lvl",
+                "xp"
+        );
+        calculator = new XPCalculator();
+        MessageListener messageListener = new MessageListener();
+        RoleListener roleListener = new RoleListener();
+        builder = builder.addContext(context)
+                .enableCooldown()
+                .setCooldownValue(5, TimeUnit.SECONDS)
+                .addContext(context)
+                .addCalculator(calculator)
+                .addListeners(messageListener, roleListener);
 
-        DbManager.init(usersDb.getIp(), usersDb.getDb(), usersDb.getUser(), usersDb.getPass());
+        handler = builder.build();
 
         CommandClient client = cb.build();
         Listener listener = new Listener();
         listener.setRoleID(defaultRoleID);
 
-        script = new Script(config.getScriptDb());
-
         log.info("Attempting login...");
 
             try {
-                jda = new JDABuilder(AccountType.BOT)
-                        .setToken(token)
+                jda = JDABuilder.createDefault(token,
+                        GatewayIntent.GUILD_MEMBERS,
+                        GatewayIntent.GUILD_MESSAGES,
+                        GatewayIntent.GUILD_PRESENCES,
+                        GatewayIntent.GUILD_VOICE_STATES,
+                        GatewayIntent.GUILD_EMOJIS,
+                        GatewayIntent.GUILD_BANS,
+                        GatewayIntent.DIRECT_MESSAGES)
                         .setStatus(OnlineStatus.DO_NOT_DISTURB)
+                        .setMemberCachePolicy(MemberCachePolicy.ALL)
                         .setActivity(Activity.playing("loading..."))
                         .addEventListeners(client,
                                 waiter,
-                                xpUtil.listener(),
                                 listener,
+                                new MessageListenerAdapter(),
+                                new RoleListenerAdapter(),
+                                new HandlerEvents(handler),
                                 new ModListener(),
-                                new Hi(),
-                                script)
+                                new Hi()
+                        )
                         .build();
+                messageListener.setJda(jda);
+                roleListener.setJda(jda);
             } catch (LoginException ex) {
                 log.error("Invalid Token");
                 System.exit(1);
@@ -159,7 +173,6 @@ public class DergZero {
             return;
         shuttingDown = true;
         jda.getPresence().setStatus(OnlineStatus.OFFLINE);
-        UserManager.saveFile();
         if (jda.getStatus() != JDA.Status.SHUTTING_DOWN)
             jda.shutdown();
     }
