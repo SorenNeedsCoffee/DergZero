@@ -8,6 +8,7 @@ public final class Config {
     private String prefix;
 
     private UsersDb usersDb;
+    private BoostersDb boostersDb;
 
     public String getToken() {
         return token;
@@ -47,5 +48,13 @@ public final class Config {
 
     public void setUsersDb(UsersDb usersDb) {
         this.usersDb = usersDb;
+    }
+
+    public BoostersDb getBoostersDb() {
+        return boostersDb;
+    }
+
+    public void setBoostersDb(BoostersDb boostersDb) {
+        this.boostersDb = boostersDb;
     }
 }

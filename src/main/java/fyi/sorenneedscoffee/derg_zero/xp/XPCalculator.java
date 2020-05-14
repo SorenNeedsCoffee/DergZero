@@ -1,5 +1,7 @@
 package fyi.sorenneedscoffee.derg_zero.xp;
 
+import fyi.sorenneedscoffee.derg_zero.DergZero;
+import fyi.sorenneedscoffee.derg_zero.boosters.data.models.Booster;
 import org.decimal4j.util.DoubleRounder;
 
 import java.util.Random;
@@ -16,6 +18,13 @@ public class XPCalculator implements fyi.sorenneedscoffee.xputil.calculator.XPCa
     public double xpEarned(String s) {
         double length = Math.sqrt(s.replaceAll(" ", "").length());
         length = Math.min(10, length);
-        return length * (Math.abs(random.nextGaussian()) * 5 + 1);
+        double preboost = length * (Math.abs(random.nextGaussian()) * 5 + 1);
+
+        for (Booster booster : DergZero.manager.boosters) {
+            if (booster != null)
+                preboost = preboost * booster.multiplier;
+        }
+
+        return preboost;
     }
 }

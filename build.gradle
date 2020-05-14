@@ -36,8 +36,7 @@ dependencies {
 
     //for db interactions
     implementation 'org.mariadb.jdbc:mariadb-java-client:2.1.2'
-    implementation 'org.jooq:jooq:3.12.3'
-    implementation 'org.jooq:jooq-meta:3.12.3'
+    implementation 'org.jooq:jooq:3.13.1'
 
     //logs, etc.
     implementation 'ch.qos.logback:logback-classic:1.2.3'

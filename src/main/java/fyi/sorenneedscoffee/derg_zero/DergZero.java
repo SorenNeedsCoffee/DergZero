@@ -3,6 +3,9 @@ package fyi.sorenneedscoffee.derg_zero;
 import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import fyi.sorenneedscoffee.derg_zero.boosters.BoosterManager;
+import fyi.sorenneedscoffee.derg_zero.boosters.listeners.BoosterXpListener;
+import fyi.sorenneedscoffee.derg_zero.commands.admin.ModClearCmd;
 import fyi.sorenneedscoffee.derg_zero.commands.fun.AvatarCmd;
 import fyi.sorenneedscoffee.derg_zero.commands.fun.HelCmd;
 import fyi.sorenneedscoffee.derg_zero.commands.fun.OobifyCmd;
@@ -15,6 +18,7 @@ import fyi.sorenneedscoffee.derg_zero.commands.moderation.ViewWarningCmd;
 import fyi.sorenneedscoffee.derg_zero.commands.moderation.ViewWarningsCmd;
 import fyi.sorenneedscoffee.derg_zero.commands.moderation.WarnCmd;
 import fyi.sorenneedscoffee.derg_zero.commands.owner.ShutdownCmd;
+import fyi.sorenneedscoffee.derg_zero.commands.xp.BoosterCmd;
 import fyi.sorenneedscoffee.derg_zero.commands.xp.LvlCmd;
 import fyi.sorenneedscoffee.derg_zero.commands.xp.TopCmd;
 import fyi.sorenneedscoffee.derg_zero.config.Config;
@@ -37,11 +41,14 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.events.ReadyEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
 import javax.security.auth.login.LoginException;
 import java.io.Console;
 import java.util.concurrent.TimeUnit;
@@ -56,6 +63,9 @@ public class DergZero {
     public static DataContext context;
     public static XPCalculator calculator;
     public static EventHandler handler;
+    public static BoosterManager manager;
+    public static Config config;
+
     private static boolean shuttingDown = false;
     private static JDA jda = null;
 
@@ -68,7 +78,7 @@ public class DergZero {
             log.info("DergZero | DEVELOPMENT MODE");
 
         log.info("Loading config...");
-        Config config = ConfigManager.load();
+        config = ConfigManager.load();
 
         String token = config.getToken();
         String ownerID = config.getOwnerID();
@@ -98,10 +108,13 @@ public class DergZero {
 
                         new PingCmd(),
 
+                        new ModClearCmd(),
+
                         new WarnCmd(),
                         new ViewWarningCmd(),
                         new ViewWarningsCmd(),
 
+                        new BoosterCmd(),
                         new LvlCmd(),
                         new TopCmd(),
 
@@ -128,7 +141,7 @@ public class DergZero {
                 .setCooldownValue(5, TimeUnit.SECONDS)
                 .addContext(context)
                 .addCalculator(calculator)
-                .addListeners(messageListener, roleListener);
+                .addListeners(messageListener, roleListener, new BoosterXpListener());
 
         handler = builder.build();
 
@@ -153,6 +166,7 @@ public class DergZero {
                     .addEventListeners(client,
                             waiter,
                             listener,
+                            new Initializer(),
                             new MessageListenerAdapter(),
                             new RoleListenerAdapter(),
                             new HandlerEvents(handler),
@@ -166,21 +180,6 @@ public class DergZero {
             log.error("Invalid Token");
             System.exit(1);
         }
-
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            LoggerFactory.getLogger("DergZero").info("Shutting down...");
-            shutdown();
-        }));
-
-        Console console = System.console();
-        Thread th = new Thread(() -> {
-            while (true) {
-                String in = console.readLine();
-                if ("shutdown".equals(in))
-                    System.exit(0);
-            }
-        });
-        th.start();
     }
 
     public static void shutdown() {
@@ -190,5 +189,28 @@ public class DergZero {
         jda.getPresence().setStatus(OnlineStatus.OFFLINE);
         if (jda.getStatus() != JDA.Status.SHUTTING_DOWN)
             jda.shutdown();
+    }
+
+    private static class Initializer extends ListenerAdapter {
+
+        @Override
+        public void onReady(@Nonnull ReadyEvent event) {
+            manager = new BoosterManager(jda, config.getBoostersDb());
+
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                LoggerFactory.getLogger("DergZero").info("Shutting down...");
+                shutdown();
+            }));
+
+            Console console = System.console();
+            Thread th = new Thread(() -> {
+                while (true) {
+                    String in = console.readLine();
+                    if ("shutdown".equals(in))
+                        System.exit(0);
+                }
+            });
+            th.start();
+        }
     }
 }
