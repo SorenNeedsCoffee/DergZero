@@ -10,6 +10,9 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import javax.annotation.Nonnull;
 import java.io.File;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public class RoleListenerAdapter extends ListenerAdapter {
 
     @Override

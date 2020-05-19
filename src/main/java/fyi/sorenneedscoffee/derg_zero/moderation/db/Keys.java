@@ -16,8 +16,7 @@ import javax.annotation.Generated;
 
 
 /**
- * A class modelling foreign key relationships and constraints of tables of
- * the <code>s4_d0_users</code> schema.
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
  */
 @Generated(
         value = {

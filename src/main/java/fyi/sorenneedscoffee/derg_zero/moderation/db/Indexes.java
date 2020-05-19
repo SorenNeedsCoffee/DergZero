@@ -14,7 +14,7 @@ import javax.annotation.Generated;
 
 
 /**
- * A class modelling indexes of tables of the <code>s4_d0_users</code> schema.
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
  */
 @Generated(
         value = {

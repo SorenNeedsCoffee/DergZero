@@ -7,6 +7,9 @@ import fyi.sorenneedscoffee.derg_zero.xp.data.requests.RetrieveListRequest;
 import fyi.sorenneedscoffee.derg_zero.xp.data.requests.SaveListRequest;
 import fyi.sorenneedscoffee.derg_zero.xp.data.requests.UpdateListRequest;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public interface RoleDataContext {
     void saveList(SaveListRequest request);
 

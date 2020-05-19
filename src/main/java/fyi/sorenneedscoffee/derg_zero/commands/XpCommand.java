@@ -3,9 +3,7 @@ package fyi.sorenneedscoffee.derg_zero.commands;
 import com.jagrosh.jdautilities.command.Command;
 
 /**
- * -=XPUtil=-
- *
- * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
  */
 public abstract class XpCommand extends Command {
 

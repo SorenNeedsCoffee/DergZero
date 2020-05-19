@@ -13,17 +13,20 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public class BoosterListener extends ListenerAdapter {
-    Random random = new Random();
+    private final Random random = new Random();
 
     @Override
     public void onReady(@Nonnull ReadyEvent event) {
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                int rand = random.nextInt(15);
+                int rand = random.nextInt(16);
                 if (rand == 3) {
-                    double multiplier = 1.1 + (2.0 - 1.1) * random.nextDouble();
+                    float multiplier = 1.1f + (2.0f - 1.1f) * random.nextFloat();
 
                     if (!DergZero.manager.isFull()) {
                         DergZero.manager.add(multiplier, 90, ChronoUnit.MINUTES, false);
@@ -36,7 +39,7 @@ public class BoosterListener extends ListenerAdapter {
     @Override
     public void onGuildUpdateBoostCount(@Nonnull GuildUpdateBoostCountEvent event) {
         if (event.getNewBoostCount() > event.getOldBoostCount()) {
-            double multiplier = 1.1 + (2.0 - 1.1) * random.nextDouble();
+            float multiplier = 1.1f + (2.0f - 1.1f) * random.nextFloat();
 
             BoosterResult result = DergZero.manager.add(multiplier, 2, ChronoUnit.HOURS, true);
             if (result == BoosterResult.QUEUED) {

@@ -8,6 +8,9 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import javax.annotation.Nonnull;
 import java.util.HashMap;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public class MessageListenerAdapter extends ListenerAdapter {
     static final HashMap<CacheKey, TextChannel> cache = new HashMap<>();
 

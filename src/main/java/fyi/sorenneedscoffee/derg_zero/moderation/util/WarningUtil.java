@@ -8,6 +8,9 @@ import net.dv8tion.jda.api.utils.MarkdownUtil;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public class WarningUtil {
     static final int uniqueAllowed = 4;
     static final int similarAllowed = 3;
@@ -21,7 +24,7 @@ public class WarningUtil {
 
         WarningResult result;
 
-        if (DbManager.isOnKicklist(uId)) {
+        if (DbManager.isOnKickList(uId)) {
             if (!warning.getOffenseType().equals(OffenseType.MISC) && DbManager.getWarnings(uId, false).size() == uniqueAllowedPostKick) {
                 result = WarningResult.BAN_ACTION;
             } else {

@@ -2,6 +2,9 @@ package fyi.sorenneedscoffee.derg_zero.xp.data.requests;
 
 import fyi.sorenneedscoffee.derg_zero.xp.data.models.LevelRoleList;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public class UpdateListRequest {
     private final String groupId;
     private final LevelRoleList list;

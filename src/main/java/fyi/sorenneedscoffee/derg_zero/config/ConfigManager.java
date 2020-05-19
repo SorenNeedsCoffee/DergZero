@@ -9,6 +9,9 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public class ConfigManager {
     private static final Yaml yaml = new Yaml();
     private static final Logger log = LoggerFactory.getLogger("Config");

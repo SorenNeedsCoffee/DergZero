@@ -1,5 +1,8 @@
 package fyi.sorenneedscoffee.derg_zero.xp.data.requests;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public class RetrieveListRequest {
     private final String groupId;
 

@@ -4,9 +4,7 @@ import com.jagrosh.jdautilities.command.Command;
 import net.dv8tion.jda.api.Permission;
 
 /**
- * -=DergZero=-
- *
- * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
  */
 public abstract class ModCommand extends Command {
     protected ModCommand() {

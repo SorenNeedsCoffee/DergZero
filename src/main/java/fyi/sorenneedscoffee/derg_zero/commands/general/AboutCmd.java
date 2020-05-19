@@ -7,15 +7,13 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.utils.MarkdownUtil;
 
 /**
- * -=DergZero=-
- *
- * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
  */
 public class AboutCmd extends Command {
 
     public AboutCmd() {
         this.name = "about";
-        this.help = "shows info about the bot";
+        this.help = "Shows info about the bot";
     }
 
     @Override
@@ -23,9 +21,9 @@ public class AboutCmd extends Command {
         EmbedBuilder embed = new EmbedBuilder();
 
         if (DergZero.version != null)
-            embed.setTitle("DergZero | v" + DergZero.version);
+            embed.setTitle("Garbage Can | v" + DergZero.version);
         else
-            embed.setTitle("DergZero | DEVELOPMENT MODE");
+            embed.setTitle("Garbage Can | DEVELOPMENT MODE");
 
         embed.setDescription(MarkdownUtil.italics("StarBot, but better!") + " Built with Java, JDA, and JDA-Utilities. Use " + MarkdownUtil.monospace("!>help") + " to view commands.");
     }

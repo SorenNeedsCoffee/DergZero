@@ -1,7 +1,7 @@
 package fyi.sorenneedscoffee.derg_zero.commands.fun;
 
-import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import fyi.sorenneedscoffee.derg_zero.commands.FunCommand;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -17,7 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class ThesaurusCmd extends Command {
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
+public class ThesaurusCmd extends FunCommand {
 
     public ThesaurusCmd() {
         this.name = "thesaurus";

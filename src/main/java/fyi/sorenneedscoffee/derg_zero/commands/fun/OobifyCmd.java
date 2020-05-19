@@ -4,15 +4,13 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import fyi.sorenneedscoffee.derg_zero.commands.FunCommand;
 
 /**
- * -=DergZero=-
- *
- * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
  */
 public class OobifyCmd extends FunCommand {
 
     public OobifyCmd() {
         this.name = "oobify";
-        this.help = "replace all vowels in arguments with oob";
+        this.help = "Replace all vowels in arguments with oob";
         this.guildOnly = false;
     }
 

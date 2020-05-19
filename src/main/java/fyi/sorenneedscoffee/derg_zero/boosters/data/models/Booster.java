@@ -4,12 +4,15 @@ import com.google.common.base.Objects;
 
 import java.time.LocalDateTime;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public class Booster {
-    public final double multiplier;
+    public final float multiplier;
     public final LocalDateTime expiration;
     public String slotId;
 
-    public Booster(String slotId, double multiplier, LocalDateTime expiration) {
+    public Booster(String slotId, float multiplier, LocalDateTime expiration) {
         this.slotId = slotId;
         this.multiplier = multiplier;
         this.expiration = expiration;

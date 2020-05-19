@@ -7,14 +7,17 @@ import fyi.sorenneedscoffee.xputil.listener.XPListener;
 
 import java.time.temporal.ChronoUnit;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public class BoosterXpListener extends XPListener {
     @Override
     public void onLevelUp(LevelUpEvent event) {
-        if(event.getNewLevel() >= 20 && event.getNewLevel() % 10 == 0) {
+        if (event.getNewLevel() >= 20 && event.getNewLevel() % 10 == 0) {
             DergZero.manager.context.saveUserBooster(new UserBooster(
                     DergZero.manager.context.getNewUId(),
                     event.getUserId(),
-                    2.5,
+                    2.5f,
                     90,
                     ChronoUnit.MINUTES
             ));

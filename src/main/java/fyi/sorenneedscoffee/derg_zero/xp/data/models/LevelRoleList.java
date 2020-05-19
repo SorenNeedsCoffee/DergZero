@@ -7,6 +7,9 @@ import net.dv8tion.jda.api.entities.User;
 
 import java.util.ArrayList;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public class LevelRoleList extends ArrayList<LevelRole> {
 
     private void doSort() {
@@ -28,9 +31,8 @@ public class LevelRoleList extends ArrayList<LevelRole> {
         int index = 0;
         for (LevelRole levelRole : this) {
             if (levelRole.getLevel() == level) {
-                LevelRole toGive = levelRole;
                 LevelRole toRemove = index > 0 ? get(index - 1) : null;
-                replaceRole(guild, guild.getMember(user), toRemove != null ? toRemove.getRoleID() : null, toGive.getRoleID());
+                replaceRole(guild, guild.getMember(user), toRemove != null ? toRemove.getRoleID() : null, levelRole.getRoleID());
                 return;
             }
 

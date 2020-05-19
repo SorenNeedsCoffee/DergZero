@@ -13,9 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * -=DergZero=-
- *
- * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
  */
 public class Listener extends ListenerAdapter {
     private final Logger log = LoggerFactory.getLogger("Main");

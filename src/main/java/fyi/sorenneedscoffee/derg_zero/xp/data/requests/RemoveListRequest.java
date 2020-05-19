@@ -1,5 +1,8 @@
 package fyi.sorenneedscoffee.derg_zero.xp.data.requests;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public class RemoveListRequest {
     private final String groupId;
 

@@ -6,6 +6,9 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public class RoleListener extends fyi.sorenneedscoffee.xputil.listener.XPListener {
     private JDA jda;
 

@@ -1,5 +1,8 @@
 package fyi.sorenneedscoffee.derg_zero.config;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public final class BoostersDb {
     private String ip;
     private String db;

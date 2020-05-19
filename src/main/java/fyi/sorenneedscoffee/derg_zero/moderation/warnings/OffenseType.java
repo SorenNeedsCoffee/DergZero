@@ -1,5 +1,8 @@
 package fyi.sorenneedscoffee.derg_zero.moderation.warnings;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public enum OffenseType {
     MISC(-1, "Miscellaneous", "Fake warning, for mostly jokes. If you receive this offense type, don't worry! You're not actually in trouble"),
     GENERAL(0, "General", "A warning that doesn't fall under any other category"),

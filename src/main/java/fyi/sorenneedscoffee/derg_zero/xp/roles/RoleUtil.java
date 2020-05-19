@@ -11,6 +11,9 @@ import net.dv8tion.jda.api.entities.Guild;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public class RoleUtil {
     private static final HashMap<String, LevelRoleList> roleLists = new HashMap<>();
     private static RoleDataContext context;

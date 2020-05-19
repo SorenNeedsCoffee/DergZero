@@ -1,5 +1,8 @@
 package fyi.sorenneedscoffee.derg_zero.config;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 @SuppressWarnings("unused")
 public final class Config {
     private String token;

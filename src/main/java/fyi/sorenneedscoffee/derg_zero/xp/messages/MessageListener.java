@@ -13,6 +13,9 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public class MessageListener extends XPListener {
     private JDA jda;
 

@@ -7,22 +7,23 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * -=DergZero=-
- *
- * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
  */
 public class HelCmd extends FunCommand {
 
     public HelCmd() {
         this.name = "hel";
-        this.help = "a \"special\" help command";
+        this.hidden = true;
         this.aliases = new String[]{
                 "halp",
                 "elp",
@@ -67,6 +68,12 @@ public class HelCmd extends FunCommand {
             }
         }
 
-        event.reply(imgurl);
+        try {
+            BufferedImage image = ImageIO.read(new URL(imgurl));
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            ImageIO.write(image, "png", os);
+            event.getChannel().sendFile(os.toByteArray(), "avatar.png").queue();
+        } catch (IOException ignore) {
+        }
     }
 }

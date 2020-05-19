@@ -2,6 +2,9 @@ package fyi.sorenneedscoffee.derg_zero.xp.data.models;
 
 import com.google.common.base.Objects;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public class LevelRole {
     private final int level;
     private final String roleID;

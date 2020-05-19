@@ -13,10 +13,15 @@ import net.dv8tion.jda.api.utils.MarkdownUtil;
 
 import java.time.Duration;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public class WarnCmd extends ModCommand {
 
     public WarnCmd() {
         this.name = "warn";
+        this.help = "warn a user";
+        this.hidden = true;
     }
 
     @Override

@@ -4,19 +4,17 @@ import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 
 /**
- * -=DergZero=-
- *
- * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
  */
 public class InviteCmd extends Command {
 
     public InviteCmd() {
         this.name = "invite";
-        this.help = "Gives you our invite link.";
+        this.help = "Gives you our invite link";
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        event.reply("If you want to invite people to our server, send them this link: https://joesorensen.xyz/discord");
+        event.reply("If you want to invite people to our server, send them this link: https://draconium.productions/discord");
     }
 }

@@ -6,6 +6,9 @@ import org.decimal4j.util.DoubleRounder;
 
 import java.util.Random;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public class XPCalculator implements fyi.sorenneedscoffee.xputil.calculator.XPCalculator {
     private final Random random = new Random();
 

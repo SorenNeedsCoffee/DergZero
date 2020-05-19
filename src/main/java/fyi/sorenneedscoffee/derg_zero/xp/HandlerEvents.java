@@ -11,6 +11,9 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import javax.annotation.Nonnull;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public class HandlerEvents extends ListenerAdapter {
     private final EventHandler handler;
 

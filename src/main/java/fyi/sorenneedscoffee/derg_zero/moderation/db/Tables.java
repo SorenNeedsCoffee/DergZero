@@ -11,7 +11,7 @@ import javax.annotation.Generated;
 
 
 /**
- * Convenience access to all tables in s4_d0_users
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
  */
 @Generated(
         value = {
@@ -23,13 +23,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({"all", "unchecked", "rawtypes"})
 public class Tables {
 
-    /**
-     * The table <code>s4_d0_users.kick_list</code>.
-     */
     public static final KickList KICK_LIST = KickList.KICK_LIST;
 
-    /**
-     * The table <code>s4_d0_users.moderation_cases</code>.
-     */
     public static final ModerationCases MODERATION_CASES = ModerationCases.MODERATION_CASES;
 }

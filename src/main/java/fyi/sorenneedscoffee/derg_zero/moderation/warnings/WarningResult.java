@@ -1,7 +1,13 @@
 package fyi.sorenneedscoffee.derg_zero.moderation.warnings;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public enum WarningResult {
-    NO_ACTION(new Warning()), KICK_ACTION(new Warning()), BAN_ACTION(new Warning()), ERROR(null);
+    NO_ACTION(new Warning()),
+    KICK_ACTION(new Warning()),
+    BAN_ACTION(new Warning()),
+    ERROR(null);
 
     public boolean previouslyKicked = false;
     private Warning warning;

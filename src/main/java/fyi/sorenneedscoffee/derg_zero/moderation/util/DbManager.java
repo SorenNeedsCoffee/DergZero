@@ -26,6 +26,9 @@ import static fyi.sorenneedscoffee.derg_zero.moderation.db.Tables.KICK_LIST;
 import static fyi.sorenneedscoffee.derg_zero.moderation.db.Tables.MODERATION_CASES;
 
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public class DbManager {
     private static String url;
     private static Logger log;
@@ -38,8 +41,7 @@ public class DbManager {
     }
 
     public static Warning addWarning(String uId, int offenseType, String additionalComments) {
-        Timestamp stamp = Timestamp.valueOf(TimeUtil.formatter.withZone(ZoneOffset.UTC).format(Instant.now()));
-        Random random = new Random();
+        Timestamp stamp = Timestamp.valueOf(ModUtil.formatter.withZone(ZoneOffset.UTC).format(Instant.now()));
 
 
         try (Connection connect = DriverManager.getConnection(url)) {
@@ -159,7 +161,7 @@ public class DbManager {
         }
     }
 
-    public static boolean isOnKicklist(String uId) {
+    public static boolean isOnKickList(String uId) {
         try (Connection connect = DriverManager.getConnection(url)) {
             DSLContext context = DSL.using(connect, SQLDialect.MARIADB);
 

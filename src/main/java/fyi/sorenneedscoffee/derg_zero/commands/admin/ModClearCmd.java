@@ -6,10 +6,14 @@ import fyi.sorenneedscoffee.derg_zero.moderation.util.ModUtil;
 import fyi.sorenneedscoffee.derg_zero.moderation.util.WarningUtil;
 import net.dv8tion.jda.api.entities.User;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public class ModClearCmd extends AdminCommand {
 
     public ModClearCmd() {
         this.name = "clear";
+        this.hidden = true;
     }
 
     @Override

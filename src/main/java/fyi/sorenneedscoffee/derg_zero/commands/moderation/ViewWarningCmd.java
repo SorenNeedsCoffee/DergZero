@@ -7,6 +7,9 @@ import fyi.sorenneedscoffee.derg_zero.moderation.warnings.Warning;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.utils.MarkdownUtil;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public class ViewWarningCmd extends Command {
 
     public ViewWarningCmd() {

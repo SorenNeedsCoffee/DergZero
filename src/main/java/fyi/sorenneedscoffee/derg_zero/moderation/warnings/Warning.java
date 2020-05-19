@@ -1,11 +1,14 @@
 package fyi.sorenneedscoffee.derg_zero.moderation.warnings;
 
 import fyi.sorenneedscoffee.derg_zero.moderation.db.tables.records.ModerationCasesRecord;
-import fyi.sorenneedscoffee.derg_zero.moderation.util.TimeUtil;
+import fyi.sorenneedscoffee.derg_zero.moderation.util.ModUtil;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public class Warning {
     private final int id;
     private final String uId;
@@ -66,7 +69,7 @@ public class Warning {
     }
 
     public String toString() {
-        return "Issued at " + TimeUtil.formatter.format(creationTime.toLocalDateTime()) + " UTC. \n" +
+        return "Issued at " + ModUtil.formatter.format(creationTime.toLocalDateTime()) + " UTC. \n" +
                 "\n" +
                 "Offense: " + offenseType.getShortName() + " - " + offenseType.getDescription() + "\n" +
                 "\n" +

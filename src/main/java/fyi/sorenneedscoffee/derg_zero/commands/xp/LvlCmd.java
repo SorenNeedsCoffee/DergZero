@@ -3,11 +3,12 @@ package fyi.sorenneedscoffee.derg_zero.commands.xp;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import fyi.sorenneedscoffee.derg_zero.DergZero;
 import fyi.sorenneedscoffee.derg_zero.commands.XpCommand;
+import fyi.sorenneedscoffee.derg_zero.moderation.util.ModUtil;
 import fyi.sorenneedscoffee.xputil.data.models.User;
 import fyi.sorenneedscoffee.xputil.data.requests.RetrieveGroupRequest;
 import fyi.sorenneedscoffee.xputil.data.requests.RetrieveMemberRequest;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.utils.MarkdownUtil;
 
@@ -18,9 +19,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * -=XPUtil=-
- *
- * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
  */
 public class LvlCmd extends XpCommand {
 
@@ -55,23 +54,23 @@ public class LvlCmd extends XpCommand {
     protected void execute(CommandEvent event) {
         MessageEmbed msg;
         if (event.getArgs().equals("")) {
-            msg = genEmbed(event.getMember());
+            msg = genEmbed(event.getAuthor(), event.getGuild());
         } else {
-            msg = genEmbed(event.getMessage().getMentionedMembers().get(0));
+            msg = genEmbed(ModUtil.getTarget(event.getArgs()), event.getGuild());
         }
         event.reply(msg);
     }
 
-    private MessageEmbed genEmbed(Member member) {
+    private MessageEmbed genEmbed(net.dv8tion.jda.api.entities.User member, Guild guild) {
         List<User> users = new java.util.ArrayList<>(DergZero.context.
-                retrieveGroup(new RetrieveGroupRequest(member.getGuild().getId())).membersAsList());
+                retrieveGroup(new RetrieveGroupRequest(guild.getId())).membersAsList());
         users.sort(Collections.reverseOrder());
-        User user = DergZero.context.retrieveMember(new RetrieveMemberRequest(member.getUser().getId(), member.getGuild().getId()));
+        User user = DergZero.context.retrieveMember(new RetrieveMemberRequest(member.getId(), guild.getId()));
 
         int placement = users.indexOf(user) + 1;
         EmbedBuilder embed = new EmbedBuilder();
 
-        embed.setAuthor(member.getEffectiveName(), null, member.getUser().getAvatarUrl());
+        embed.setAuthor(guild.getMember(member).getEffectiveName(), null, member.getAvatarUrl());
         embed.setTitle("User Rank");
         embed.addField("Level", Integer.toString(Objects.requireNonNull(user).getLevel()), true);
         embed.addField("XP", new DecimalFormat("#,###,###.##").format(user.getXp()) + " | Placement: " + placement, false);

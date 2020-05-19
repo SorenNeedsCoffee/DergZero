@@ -4,6 +4,9 @@ import com.google.common.base.Objects;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public class CacheKey {
     private final User user;
     private final Guild guild;

@@ -8,15 +8,13 @@ import net.dv8tion.jda.api.MessageBuilder;
 import java.time.temporal.ChronoUnit;
 
 /**
- * -=DergZero=-
- *
- * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
  */
 public class PingCmd extends Command {
 
     public PingCmd() {
         this.name = "ping";
-        this.help = "checks the bot's latency";
+        this.help = "Checks the bot's latency";
         this.guildOnly = false;
         this.aliases = new String[]{"pong"};
     }

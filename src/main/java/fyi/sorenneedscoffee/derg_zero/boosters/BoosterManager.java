@@ -17,8 +17,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ArrayBlockingQueue;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public class BoosterManager {
     public final Booster[] boosters = new Booster[3];
+    public final DataContext context;
     private final String[] slots = new String[]{
             "710236798340694037",
             "710236963156000828",
@@ -26,7 +30,6 @@ public class BoosterManager {
     };
     private final ArrayBlockingQueue<QueuedBooster> queue;
     private final Timer timer = new Timer();
-    public final DataContext context;
     private final Guild guild;
 
     public BoosterManager(JDA jda, BoostersDb db) {
@@ -73,10 +76,10 @@ public class BoosterManager {
         return true;
     }
 
-    public BoosterResult add(double multiplier, long duration, ChronoUnit unit, boolean queueIfFull) {
+    public BoosterResult add(float multiplier, long duration, ChronoUnit unit, boolean queueIfFull) {
         if (isFull() && queueIfFull) {
             QueuedBooster queuedBooster = new QueuedBooster(context.getNewQId(), multiplier, duration, unit);
-            if(queue.offer(queuedBooster)) {
+            if (queue.offer(queuedBooster)) {
                 context.saveQueuedBooster(queuedBooster);
                 return BoosterResult.QUEUED;
             } else {
@@ -157,31 +160,20 @@ public class BoosterManager {
 
                 remove(booster);
                 cancel();
-            } else if(updateCounter == 0) {
-                String countdown;
-                if (duration.toHours() >= 1) {
-                    countdown = String.format("%d:%02d",
-                            duration.toHours(),
-                            duration.toMinutesPart());
+            } else if (updateCounter == 0) {
+                String countdown = String.format("%02d:%02d:%02d",
+                        duration.toHours(),
+                        duration.toMinutesPart(),
+                        duration.toSecondsPart());
 
-                    if(!countdown.equals(countdownCache)) {
-                        updateName(booster.multiplier + "x [" + countdown + "]", booster);
-                        countdownCache = countdown;
-                    }
-                } else {
-                    countdown = String.format("%d:%02d",
-                            duration.toMinutes(),
-                            duration.toSecondsPart());
-
-                    if(!countdown.equals(countdownCache)) {
-                        updateName(booster.multiplier + "x [" + countdown + "]", booster);
-                        countdownCache = countdown;
-                    }
+                if (!countdown.equals(countdownCache)) {
+                    updateName(String.format("%.2f", booster.multiplier) + "x [" + countdown + "]", booster);
+                    countdownCache = countdown;
                 }
             }
 
             updateCounter++;
-            if(updateCounter == 5) {
+            if (updateCounter == 5) {
                 updateCounter = 0;
             }
         }

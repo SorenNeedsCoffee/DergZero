@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import fyi.sorenneedscoffee.derg_zero.boosters.BoosterManager;
+import fyi.sorenneedscoffee.derg_zero.boosters.listeners.BoosterListener;
 import fyi.sorenneedscoffee.derg_zero.boosters.listeners.BoosterXpListener;
 import fyi.sorenneedscoffee.derg_zero.commands.admin.ModClearCmd;
 import fyi.sorenneedscoffee.derg_zero.commands.fun.AvatarCmd;
@@ -11,12 +12,13 @@ import fyi.sorenneedscoffee.derg_zero.commands.fun.HelCmd;
 import fyi.sorenneedscoffee.derg_zero.commands.fun.OobifyCmd;
 import fyi.sorenneedscoffee.derg_zero.commands.fun.ThesaurusCmd;
 import fyi.sorenneedscoffee.derg_zero.commands.general.AboutCmd;
-import fyi.sorenneedscoffee.derg_zero.commands.general.HelpCmd;
 import fyi.sorenneedscoffee.derg_zero.commands.general.InviteCmd;
 import fyi.sorenneedscoffee.derg_zero.commands.general.PingCmd;
 import fyi.sorenneedscoffee.derg_zero.commands.moderation.ViewWarningCmd;
 import fyi.sorenneedscoffee.derg_zero.commands.moderation.ViewWarningsCmd;
 import fyi.sorenneedscoffee.derg_zero.commands.moderation.WarnCmd;
+import fyi.sorenneedscoffee.derg_zero.commands.owner.SetAvatarCmd;
+import fyi.sorenneedscoffee.derg_zero.commands.owner.SetGameCmd;
 import fyi.sorenneedscoffee.derg_zero.commands.owner.ShutdownCmd;
 import fyi.sorenneedscoffee.derg_zero.commands.xp.BoosterCmd;
 import fyi.sorenneedscoffee.derg_zero.commands.xp.LvlCmd;
@@ -27,6 +29,7 @@ import fyi.sorenneedscoffee.derg_zero.config.UsersDb;
 import fyi.sorenneedscoffee.derg_zero.listeners.Listener;
 import fyi.sorenneedscoffee.derg_zero.listeners.ModListener;
 import fyi.sorenneedscoffee.derg_zero.listeners.chains.Hi;
+import fyi.sorenneedscoffee.derg_zero.moderation.util.DbManager;
 import fyi.sorenneedscoffee.derg_zero.xp.HandlerEvents;
 import fyi.sorenneedscoffee.derg_zero.xp.XPCalculator;
 import fyi.sorenneedscoffee.derg_zero.xp.messages.MessageListener;
@@ -54,9 +57,7 @@ import java.io.Console;
 import java.util.concurrent.TimeUnit;
 
 /**
- * -=DergZero=-
- *
- * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
  */
 public class DergZero {
     public static final String version = DergZero.class.getPackage().getImplementationVersion();
@@ -93,7 +94,6 @@ public class DergZero {
                 setCoOwnerIds("275037176302141450", "231746019098886144").
                 setPrefix(prefix).
                 setHelpWord("help").
-                setHelpConsumer(new HelpCmd()).
                 setLinkedCacheSize(200).
                 setActivity(Activity.playing("On Soren's server | " + prefix + "help for help")).
                 setEmojis("\u2705", "\u26A0", "\u26D4").
@@ -118,7 +118,9 @@ public class DergZero {
                         new LvlCmd(),
                         new TopCmd(),
 
-                        new ShutdownCmd()
+                        new ShutdownCmd(),
+                        new SetGameCmd(),
+                        new SetAvatarCmd()
                 );
 
         cb.setStatus(OnlineStatus.ONLINE);
@@ -133,6 +135,7 @@ public class DergZero {
                 "lvl",
                 "xp"
         );
+        DbManager.init(usersDb.getIp(), usersDb.getDb(), usersDb.getUser(), usersDb.getPass());
         calculator = new XPCalculator();
         MessageListener messageListener = new MessageListener();
         RoleListener roleListener = new RoleListener();
@@ -169,6 +172,7 @@ public class DergZero {
                             new Initializer(),
                             new MessageListenerAdapter(),
                             new RoleListenerAdapter(),
+                            new BoosterListener(),
                             new HandlerEvents(handler),
                             new ModListener(),
                             new Hi()

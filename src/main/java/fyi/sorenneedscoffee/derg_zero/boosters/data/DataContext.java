@@ -13,8 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static org.jooq.impl.DSL.*;
+import static org.jooq.impl.DSL.field;
+import static org.jooq.impl.DSL.table;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public class DataContext {
     private final DSLContext context;
     private final Random random = new Random();
@@ -22,19 +26,19 @@ public class DataContext {
 
     private final Table<Record> table;
     private final Field<String> field_slot_id;
-    private final Field<Double> field_multiplier;
+    private final Field<Float> field_multiplier;
     private final Field<Timestamp> field_expiration;
 
     private final Table<Record> qTable;
     private final Field<Integer> qField_id;
-    private final Field<Double> qField_multiplier;
+    private final Field<Float> qField_multiplier;
     private final Field<Long> qField_duration;
     private final Field<String> qField_time_unit;
 
     private final Table<Record> uTable;
     private final Field<Integer> uField_id;
     private final Field<String> uField_user_id;
-    private final Field<Double> uField_multiplier;
+    private final Field<Float> uField_multiplier;
     private final Field<Long> uField_duration;
     private final Field<String> uField_time_unit;
 
@@ -48,19 +52,19 @@ public class DataContext {
 
         this.table = table("active_boosters");
         this.field_slot_id = field("slot_id", String.class);
-        this.field_multiplier = field("multiplier", Double.class);
+        this.field_multiplier = field("multiplier", Float.class);
         this.field_expiration = field("expiration", Timestamp.class);
 
         this.qTable = table("queued_boosters");
         this.qField_id = field("id", Integer.class);
-        this.qField_multiplier = field("multiplier", Double.class);
+        this.qField_multiplier = field("multiplier", Float.class);
         this.qField_duration = field("duration", Long.class);
         this.qField_time_unit = field("time_unit", String.class);
 
         this.uTable = table("user_boosters");
         this.uField_id = field("id", Integer.class);
         this.uField_user_id = field("user_id", String.class);
-        this.uField_multiplier = field("multiplier", Double.class);
+        this.uField_multiplier = field("multiplier", Float.class);
         this.uField_duration = field("duration", Long.class);
         this.uField_time_unit = field("time_unit", String.class);
     }
@@ -78,7 +82,7 @@ public class DataContext {
             while (set.next()) {
                 result.add(new QueuedBooster(
                                 set.getInt("id"),
-                                set.getDouble("multiplier"),
+                                set.getFloat("multiplier"),
                                 set.getLong("duration"),
                                 ChronoUnit.valueOf(set.getString("time_unit"))
                         )
@@ -104,7 +108,7 @@ public class DataContext {
             while (set.next()) {
                 result.add(new Booster(
                                 set.getString("slot_id"),
-                                set.getDouble("multiplier"),
+                                set.getFloat("multiplier"),
                                 set.getTimestamp("expiration").toLocalDateTime()
                         )
                 );
@@ -184,7 +188,7 @@ public class DataContext {
             return new UserBooster(
                     set.getInt("id"),
                     set.getString("user_id"),
-                    set.getDouble("multiplier"),
+                    set.getFloat("multiplier"),
                     set.getLong("duration"),
                     ChronoUnit.valueOf(set.getString("time_unit"))
             );
@@ -209,7 +213,7 @@ public class DataContext {
                 result.add(new UserBooster(
                                 set.getInt("id"),
                                 set.getString("user_id"),
-                                set.getDouble("multiplier"),
+                                set.getFloat("multiplier"),
                                 set.getLong("duration"),
                                 ChronoUnit.valueOf(set.getString("time_unit"))
                         )

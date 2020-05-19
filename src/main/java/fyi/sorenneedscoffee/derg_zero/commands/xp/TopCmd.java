@@ -15,9 +15,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * -=XPUtil=-
- *
- * @author Soren Dangaard (joseph.md.sorensen@gmail.com)
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
  */
 public class TopCmd extends XpCommand {
 

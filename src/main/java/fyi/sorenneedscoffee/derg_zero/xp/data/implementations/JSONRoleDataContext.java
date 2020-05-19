@@ -14,6 +14,9 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.util.Scanner;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public class JSONRoleDataContext implements RoleDataContext {
     private final File file;
     private Gson gson;

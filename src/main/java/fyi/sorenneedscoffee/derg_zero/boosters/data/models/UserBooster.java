@@ -1,18 +1,19 @@
 package fyi.sorenneedscoffee.derg_zero.boosters.data.models;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 
+/**
+ * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
+ */
 public class UserBooster {
     public final int id;
     public final String userId;
-    public final double multiplier;
+    public final float multiplier;
     public final long duration;
     public final ChronoUnit unit;
 
-    public UserBooster(int id, String userId, double multiplier, long duration, ChronoUnit unit) {
+    public UserBooster(int id, String userId, float multiplier, long duration, ChronoUnit unit) {
         this.id = id;
         this.userId = userId;
         this.multiplier = multiplier;
