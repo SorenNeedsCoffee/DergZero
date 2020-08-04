@@ -63,9 +63,6 @@ jar {
 shadowJar {
     classifier null
     archiveName 'GarbageCan.jar'
-    minimize {
-        exclude(dependency('net.dv8tion:.*:.*'))
-    }
 }
 
 tasks.withType(JavaCompile) {
