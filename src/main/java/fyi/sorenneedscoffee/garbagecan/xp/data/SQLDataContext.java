@@ -46,11 +46,11 @@ public class SQLDataContext implements DataContext {
             e.printStackTrace();
         }
 
-        table = table("USERS");
-        field_groupId = field("USERS.GROUP_ID", String.class);
-        field_userId = field("USERS.USER_ID", String.class);
-        field_lvl = field("USERS.LVL", Integer.class);
-        field_xp = field("USERS.XP", Double.class);
+        table = table("users");
+        field_groupId = field("group_id", String.class);
+        field_userId = field("user_id", String.class);
+        field_lvl = field("lvl", Integer.class);
+        field_xp = field("xp", Double.class);
     }
 
     @Override
