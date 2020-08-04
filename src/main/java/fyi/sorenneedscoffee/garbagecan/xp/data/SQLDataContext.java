@@ -60,7 +60,7 @@ public class SQLDataContext implements DataContext {
                     field_groupId, field_userId, field_lvl, field_xp)
                     .values(request.getGroupId(), request.getUserId(), 1, 0.0);
 
-            conn.createStatement().executeUpdate(query.getSQL());
+            conn.createStatement().executeUpdate(query.getSQL(ParamType.INLINED));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -73,7 +73,7 @@ public class SQLDataContext implements DataContext {
                     .where(field_groupId.eq(request.getGroupId()))
                     .and(field_userId.eq(request.getUserId()));
 
-            ResultSet set = conn.createStatement().executeQuery(query.getSQL());
+            ResultSet set = conn.createStatement().executeQuery(query.getSQL(ParamType.INLINED));
 
             return constructUser(set);
         } catch (SQLException e) {
@@ -89,7 +89,7 @@ public class SQLDataContext implements DataContext {
             Query query = context.selectFrom(table)
                     .where(field_groupId.eq(request.getGroupId()));
 
-            ResultSet set = conn.createStatement().executeQuery(query.getSQL());
+            ResultSet set = conn.createStatement().executeQuery(query.getSQL(ParamType.INLINED));
             List<User> users = new ArrayList<>();
 
             while (set.next()) {
@@ -113,7 +113,7 @@ public class SQLDataContext implements DataContext {
                     .where(field_groupId.eq(request.getGroupId()))
                     .and(field_userId.eq(request.getUserId()));
 
-            conn.createStatement().executeUpdate(query.getSQL());
+            conn.createStatement().executeUpdate(query.getSQL(ParamType.INLINED));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -126,7 +126,7 @@ public class SQLDataContext implements DataContext {
                     .where(field_groupId.eq(request.getGroupId()))
                     .and(field_userId.eq(request.getUserId()));
 
-            conn.createStatement().executeUpdate(query.getSQL());
+            conn.createStatement().executeUpdate(query.getSQL(ParamType.INLINED));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -138,7 +138,7 @@ public class SQLDataContext implements DataContext {
             Query query = context.deleteFrom(table)
                     .where(field_groupId.eq(request.getGroupId()));
 
-            conn.createStatement().executeUpdate(query.getSQL());
+            conn.createStatement().executeUpdate(query.getSQL(ParamType.INLINED));
         } catch (SQLException e) {
             e.printStackTrace();
         }
