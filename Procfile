@@ -1,1 +1,1 @@
-web: java -jar build/libs/GarbageCan.jar
+worker: java -jar build/libs/GarbageCan.jar
