@@ -35,7 +35,7 @@ dependencies {
     implementation 'fyi.sorenneedscoffee:xputil:0.0.6'
 
     //for db interactions
-    implementation 'org.mariadb.jdbc:mariadb-java-client:2.1.2'
+    implementation 'mysql:mysql-connector-java:5.1.6'
     implementation 'org.jooq:jooq:3.13.1'
 
     //logs, etc.
