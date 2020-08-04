@@ -21,15 +21,8 @@ public class ViewWarningCmd extends Command {
     @Override
     protected void execute(CommandEvent event) {
         String args = event.getArgs();
-        int targetId;
-        try {
-            targetId = Integer.parseInt(args);
-        } catch (NumberFormatException e) {
-            event.replyError("Invalid id provided.");
-            return;
-        }
 
-        Warning warning = WarningUtil.getWarning(targetId);
+        Warning warning = WarningUtil.getWarning(args);
         if (warning == null) {
             event.replyError("Something went wrong, is the ID correct?");
             return;

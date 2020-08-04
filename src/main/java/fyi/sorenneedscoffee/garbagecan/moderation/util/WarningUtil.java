@@ -7,16 +7,20 @@ import net.dv8tion.jda.api.utils.MarkdownUtil;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 /**
  * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
  */
 public class WarningUtil {
-    static final int uniqueAllowed = 4;
-    static final int similarAllowed = 3;
-    static final int uniqueAllowedPostKick = uniqueAllowed + 2;
+    private static final int UNIQUE_ALLOWED = 4;
+    private static final int SIMILAR_ALLOWED = 3;
+    private static final int UNIQUE_ALLOWED_POST_KICK = UNIQUE_ALLOWED + 2;
+    private static final int ID_LENGTH = 8;
+    private static final char[] ALPHANUMERIC = "1234567890abcdefghijklmnopqrstuvwxyz".toCharArray();
 
     private static final DataContext context = ModUtil.context;
+    private static final Random random = new Random();
 
     public static WarningResult addWarning(String uId, int offenseType, String comments) {
         Warning warning = ModUtil.context.addWarning(uId, offenseType, comments);
@@ -28,7 +32,7 @@ public class WarningUtil {
 
         if (context.isOnKickList(uId)) {
             if (!warning.getOffenseType().equals(OffenseType.MISC) &&
-                    context.getWarnings(uId, false).size() == uniqueAllowedPostKick) {
+                    context.getWarnings(uId, false).size() == UNIQUE_ALLOWED_POST_KICK) {
                 result = WarningResult.BAN_ACTION;
             } else {
                 result = WarningResult.NO_ACTION;
@@ -36,8 +40,8 @@ public class WarningUtil {
             result.previouslyKicked = true;
         } else {
             if (!warning.getOffenseType().equals(OffenseType.MISC) &&
-                    context.getWarnings(uId, false).size() == uniqueAllowed ||
-                    context.getSimilarWarnings(warning).size() == similarAllowed - 1) {
+                    context.getWarnings(uId, false).size() == UNIQUE_ALLOWED ||
+                    context.getSimilarWarnings(warning).size() == SIMILAR_ALLOWED - 1) {
                 context.addUserToKicklist(uId);
                 result = WarningResult.KICK_ACTION;
             } else {
@@ -50,7 +54,7 @@ public class WarningUtil {
         return result;
     }
 
-    public static Warning getWarning(int id) {
+    public static Warning getWarning(String id) {
         return context.getWarning(id);
     }
 
@@ -77,7 +81,7 @@ public class WarningUtil {
             int remaining;
 
             try {
-                remaining = uniqueAllowedPostKick - Objects.requireNonNull(context.getWarnings(current.getuId(), false)).size();
+                remaining = UNIQUE_ALLOWED_POST_KICK - Objects.requireNonNull(context.getWarnings(current.getuId(), false)).size();
             } catch (NullPointerException e) {
                 return "";
             }
@@ -94,8 +98,8 @@ public class WarningUtil {
             int similarRemaining;
 
             try {
-                uniqueRemaining = uniqueAllowed - Objects.requireNonNull(context.getWarnings(current.getuId(), false)).size();
-                similarRemaining = similarAllowed - Objects.requireNonNull(context.getSimilarWarnings(current)).size();
+                uniqueRemaining = UNIQUE_ALLOWED - Objects.requireNonNull(context.getWarnings(current.getuId(), false)).size();
+                similarRemaining = SIMILAR_ALLOWED - Objects.requireNonNull(context.getSimilarWarnings(current)).size();
             } catch (NullPointerException e) {
                 return "";
             }
@@ -138,5 +142,13 @@ public class WarningUtil {
         }
 
         return result;
+    }
+
+    public static String generateNewId() {
+        char[] result = new char[ID_LENGTH];
+        for (int i = 0; i < ID_LENGTH; i++) {
+            result[i] = ALPHANUMERIC[random.nextInt(ALPHANUMERIC.length)];
+        }
+        return new String(result);
     }
 }

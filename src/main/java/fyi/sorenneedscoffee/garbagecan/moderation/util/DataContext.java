@@ -34,7 +34,7 @@ public class DataContext {
     private final Field<String> kField_id;
 
     private final Table<Record> mTable;
-    private final Field<Integer> mField_id;
+    private final Field<String> mField_id;
     private final Field<Timestamp> mField_creation_time;
     private final Field<String> mField_user_id;
     private final Field<Integer> mField_offense_id;
@@ -56,7 +56,7 @@ public class DataContext {
         kField_id = field("id", String.class);
 
         mTable = table("moderation_cases");
-        mField_id = field("id", Integer.class);
+        mField_id = field("id", String.class);
         mField_creation_time = field("creation_time", Timestamp.class);
         mField_user_id = field("user_id", String.class);
         mField_offense_id = field("offense_id", Integer.class);
@@ -69,21 +69,19 @@ public class DataContext {
         Timestamp stamp = Timestamp.valueOf(ModUtil.formatter.withZone(ZoneOffset.UTC).format(Instant.now()));
 
         try (Connection conn = DriverManager.getConnection(url, creds[0], creds[1])) {
-            DSLContext context = DSL.using(conn, SQLDialect.MARIADB);
+            String id = WarningUtil.generateNewId();
 
-            Result<?> result = context.insertInto(mTable,
+            Query query = context.insertInto(mTable,
+                    mField_id,
                     mField_user_id,
                     mField_creation_time,
                     mField_offense_id,
                     mField_additional_comments)
-                    .values(uId, stamp, offenseType, additionalComments)
-                    .returning()
-                    .fetch();
+                    .values(id, uId, stamp, offenseType, additionalComments);
 
-            if (result.isEmpty())
-                return null;
+            conn.createStatement().executeQuery(query.getSQL(ParamType.INLINED));
 
-            return getWarning(result.getValue(0, mField_id));
+            return getWarning(id);
         } catch (SQLException e) {
             log.error("JDBC experienced the following error:" + ExceptionUtils.getMessage(e) + " Please see below for details");
             log.error(ExceptionUtils.getStackTrace(e));
@@ -113,7 +111,7 @@ public class DataContext {
         }
     }
 
-    public Warning getWarning(int id) {
+    public Warning getWarning(String id) {
         try (Connection conn = DriverManager.getConnection(url, creds[0], creds[1])) {
             ResultSet set = conn.createStatement().executeQuery(
                     context.select()
@@ -125,7 +123,7 @@ public class DataContext {
             if (!set.next())
                 return null;
 
-            return new Warning(set.getInt("id"),
+            return new Warning(set.getString("id"),
                     set.getString("user_id"),
                     OffenseType.getTypeById(set.getInt("offense_id")),
                     set.getString("additional_comments"),
@@ -151,7 +149,7 @@ public class DataContext {
 
             while (set.next()) {
                 warnings.add(
-                        new Warning(set.getInt("id"),
+                        new Warning(set.getString("id"),
                                 set.getString("user_id"),
                                 OffenseType.getTypeById(set.getInt("offense_id")),
                                 set.getString("additional_comments"),
@@ -186,7 +184,7 @@ public class DataContext {
             while (set.next()) {
                 if (!set.getString("user_id").equals(warning.getuId()))
                     warnings.add(
-                            new Warning(set.getInt("id"),
+                            new Warning(set.getString("id"),
                                     set.getString("user_id"),
                                     OffenseType.getTypeById(set.getInt("offense_id")),
                                     set.getString("additional_comments"),

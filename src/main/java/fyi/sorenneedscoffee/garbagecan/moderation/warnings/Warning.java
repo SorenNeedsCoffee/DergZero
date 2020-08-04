@@ -5,18 +5,19 @@ import fyi.sorenneedscoffee.garbagecan.moderation.util.ModUtil;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
  */
 public class Warning {
-    private final int id;
+    private final String id;
     private final String uId;
     private final OffenseType offenseType;
     private final String additionalComments;
     private final Timestamp creationTime;
 
-    public Warning(int id, String uId, OffenseType offenseType, String additionalComments, Timestamp creationTime) {
+    public Warning(String id, String uId, OffenseType offenseType, String additionalComments, Timestamp creationTime) {
         this.id = id;
         this.uId = uId;
         this.offenseType = offenseType;
@@ -25,14 +26,14 @@ public class Warning {
     }
 
     public Warning() {
-        this.id = -1;
+        this.id = "";
         this.uId = "";
         this.offenseType = null;
         this.additionalComments = "";
         this.creationTime = Timestamp.valueOf(LocalDateTime.MIN);
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -57,7 +58,7 @@ public class Warning {
         if (!obj.getClass().equals(Warning.class))
             return false;
 
-        return ((Warning) obj).getId() == this.id;
+        return Objects.equals(((Warning) obj).getId(), this.id);
     }
 
     public String toString() {
