@@ -24,6 +24,11 @@ public class ViewWarningsCmd extends ModCommand {
         String args = event.getArgs();
         User target = ModUtil.getTarget(args);
 
+        if (target == null) {
+            event.replyError("Please provide a user to target");
+            return;
+        }
+
         var warnings = WarningUtil.getWarnings(target.getId(), true);
 
         StringBuilder sb = new StringBuilder();

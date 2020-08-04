@@ -55,7 +55,7 @@ public class DataContext {
         kTable = table("kick_list");
         kField_id = field("id", String.class);
 
-        mTable = table("kick_list");
+        mTable = table("moderation_cases");
         mField_id = field("id", Integer.class);
         mField_creation_time = field("creation_time", Timestamp.class);
         mField_user_id = field("user_id", String.class);
@@ -69,19 +69,21 @@ public class DataContext {
         Timestamp stamp = Timestamp.valueOf(ModUtil.formatter.withZone(ZoneOffset.UTC).format(Instant.now()));
 
         try (Connection conn = DriverManager.getConnection(url, creds[0], creds[1])) {
+            DSLContext context = DSL.using(conn, SQLDialect.MARIADB);
 
-            Query query = context.insertInto(mTable,
+            Result<?> result = context.insertInto(mTable,
                     mField_user_id,
                     mField_creation_time,
                     mField_offense_id,
                     mField_additional_comments)
                     .values(uId, stamp, offenseType, additionalComments)
-                    .returning(mField_id);
+                    .returning()
+                    .fetch();
 
-            ResultSet set = conn.createStatement().executeQuery(query.getSQL(ParamType.INLINED));
-            set.first();
+            if (result.isEmpty())
+                return null;
 
-            return getWarning(set.getInt("id"));
+            return getWarning(result.getValue(0, mField_id));
         } catch (SQLException e) {
             log.error("JDBC experienced the following error:" + ExceptionUtils.getMessage(e) + " Please see below for details");
             log.error(ExceptionUtils.getStackTrace(e));

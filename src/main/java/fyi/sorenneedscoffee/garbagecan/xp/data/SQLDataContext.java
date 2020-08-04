@@ -75,6 +75,9 @@ public class SQLDataContext implements DataContext {
 
             ResultSet set = conn.createStatement().executeQuery(query.getSQL(ParamType.INLINED));
 
+            if (!set.next())
+                return null;
+
             return constructUser(set);
         } catch (SQLException e) {
             e.printStackTrace();

@@ -58,10 +58,10 @@ public class WarnCmd extends ModCommand {
             return;
         }
 
-        if (target.equals(event.getAuthor())) {
-            event.replyWarning("You shouldn't be warning yourself.");
-            return;
-        }
+//        if (target.equals(event.getAuthor())) {
+//            event.replyWarning("You shouldn't be warning yourself.");
+//            return;
+//        }
 
         if (OffenseType.getTypeById(offenseType) == null) {
             event.replyError("Invalid offense type.");
