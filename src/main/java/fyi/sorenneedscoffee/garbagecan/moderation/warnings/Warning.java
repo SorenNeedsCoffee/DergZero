@@ -1,6 +1,5 @@
 package fyi.sorenneedscoffee.garbagecan.moderation.warnings;
 
-import fyi.sorenneedscoffee.garbagecan.moderation.db.tables.records.ModerationCasesRecord;
 import fyi.sorenneedscoffee.garbagecan.moderation.util.ModUtil;
 
 import java.sql.ResultSet;

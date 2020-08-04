@@ -160,16 +160,6 @@ public class Main {
                 LoggerFactory.getLogger("Main").info("Shutting down...");
                 shutdown();
             }));
-
-            Console console = System.console();
-            Thread th = new Thread(() -> {
-                while (true) {
-                    String in = console.readLine();
-                    if ("shutdown".equals(in))
-                        System.exit(0);
-                }
-            });
-            th.start();
         }
     }
 }

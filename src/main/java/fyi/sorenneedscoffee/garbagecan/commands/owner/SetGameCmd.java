@@ -36,7 +36,7 @@ public class SetGameCmd extends OwnerCommand {
     }
 
     public static class SetstreamCmd extends OwnerCommand {
-        private SetstreamCmd() {
+        public SetstreamCmd() {
             this.name = "stream";
             this.aliases = new String[]{"twitch", "streaming"};
             this.help = "sets the game the bot is playing to a stream";
@@ -62,7 +62,7 @@ public class SetGameCmd extends OwnerCommand {
     }
 
     public static class SetlistenCmd extends OwnerCommand {
-        private SetlistenCmd() {
+        public SetlistenCmd() {
             this.name = "listen";
             this.aliases = new String[]{"listening"};
             this.help = "sets the game the bot is listening to";
@@ -87,7 +87,7 @@ public class SetGameCmd extends OwnerCommand {
     }
 
     public static class SetwatchCmd extends OwnerCommand {
-        private SetwatchCmd() {
+        public SetwatchCmd() {
             this.name = "watch";
             this.aliases = new String[]{"watching"};
             this.help = "sets the game the bot is watching";

@@ -34,7 +34,7 @@ public class BoosterManager {
     public BoosterManager() {
         this.guild = Main.jda.getGuildById("442552203694047232");
 
-        context = new DataContext(Main.config.dbUrl);
+        context = new DataContext("jdbc:" + Main.config.dbUrl);
 
         queue = new ArrayBlockingQueue<>(50, true, context.getQueue());
 
@@ -182,7 +182,6 @@ public class BoosterManager {
 
                 if (!countdown.equals(countdownCache) && !rateLimit) {
                     updateName(String.format("%.2f", booster.multiplier) + "x [" + countdown + "]", booster);
-                    System.out.println(String.format("%.2f", booster.multiplier) + "x [" + countdown + "]");
                     countdownCache = countdown;
                 }
             }

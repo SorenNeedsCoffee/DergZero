@@ -14,8 +14,9 @@ import java.sql.Statement;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import static fyi.sorenneedscoffee.garbagecan.moderation.db.Tables.*;
 import static org.jooq.impl.DSL.field;
 import static org.jooq.impl.DSL.table;
 
@@ -25,6 +26,7 @@ import static org.jooq.impl.DSL.table;
  */
 public class DataContext {
     private final String url;
+    private final String[] creds;
     private final DSLContext context = DSL.using(SQLDialect.MYSQL);
     private final Logger log;
 
@@ -41,7 +43,12 @@ public class DataContext {
     private final Table<Record> nTable;
 
     public DataContext(String url) {
-        this.url = "jdbc:" + url;
+        this.url = url.replaceAll("(\\w+:\\w+)@", "");
+        Matcher matcher = Pattern.compile("(\\w+:\\w+)@")
+                .matcher(url);
+        if (!matcher.find())
+            throw new IllegalArgumentException("No username or password was found");
+        creds = matcher.group(1).split(":");
 
         log = LoggerFactory.getLogger("DataContext");
 
@@ -61,7 +68,7 @@ public class DataContext {
     public Warning addWarning(String uId, int offenseType, String additionalComments) {
         Timestamp stamp = Timestamp.valueOf(ModUtil.formatter.withZone(ZoneOffset.UTC).format(Instant.now()));
 
-        try (Connection conn = DriverManager.getConnection(url)) {
+        try (Connection conn = DriverManager.getConnection(url, creds[0], creds[1])) {
 
             Query query = context.insertInto(mTable,
                     mField_user_id,
@@ -69,7 +76,7 @@ public class DataContext {
                     mField_offense_id,
                     mField_additional_comments)
                     .values(uId, stamp, offenseType, additionalComments)
-                    .returning(MODERATION_CASES.ID);
+                    .returning(mField_id);
 
             ResultSet set = conn.createStatement().executeQuery(query.getSQL(ParamType.INLINED));
             set.first();
@@ -84,18 +91,18 @@ public class DataContext {
     }
 
     public void clearModerationHistory(String uId) {
-        try (Connection conn = DriverManager.getConnection(url)) {
+        try (Connection conn = DriverManager.getConnection(url, creds[0], creds[1])) {
             Statement statement = conn.createStatement();
 
             statement.executeUpdate(
-                context.delete(MODERATION_CASES)
-                    .where(MODERATION_CASES.USER_ID.eq(uId))
+                context.delete(mTable)
+                    .where(mField_user_id.eq(uId))
                     .getSQL(ParamType.INLINED)
             );
 
             statement.executeUpdate(
-                    context.delete(KICK_LIST)
-                            .where(KICK_LIST.ID.eq(uId))
+                    context.delete(kTable)
+                            .where(kField_id.eq(uId))
                             .getSQL(ParamType.INLINED)
             );
         } catch (SQLException e) {
@@ -105,7 +112,7 @@ public class DataContext {
     }
 
     public Warning getWarning(int id) {
-        try (Connection conn = DriverManager.getConnection(url)) {
+        try (Connection conn = DriverManager.getConnection(url, creds[0], creds[1])) {
             ResultSet set = conn.createStatement().executeQuery(
                     context.select()
                             .from(mTable)
@@ -131,7 +138,7 @@ public class DataContext {
     }
 
     public List<Warning> getWarnings(String uId, boolean includeMisc) {
-        try (Connection conn = DriverManager.getConnection(url)) {
+        try (Connection conn = DriverManager.getConnection(url, creds[0], creds[1])) {
             Query query = context.select()
                     .from(mTable)
                     .where(mField_user_id.eq(uId));
@@ -164,7 +171,7 @@ public class DataContext {
     }
 
     public List<Warning> getSimilarWarnings(Warning warning) {
-        try (Connection conn = DriverManager.getConnection(url)) {
+        try (Connection conn = DriverManager.getConnection(url, creds[0], creds[1])) {
             Query query = context.select()
                     .from(mTable)
                     .where(mField_user_id.eq(warning.getuId()))
@@ -196,9 +203,9 @@ public class DataContext {
     }
 
     public void addUserToKicklist(String uId) {
-        try (Connection conn = DriverManager.getConnection(url)) {
+        try (Connection conn = DriverManager.getConnection(url, creds[0], creds[1])) {
             conn.createStatement().executeUpdate(
-                context.insertInto(KICK_LIST, KICK_LIST.ID)
+                context.insertInto(kTable, kField_id)
                     .values(uId)
                     .getSQL(ParamType.INLINED)
             );
@@ -209,7 +216,7 @@ public class DataContext {
     }
 
     public boolean isOnKickList(String uId) {
-        try (Connection conn = DriverManager.getConnection(url)) {
+        try (Connection conn = DriverManager.getConnection(url, creds[0], creds[1])) {
             Query result = context.select()
                     .from(kTable)
                     .where(kField_id.eq(uId));
@@ -230,7 +237,7 @@ public class DataContext {
             return Collections.emptySet();
         }
 
-        try (Connection conn = DriverManager.getConnection(url)) {
+        try (Connection conn = DriverManager.getConnection(url, creds[0], creds[1])) {
             Query query = context.select()
                     .from(nTable);
 
@@ -238,9 +245,10 @@ public class DataContext {
 
             HashMap<String, List<String>> words = new HashMap<>();
             while (set.next()) {
+                String exceptions = set.getString("exceptions");
                 words.put(
                     set.getString("word"),
-                    Arrays.asList(set.getString("exceptions").split(","))
+                    exceptions == null ? null : Arrays.asList(exceptions.split(","))
                 );
             }
 

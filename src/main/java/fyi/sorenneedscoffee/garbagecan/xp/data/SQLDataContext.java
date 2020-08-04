@@ -14,6 +14,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.jooq.impl.DSL.field;
 import static org.jooq.impl.DSL.table;
@@ -21,6 +23,8 @@ import static org.jooq.impl.DSL.table;
 public class SQLDataContext implements DataContext {
     private final DSLContext context = DSL.using(SQLDialect.MYSQL);
     private final String url;
+    private final String[] creds;
+
     private final Table<Record> table;
     private final Field<String> field_groupId;
     private final Field<String> field_userId;
@@ -28,10 +32,15 @@ public class SQLDataContext implements DataContext {
     private final Field<Double> field_xp;
 
     public SQLDataContext(String url) {
-        this.url = url;
+        this.url = url.replaceAll("(\\w+:\\w+)@", "");
+        Matcher matcher = Pattern.compile("(\\w+:\\w+)@")
+                .matcher(url);
+        if (!matcher.find())
+            throw new IllegalArgumentException("No username or password was found");
+        creds = matcher.group(1).split(":");
 
         try {
-            if (!DriverManager.getConnection(url).isValid(0))
+            if (!DriverManager.getConnection(this.url, creds[0], creds[1]).isValid(0))
                 throw new IllegalArgumentException();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -46,7 +55,7 @@ public class SQLDataContext implements DataContext {
 
     @Override
     public void saveMember(SaveMemberRequest request) {
-        try(Connection conn = DriverManager.getConnection(url)) {
+        try(Connection conn = DriverManager.getConnection(url, creds[0], creds[1])) {
             Query query = context.insertInto(table,
                     field_groupId, field_userId, field_lvl, field_xp)
                     .values(request.getGroupId(), request.getUserId(), 1, 0.0);
@@ -59,7 +68,7 @@ public class SQLDataContext implements DataContext {
 
     @Override
     public User retrieveMember(RetrieveMemberRequest request) {
-        try(Connection conn = DriverManager.getConnection(url)) {
+        try(Connection conn = DriverManager.getConnection(url, creds[0], creds[1])) {
             Query query = context.selectFrom(table)
                     .where(field_groupId.eq(request.getGroupId()))
                     .and(field_userId.eq(request.getUserId()));
@@ -76,7 +85,7 @@ public class SQLDataContext implements DataContext {
 
     @Override
     public Group retrieveGroup(RetrieveGroupRequest request) {
-        try(Connection conn = DriverManager.getConnection(url)) {
+        try(Connection conn = DriverManager.getConnection(url, creds[0], creds[1])) {
             Query query = context.selectFrom(table)
                     .where(field_groupId.eq(request.getGroupId()));
 
@@ -97,7 +106,7 @@ public class SQLDataContext implements DataContext {
 
     @Override
     public void updateMember(UpdateMemberRequest request) {
-        try(Connection conn = DriverManager.getConnection(url)) {
+        try(Connection conn = DriverManager.getConnection(url, creds[0], creds[1])) {
             Query query = context.update(table)
                     .set(field_lvl, request.getNewLevel())
                     .set(field_xp, request.getNewXp())
@@ -112,7 +121,7 @@ public class SQLDataContext implements DataContext {
 
     @Override
     public void removeMember(RemoveMemberRequest request) {
-        try(Connection conn = DriverManager.getConnection(url)) {
+        try(Connection conn = DriverManager.getConnection(url, creds[0], creds[1])) {
             Query query = context.deleteFrom(table)
                     .where(field_groupId.eq(request.getGroupId()))
                     .and(field_userId.eq(request.getUserId()));
@@ -125,7 +134,7 @@ public class SQLDataContext implements DataContext {
 
     @Override
     public void removeGroup(RemoveGroupRequest request) {
-        try(Connection conn = DriverManager.getConnection(url)) {
+        try(Connection conn = DriverManager.getConnection(url, creds[0], creds[1])) {
             Query query = context.deleteFrom(table)
                     .where(field_groupId.eq(request.getGroupId()));
 

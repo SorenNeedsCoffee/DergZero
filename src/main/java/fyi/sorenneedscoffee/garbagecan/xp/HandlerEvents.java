@@ -1,5 +1,6 @@
 package fyi.sorenneedscoffee.garbagecan.xp;
 
+import fyi.sorenneedscoffee.garbagecan.Main;
 import fyi.sorenneedscoffee.garbagecan.moderation.util.DataContext;
 import fyi.sorenneedscoffee.garbagecan.moderation.util.ModUtil;
 import fyi.sorenneedscoffee.xputil.events.message.MessageEvent;
@@ -40,7 +41,7 @@ public class HandlerEvents extends ListenerAdapter {
         if (!ModUtil.context.findNoNoWords(event.getMessage().getContentStripped()).isEmpty())
             return;
 
-        if (event.getMessage().getContentDisplay().startsWith("!>") ||
+        if (event.getMessage().getContentDisplay().startsWith(Main.config.prefix) ||
                 event.getMessage().getContentDisplay().isEmpty() ||
                 event.getChannel().getId().equals("442555652359979009") ||
                 event.getChannel().getId().equals("506503200866697226"))

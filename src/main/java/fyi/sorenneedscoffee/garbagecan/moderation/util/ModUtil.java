@@ -18,7 +18,7 @@ public class ModUtil {
     public static DataContext context;
 
     public static void init() {
-        context = new DataContext(Main.config.dbUrl);
+        context = new DataContext("jdbc:" + Main.config.dbUrl);
     }
 
     public static User getTarget(String uId) {

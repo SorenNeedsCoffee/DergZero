@@ -12,6 +12,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.jooq.impl.DSL.field;
 import static org.jooq.impl.DSL.table;
@@ -23,6 +25,7 @@ public class DataContext {
     private final DSLContext context;
     private final Random random = new Random();
     private final String url;
+    private final String[] creds;
 
     private final Table<Record> aTable;
     private final Field<String> aField_slot_id;
@@ -43,7 +46,12 @@ public class DataContext {
     private final Field<String> uField_time_unit;
 
     public DataContext(String url) {
-        this.url = "jdbc:" + url;
+        this.url = url.replaceAll("(\\w+:\\w+)@", "");
+        Matcher matcher = Pattern.compile("(\\w+:\\w+)@")
+                .matcher(url);
+        if (!matcher.find())
+            throw new IllegalArgumentException("No username or password was found");
+        creds = matcher.group(1).split(":");
 
         this.context = DSL.using(SQLDialect.MARIADB);
 
@@ -68,7 +76,7 @@ public class DataContext {
 
 
     public List<QueuedBooster> getQueue() {
-        try (Connection conn = DriverManager.getConnection(url)) {
+        try (Connection conn = DriverManager.getConnection(url, creds[0], creds[1])) {
             Query query = context.selectFrom(qTable);
 
             ResultSet set = conn.createStatement().executeQuery(query.getSQL(ParamType.INLINED));
@@ -95,7 +103,7 @@ public class DataContext {
     }
 
     public List<Booster> getBoosters() {
-        try (Connection conn = DriverManager.getConnection(url)) {
+        try (Connection conn = DriverManager.getConnection(url, creds[0], creds[1])) {
             Query query = context.selectFrom(aTable);
 
             ResultSet set = conn.createStatement().executeQuery(query.getSQL(ParamType.INLINED));
@@ -120,7 +128,7 @@ public class DataContext {
     }
 
     public void saveActiveBooster(Booster booster) {
-        try (Connection conn = DriverManager.getConnection(url)) {
+        try (Connection conn = DriverManager.getConnection(url, creds[0], creds[1])) {
             Query query = context.insertInto(aTable, aField_slot_id, aField_multiplier, aField_expiration)
                     .values(booster.slotId, booster.multiplier, Timestamp.valueOf(booster.expiration));
 
@@ -131,7 +139,7 @@ public class DataContext {
     }
 
     public void removeActiveBooster(String slotId) {
-        try (Connection conn = DriverManager.getConnection(url)) {
+        try (Connection conn = DriverManager.getConnection(url, creds[0], creds[1])) {
             Query query = context.delete(aTable)
                     .where(aField_slot_id.eq(slotId));
 
@@ -142,7 +150,7 @@ public class DataContext {
     }
 
     public void saveQueuedBooster(QueuedBooster booster) {
-        try (Connection conn = DriverManager.getConnection(url)) {
+        try (Connection conn = DriverManager.getConnection(url, creds[0], creds[1])) {
             Query query = context.insertInto(qTable, qField_id, qField_multiplier, qField_duration, qField_time_unit)
                     .values(booster.id, booster.multiplier, booster.duration, booster.unit.name());
 
@@ -153,7 +161,7 @@ public class DataContext {
     }
 
     public void removeQueuedBooster(int id) {
-        try (Connection conn = DriverManager.getConnection(url)) {
+        try (Connection conn = DriverManager.getConnection(url, creds[0], creds[1])) {
             Query query = context.deleteFrom(qTable)
                     .where(qField_id.eq(id));
 
@@ -164,7 +172,7 @@ public class DataContext {
     }
 
     public void saveUserBooster(UserBooster booster) {
-        try (Connection conn = DriverManager.getConnection(url)) {
+        try (Connection conn = DriverManager.getConnection(url, creds[0], creds[1])) {
             Query query = context.insertInto(uTable, uField_id, uField_user_id, uField_multiplier, uField_duration, uField_time_unit)
                     .values(booster.id, booster.userId, booster.multiplier, booster.duration, booster.unit.name());
 
@@ -175,7 +183,7 @@ public class DataContext {
     }
 
     public UserBooster getUserBooster(int id) {
-        try (Connection conn = DriverManager.getConnection(url)) {
+        try (Connection conn = DriverManager.getConnection(url, creds[0], creds[1])) {
             Query query = context.selectFrom(uTable)
                     .where(uField_id.eq(id));
 
@@ -197,7 +205,7 @@ public class DataContext {
     }
 
     public List<UserBooster> getUserBoosters(String uId) {
-        try (Connection conn = DriverManager.getConnection(url)) {
+        try (Connection conn = DriverManager.getConnection(url, creds[0], creds[1])) {
             Query query = context.selectFrom(uTable)
                     .where(uField_user_id.eq(uId));
 
@@ -226,7 +234,7 @@ public class DataContext {
     }
 
     public void removeUserBooster(int id) {
-        try (Connection conn = DriverManager.getConnection(url)) {
+        try (Connection conn = DriverManager.getConnection(url, creds[0], creds[1])) {
             Query query = context.deleteFrom(uTable)
                     .where(uField_id.eq(id));
 
@@ -245,7 +253,7 @@ public class DataContext {
     }
 
     private int generateId(Table<Record> uTable, Field<Integer> uField_id) {
-        try (Connection conn = DriverManager.getConnection(url)) {
+        try (Connection conn = DriverManager.getConnection(url, creds[0], creds[1])) {
             DSLContext temp = DSL.using(conn);
             boolean isValid = false;
             int newId = 0;

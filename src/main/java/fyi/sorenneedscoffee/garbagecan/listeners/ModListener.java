@@ -1,5 +1,6 @@
 package fyi.sorenneedscoffee.garbagecan.listeners;
 
+import fyi.sorenneedscoffee.garbagecan.Main;
 import fyi.sorenneedscoffee.garbagecan.moderation.util.DataContext;
 import fyi.sorenneedscoffee.garbagecan.moderation.util.ModUtil;
 import fyi.sorenneedscoffee.garbagecan.moderation.util.WarningUtil;
@@ -26,7 +27,7 @@ public class ModListener extends ListenerAdapter {
 
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
-        if (event.getAuthor().isBot() || event.getAuthor().isFake())
+        if (event.getAuthor().isBot() || event.getMessage().getContentDisplay().startsWith(Main.config.prefix))
             return;
 
         User target = event.getAuthor();
