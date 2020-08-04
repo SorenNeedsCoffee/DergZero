@@ -27,11 +27,11 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
 
     //discord libraries
-    implementation 'com.jagrosh:jda-utilities:3.0.3'
-    implementation ('net.dv8tion:JDA:4.1.1_+') {
+    implementation 'com.jagrosh:jda-utilities:3.0.4'
+    implementation ('net.dv8tion:JDA:4.2.0_+') {
         exclude module: 'opus-java'
     }
-    implementation 'club.minnced:discord-webhooks:0.2.0'
+    implementation 'club.minnced:discord-webhooks:0.3.1'
     implementation 'fyi.sorenneedscoffee:xputil:0.0.6'
 
     //for db interactions
@@ -41,6 +41,7 @@ dependencies {
     //logs, etc.
     implementation 'ch.qos.logback:logback-classic:1.2.3'
     implementation 'org.apache.commons:commons-lang3:3.5'
+    implementation 'org.reflections:reflections:0.9.12'
     implementation 'org.decimal4j:decimal4j:1.0.3'
     implementation 'com.google.guava:guava:28.0-jre'
 }
@@ -52,10 +53,18 @@ sourceCompatibility = '11'
 jar {
     manifest {
         attributes (
-            'Main-Class': 'fyi.sorenneedscoffee.derg_zero.DergZero',
-            'Implementation-Title':   'DergZero',
+            'Main-Class': 'fyi.sorenneedscoffee.garbagecan.Main',
+            'Implementation-Title':   'GarbageCan',
             'Implementation-Version': '2.0'
         )
+    }
+}
+
+shadowJar {
+    classifier null
+    archiveName 'GarbageCan.jar'
+    minimize {
+        exclude(dependency('net.dv8tion:.*:.*'))
     }
 }
 
