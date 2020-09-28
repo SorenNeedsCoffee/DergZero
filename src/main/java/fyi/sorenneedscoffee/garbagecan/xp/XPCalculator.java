@@ -1,6 +1,7 @@
 package fyi.sorenneedscoffee.garbagecan.xp;
 
 import fyi.sorenneedscoffee.garbagecan.Main;
+import fyi.sorenneedscoffee.garbagecan.boosters.BoosterManager;
 import fyi.sorenneedscoffee.garbagecan.boosters.data.models.Booster;
 import org.decimal4j.util.DoubleRounder;
 
@@ -23,7 +24,7 @@ public class XPCalculator implements fyi.sorenneedscoffee.xputil.calculator.XPCa
         length = Math.min(10, length);
         double preboost = length * (Math.abs(random.nextGaussian()) * 5 + 1);
 
-        for (Booster booster : Main.manager.boosters) {
+        for (Booster booster : BoosterManager.boosters) {
             if (booster != null)
                 preboost = preboost * booster.multiplier;
         }

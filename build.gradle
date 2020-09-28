@@ -32,14 +32,17 @@ dependencies {
         exclude module: 'opus-java'
     }
     implementation 'club.minnced:discord-webhooks:0.3.1'
-    implementation 'fyi.sorenneedscoffee:xputil:0.0.6'
+    implementation 'fyi.sorenneedscoffee:xputil:0.0.7'
 
     //for db interactions
     implementation 'org.mariadb.jdbc:mariadb-java-client:2.1.2'
     implementation 'org.jooq:jooq:3.13.1'
 
     //logs, etc.
+    implementation 'org.slf4j:slf4j-api:1.7.30'
+    implementation 'ch.qos.logback:logback-core:1.2.3'
     implementation 'ch.qos.logback:logback-classic:1.2.3'
+
     implementation 'org.apache.commons:commons-lang3:3.5'
     implementation 'org.reflections:reflections:0.9.12'
     implementation 'org.decimal4j:decimal4j:1.0.3'
