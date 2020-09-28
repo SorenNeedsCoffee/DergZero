@@ -1,7 +1,9 @@
-package fyi.sorenneedscoffee.garbagecan.moderation.util;
+package fyi.sorenneedscoffee.garbagecan.moderation.data;
 
-import fyi.sorenneedscoffee.garbagecan.moderation.warnings.OffenseType;
-import fyi.sorenneedscoffee.garbagecan.moderation.warnings.Warning;
+import fyi.sorenneedscoffee.garbagecan.moderation.util.ModUtil;
+import fyi.sorenneedscoffee.garbagecan.moderation.util.WarningUtil;
+import fyi.sorenneedscoffee.garbagecan.moderation.data.models.OffenseType;
+import fyi.sorenneedscoffee.garbagecan.moderation.data.models.Warning;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jooq.*;
 import org.jooq.conf.ParamType;

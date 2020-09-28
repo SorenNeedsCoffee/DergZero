@@ -1,8 +1,7 @@
-package fyi.sorenneedscoffee.garbagecan.moderation.warnings;
+package fyi.sorenneedscoffee.garbagecan.moderation.data.models;
 
 import fyi.sorenneedscoffee.garbagecan.moderation.util.ModUtil;
 
-import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Objects;

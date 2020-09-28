@@ -1,6 +1,7 @@
 package fyi.sorenneedscoffee.garbagecan.moderation.util;
 
 import fyi.sorenneedscoffee.garbagecan.Main;
+import fyi.sorenneedscoffee.garbagecan.moderation.data.DataContext;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;

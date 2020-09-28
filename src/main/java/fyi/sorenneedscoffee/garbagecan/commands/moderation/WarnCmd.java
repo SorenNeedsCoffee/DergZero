@@ -4,8 +4,8 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import fyi.sorenneedscoffee.garbagecan.commands.ModCommand;
 import fyi.sorenneedscoffee.garbagecan.moderation.util.ModUtil;
 import fyi.sorenneedscoffee.garbagecan.moderation.util.WarningUtil;
-import fyi.sorenneedscoffee.garbagecan.moderation.warnings.OffenseType;
-import fyi.sorenneedscoffee.garbagecan.moderation.warnings.WarningResult;
+import fyi.sorenneedscoffee.garbagecan.moderation.data.models.OffenseType;
+import fyi.sorenneedscoffee.garbagecan.moderation.data.models.WarningResult;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.exceptions.ErrorHandler;
 import net.dv8tion.jda.api.requests.ErrorResponse;
@@ -27,10 +27,13 @@ public class WarnCmd extends ModCommand {
 
     @Override
     protected void execute(CommandEvent event) {
+        event.getChannel().sendTyping().complete();
+
         if (event.getArgs().isEmpty()) {
             event.replyError("Invalid arguments.");
             return;
         }
+
         String[] args = event.getArgs().split(" ");
 
         User target = ModUtil.getTarget(args[0]);
@@ -57,11 +60,6 @@ public class WarnCmd extends ModCommand {
             event.replyError("That user doesn't exist.");
             return;
         }
-
-//        if (target.equals(event.getAuthor())) {
-//            event.replyWarning("You shouldn't be warning yourself.");
-//            return;
-//        }
 
         if (OffenseType.getTypeById(offenseType) == null) {
             event.replyError("Invalid offense type.");
@@ -91,7 +89,9 @@ public class WarnCmd extends ModCommand {
                 break;
             case ERROR:
                 event.replyError("There was a problem");
-                break;
+                return;
         }
+
+        event.reply("A warning with id " + result.getWarning().getId() + " has been issued.");
     }
 }

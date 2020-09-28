@@ -3,7 +3,7 @@ package fyi.sorenneedscoffee.garbagecan.commands.moderation;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import fyi.sorenneedscoffee.garbagecan.moderation.util.WarningUtil;
-import fyi.sorenneedscoffee.garbagecan.moderation.warnings.Warning;
+import fyi.sorenneedscoffee.garbagecan.moderation.data.models.Warning;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.utils.MarkdownUtil;
 
@@ -29,7 +29,7 @@ public class ViewWarningCmd extends Command {
         }
 
         if (event.getMember().hasPermission(Permission.MESSAGE_MANAGE)) {
-            event.replyInDm(MarkdownUtil.bold("Warning #" + warning.getId()) + "\n" +
+            event.reply(MarkdownUtil.bold("Warning #" + warning.getId()) + "\n" +
                     "\n" +
                     "Issued to " + event.getJDA().getUserById(warning.getuId()).getAsTag() + "\n" +
                     "\n" +

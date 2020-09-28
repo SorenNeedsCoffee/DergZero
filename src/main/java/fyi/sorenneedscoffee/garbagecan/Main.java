@@ -15,7 +15,7 @@ import fyi.sorenneedscoffee.garbagecan.listeners.chains.Hi;
 import fyi.sorenneedscoffee.garbagecan.moderation.util.ModUtil;
 import fyi.sorenneedscoffee.garbagecan.xp.HandlerEvents;
 import fyi.sorenneedscoffee.garbagecan.xp.XPCalculator;
-import fyi.sorenneedscoffee.garbagecan.xp.data.SQLDataContext;
+import fyi.sorenneedscoffee.garbagecan.xp.data.implementations.SQLDataContext;
 import fyi.sorenneedscoffee.garbagecan.xp.messages.MessageListener;
 import fyi.sorenneedscoffee.garbagecan.xp.messages.MessageListenerAdapter;
 import fyi.sorenneedscoffee.garbagecan.xp.roles.RoleListener;
@@ -37,7 +37,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import javax.security.auth.login.LoginException;
-import java.io.Console;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.concurrent.TimeUnit;

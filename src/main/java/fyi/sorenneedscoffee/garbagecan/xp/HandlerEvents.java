@@ -1,7 +1,6 @@
 package fyi.sorenneedscoffee.garbagecan.xp;
 
 import fyi.sorenneedscoffee.garbagecan.Main;
-import fyi.sorenneedscoffee.garbagecan.moderation.util.DataContext;
 import fyi.sorenneedscoffee.garbagecan.moderation.util.ModUtil;
 import fyi.sorenneedscoffee.xputil.events.message.MessageEvent;
 import fyi.sorenneedscoffee.xputil.events.user.JoinEvent;

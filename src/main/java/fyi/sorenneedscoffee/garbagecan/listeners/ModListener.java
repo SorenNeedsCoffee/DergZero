@@ -1,10 +1,9 @@
 package fyi.sorenneedscoffee.garbagecan.listeners;
 
 import fyi.sorenneedscoffee.garbagecan.Main;
-import fyi.sorenneedscoffee.garbagecan.moderation.util.DataContext;
 import fyi.sorenneedscoffee.garbagecan.moderation.util.ModUtil;
 import fyi.sorenneedscoffee.garbagecan.moderation.util.WarningUtil;
-import fyi.sorenneedscoffee.garbagecan.moderation.warnings.WarningResult;
+import fyi.sorenneedscoffee.garbagecan.moderation.data.models.WarningResult;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.ReadyEvent;

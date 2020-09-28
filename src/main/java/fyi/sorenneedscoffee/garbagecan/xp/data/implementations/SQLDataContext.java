@@ -1,4 +1,4 @@
-package fyi.sorenneedscoffee.garbagecan.xp.data;
+package fyi.sorenneedscoffee.garbagecan.xp.data.implementations;
 
 import fyi.sorenneedscoffee.xputil.data.DataContext;
 import fyi.sorenneedscoffee.xputil.data.models.Group;
@@ -58,7 +58,7 @@ public class SQLDataContext implements DataContext {
         try(Connection conn = DriverManager.getConnection(url, creds[0], creds[1])) {
             Query query = context.insertInto(table,
                     field_groupId, field_userId, field_lvl, field_xp)
-                    .values(request.getGroupId(), request.getUserId(), 1, 0.0);
+                    .values(request.getGroupId(), request.getUserId(), 0, 0.0);
 
             conn.createStatement().executeUpdate(query.getSQL(ParamType.INLINED));
         } catch (SQLException e) {

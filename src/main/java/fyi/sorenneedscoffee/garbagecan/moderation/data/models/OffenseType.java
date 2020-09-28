@@ -1,4 +1,4 @@
-package fyi.sorenneedscoffee.garbagecan.moderation.warnings;
+package fyi.sorenneedscoffee.garbagecan.moderation.data.models;
 
 /**
  * @author SorenNeedsCoffee (github.com/sorenneedscoffee)

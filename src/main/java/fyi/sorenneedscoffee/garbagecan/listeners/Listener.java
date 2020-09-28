@@ -40,7 +40,7 @@ public class Listener extends ListenerAdapter {
 
     @Override
     public void onGuildMemberJoin(GuildMemberJoinEvent event) {
-        if (!(event.getUser().isBot() || event.getUser().isFake())) {
+        if (!(event.getUser().isBot())) {
             event.getGuild().addRoleToMember(event.getMember(), Objects.requireNonNull(event.getGuild().getRoleById(id))).queue();
         }
     }
@@ -48,7 +48,7 @@ public class Listener extends ListenerAdapter {
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
         // do NOT remove this
-        if (event.getAuthor().isBot() || event.getAuthor().isFake())
+        if (event.getAuthor().isBot())
             return;
 
         if (event.getMessage().getContentDisplay().equalsIgnoreCase("cooked joesorensen") || event.getMessage().getContentDisplay().equalsIgnoreCase("cooked soren")) {

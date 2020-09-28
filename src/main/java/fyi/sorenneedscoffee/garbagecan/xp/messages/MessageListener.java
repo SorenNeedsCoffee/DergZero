@@ -10,6 +10,8 @@ import fyi.sorenneedscoffee.xputil.listener.XPListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.requests.RestAction;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.io.IOException;
@@ -25,42 +27,46 @@ public class MessageListener extends XPListener {
 
     @Override
     public void onLevelUp(LevelUpEvent event) {
-        Guild guild = jda.getGuildById(event.getGroupId());
-        User user = jda.getUserById(event.getUserId());
-
-        String name = guild.retrieveMember(user).complete().getEffectiveName();
-
-        TextChannel channel = MessageListenerAdapter.cache.get(new CacheKey(user, guild));
-
-
         try {
-            List<Webhook> hooks = new ArrayList<>(channel.retrieveWebhooks().complete());
-            if(hooks.size() == 10) {
-                RestAction<Void> action = hooks.get(0).delete();
-                hooks.remove(0);
-                for (Webhook temp : hooks) {
-                    action = action.flatMap((success) -> temp.delete());
+            Guild guild = jda.getGuildById(event.getGroupId());
+            User user = jda.getUserById(event.getUserId());
+
+            String name = guild.retrieveMember(user).complete().getEffectiveName();
+
+            TextChannel channel = MessageListenerAdapter.cache.get(new CacheKey(user, guild));
+
+
+            try {
+                List<Webhook> hooks = new ArrayList<>(channel.retrieveWebhooks().complete());
+                if(hooks.size() == 10) {
+                    RestAction<Void> action = hooks.get(0).delete();
+                    hooks.remove(0);
+                    for (Webhook temp : hooks) {
+                        action = action.flatMap((success) -> temp.delete());
+                    }
+                    action.queue();
                 }
-                action.queue();
+
+                Webhook hook = channel.createWebhook(name).setAvatar(Icon.from(new URL(user.getAvatarUrl()).openStream())).complete();
+
+                WebhookEmbedBuilder embed = new WebhookEmbedBuilder();
+                float[] rgb;
+
+                embed.setTitle(new WebhookEmbed.EmbedTitle("Level up!", null));
+                embed.setDescription("Congrats to " + name + " for reaching level " + event.getNewLevel() + "!");
+                rgb = Color.RGBtoHSB(204, 255, 94, null);
+                embed.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]).getRGB());
+
+                WebhookClient client = WebhookClient.withUrl(hook.getUrl());
+                client.send(embed.build())
+                        .thenAccept((message) -> {
+                            hook.delete().queue();
+                            client.close();
+                        });
+            } catch (IOException ignore) {
             }
-
-            Webhook hook = channel.createWebhook(name).setAvatar(Icon.from(new URL(user.getAvatarUrl()).openStream())).complete();
-
-            WebhookEmbedBuilder embed = new WebhookEmbedBuilder();
-            float[] rgb;
-
-            embed.setTitle(new WebhookEmbed.EmbedTitle("Level up!", null));
-            embed.setDescription("Congrats to " + name + " for reaching level " + event.getNewLevel() + "!");
-            rgb = Color.RGBtoHSB(204, 255, 94, null);
-            embed.setColor(Color.getHSBColor(rgb[0], rgb[1], rgb[2]).getRGB());
-
-            WebhookClient client = WebhookClient.withUrl(hook.getUrl());
-            client.send(embed.build())
-                    .thenAccept((message) -> {
-                        hook.delete().queue();
-                        client.close();
-                    });
-        } catch (IOException ignore) {
+        } catch (Exception e) {
+            LoggerFactory.getLogger(MessageListener.class).error(ExceptionUtils.getStackTrace(e));
         }
     }
 }

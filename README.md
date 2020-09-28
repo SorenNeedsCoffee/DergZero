@@ -1,9 +1,8 @@
-# 🐉DergZero🐉
-Official discord bot of the Draconium Server
+# 🗑Garbage Can🗑
 
-*This is a JDA rewrite of PaladinBot, think PaladinBot 2.0*
+Garbage Can is a discord bot designed to handle various duties such as user engagement and moderation.
 
-Written by Soren Dangaard (JoeSorensen) with help from ValgoBoi and WardleDeBoss for his own discord server. 
+Currently, the bot is written in Java 12 using JDA as a discord api wrapper and is hosted on Heroku.
 
 ## Code Policies
 All new features or modifications should be made in a separate branch and PR'd (Pull Requested) into development. **UNDER NO CIRCUMSTANCES SHOULD YOU COMMIT AND PUSH TO MASTER.** It is preferred that you sign your commits with a GPG key if possible.

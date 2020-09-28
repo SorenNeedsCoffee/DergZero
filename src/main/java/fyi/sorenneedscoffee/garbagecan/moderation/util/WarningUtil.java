@@ -1,8 +1,9 @@
 package fyi.sorenneedscoffee.garbagecan.moderation.util;
 
-import fyi.sorenneedscoffee.garbagecan.moderation.warnings.OffenseType;
-import fyi.sorenneedscoffee.garbagecan.moderation.warnings.Warning;
-import fyi.sorenneedscoffee.garbagecan.moderation.warnings.WarningResult;
+import fyi.sorenneedscoffee.garbagecan.moderation.data.DataContext;
+import fyi.sorenneedscoffee.garbagecan.moderation.data.models.OffenseType;
+import fyi.sorenneedscoffee.garbagecan.moderation.data.models.Warning;
+import fyi.sorenneedscoffee.garbagecan.moderation.data.models.WarningResult;
 import net.dv8tion.jda.api.utils.MarkdownUtil;
 
 import java.util.List;
