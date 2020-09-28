@@ -23,13 +23,12 @@ import java.util.List;
  * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
  */
 public class MessageListener extends XPListener {
-    private final JDA jda = Main.jda;
 
     @Override
     public void onLevelUp(LevelUpEvent event) {
         try {
-            Guild guild = jda.getGuildById(event.getGroupId());
-            User user = jda.getUserById(event.getUserId());
+            Guild guild = Main.jda.getGuildById(event.getGroupId());
+            User user = Main.jda.getUserById(event.getUserId());
 
             String name = guild.retrieveMember(user).complete().getEffectiveName();
 

@@ -11,18 +11,17 @@ import net.dv8tion.jda.api.entities.User;
  * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
  */
 public class RoleListener extends fyi.sorenneedscoffee.xputil.listener.XPListener {
-    private final JDA jda = Main.jda;
 
     @Override
     public void onLevelUp(LevelUpEvent event) {
-        Guild guild = jda.getGuildById(event.getGroupId());
-        User user = jda.getUserById(event.getUserId());
+        Guild guild = Main.jda.getGuildById(event.getGroupId());
+        User user = Main.jda.getUserById(event.getUserId());
         RoleUtil.getList(guild.getId()).updateRole(guild, user, event.getNewLevel());
     }
 
     @Override
     public void onMissedUser(MissedUserEvent event) {
-        Guild guild = jda.getGuildById(event.getGroupId());
+        Guild guild = Main.jda.getGuildById(event.getGroupId());
         if (RoleUtil.exists(guild.getId()) && !RoleUtil.getList(guild.getId()).isEmpty()) {
             guild.addRoleToMember(guild.getMemberById(event.getUserId()), guild.getRoleById(RoleUtil.getList(guild.getId()).get(0).getRoleID())).queue();
         }
