@@ -1,6 +1,7 @@
 package fyi.sorenneedscoffee.garbagecan.xp.roles;
 
-import fyi.sorenneedscoffee.garbagecan.xp.data.implementations.JSONRoleDataContext;
+import fyi.sorenneedscoffee.garbagecan.Main;
+import fyi.sorenneedscoffee.garbagecan.xp.data.implementations.SQLRoleDataContext;
 import fyi.sorenneedscoffee.garbagecan.xp.data.models.LevelRoleList;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.ReadyEvent;
@@ -8,7 +9,6 @@ import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import javax.annotation.Nonnull;
-import java.io.File;
 
 /**
  * @author SorenNeedsCoffee (github.com/sorenneedscoffee)
@@ -17,7 +17,7 @@ public class RoleListenerAdapter extends ListenerAdapter {
 
     @Override
     public void onReady(@Nonnull ReadyEvent event) {
-        RoleUtil.init(new JSONRoleDataContext(new File("roles.json")), event.getJDA().getGuilds());
+        RoleUtil.init(new SQLRoleDataContext("jdbc:" + Main.config.dbUrl), event.getJDA().getGuilds());
         for (Guild guild : event.getJDA().getGuilds()) {
             if (!RoleUtil.exists(guild.getId())) {
                 LevelRoleList list = new LevelRoleList();
