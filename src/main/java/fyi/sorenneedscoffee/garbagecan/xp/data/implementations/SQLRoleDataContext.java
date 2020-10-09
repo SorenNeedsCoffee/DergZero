@@ -42,7 +42,7 @@ public class SQLRoleDataContext implements RoleDataContext {
             e.printStackTrace();
         }
 
-        this.table = DSL.table("users");
+        this.table = DSL.table("roles");
         this.field_groupId = DSL.field("group_id", String.class);
         this.field_lvl = DSL.field("lvl", Integer.class);
         this.field_roleId = DSL.field("role_id", String.class);
